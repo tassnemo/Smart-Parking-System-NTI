@@ -11,9 +11,9 @@
 | Field | Value |
 |-------|-------|
 | **Project code** | `PRJ-02-PARKING` |
-| **Team size** | 2 – 3 students |
-| **Build window** | Days 11 – 15 (Jul 26 – Jul 30, 2026) |
-| **Demo & submission** | July 30, 2026 |
+| **Name** | Tasneem Hossam Eldin Hassan Salem |
+| **Build window** | Days 11 – 15 (Sept 13 – Sept 17, 2026) |
+| **Demo & submission** | Sept 17, 2026 |
 | **Dominant skill** | Slot arbitration + timed gate sequencing (two concurrent lane FSMs) |
 | **MCU** | ATmega32A @ 8 MHz |
 | **Simulator** | SimulIDE 1.x |
@@ -1026,5 +1026,3 @@ Maximum **+20**; final score capped at 100.
 
 ---
 
-*Prepared by Ahmed Ellamie | ahmed.ellamiee@gmail.com*
-??? ??????? ?? ????? ???? ?????? ??? ?????? ????????.
