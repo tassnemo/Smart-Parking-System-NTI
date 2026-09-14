@@ -1,0 +1,21 @@
+{
+    "configurations": [
+        {
+            "name": "AVR",
+            "compilerPath": "C:/msys64/ucrt64/bin/avr-gcc.exe",
+            "compilerArgs": [
+                "-mmcu=atmega32"
+            ],
+            "includePath": [
+                "${workspaceFolder}",
+                "${workspaceFolder}/LIB",
+                "C:/msys64/ucrt64/avr/include"
+            ],
+            "defines": [
+                "__AVR_ATmega32__"
+            ],
+            "intelliSenseMode": "gcc-x64"
+        }
+    ],
+    "version": 4
+}

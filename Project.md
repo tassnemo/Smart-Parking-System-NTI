@@ -10,11 +10,11 @@
 
 | Driver | Functions | Why | Time | Name | Check |
 |---|---|---|---|---|---|
-| `dio.c/h` | `DIO_Init(port,pin,dir)`, `DIO_Write`, `DIO_Read`, `DIO_ReadPort` | Must expose a whole-port read (not per-pin) to satisfy the single `PINC`-read requirement in FR-01 | Sept 14 |  |  |
+| `dio.c/h` | `DIO_Init(port,pin,dir)`, `DIO_Write`, `DIO_Read`, `DIO_ReadPort` | Must expose a whole-port read (not per-pin) to satisfy the single `PINC`-read requirement in FR-01 | Sept 14 | Tasneem | x |
 | `adc.c/h` | `ADC_Init`, `ADC_Read(channel)` | 3 channels, single-conversion, prescaler 64, for reading the dials (potentiometers). The chip doesn't understand "a car is here"; it just reads a number 0–1023 from a voltage. ADC = Analog-to-Digital Converter. | Sept 15 |  |  |
-| `timer.c/h` | `TMR0_InitCTC()`, ISR for `OCR0` compare | Generates the 10 ms system tick everything else is scheduled from | Sept 14 |  |  |
-| `pwm.c/h` | `PWM_Init()` (Timer1 mode 14), `PWM_SetPulse(channel, us)` | Only legal way to move a servo — writes `OCR1A`/`OCR1B` directly (NFR-05) | Sept 14 |  |  |
-| `exti.c/h` | `EXTI_Init()`, minimal ISR stubs for INT0/INT1 that set a flag | ISRs must stay ≤10 lines (NFR-09); debounce logic lives above this layer | Sept 14 |  |  |
+| `timer.c/h` | `TMR0_InitCTC()`, ISR for `OCR0` compare | Generates the 10 ms system tick everything else is scheduled from | Sept 14 | Tasneem | x |
+| `pwm.c/h` | `PWM_Init()` (Timer1 mode 14), `PWM_SetPulse(channel, us)` | Only legal way to move a servo — writes `OCR1A`/`OCR1B` directly (NFR-05) | Sept 14 | Tasneem | x |
+| `exti.c/h` | `EXTI_Init()`, minimal ISR stubs for INT0/INT1 that set a flag | ISRs must stay ≤10 lines (NFR-09); debounce logic lives above this layer | Sept 14 | Tasneem | x |
 | `usart.c/h` | `USART_Init`, `USART_SendByte/String`, RX ISR → ring buffer | Needs the shared ring buffer from LIB, ≥32 bytes (NFR-14) | Sept 15 |  |  |
 | `spi.c/h` | `SPI_Init`, `SPI_Transfer(byte)` | Master, mode 0, f/16, for the 74HC595 | Sept 15 |  |  |
 | `i2c.c/h` | `I2C_Init`, `I2C_Start/Stop/Write/Read` | 100 kHz master for the PCF8574 → LCD path | Sept 15 |  |  |
@@ -36,7 +36,7 @@
 
 | Module | Functions | Why | Time | Name | Check |
 |---|---|---|---|---|---|
-| `ring_buffer.c/h` | `RB_Push`, `RB_Pop`, `RB_IsEmpty/Full` | Shared by UART RX (and TX) — a small storage queue for incoming serial text, so you don't lose characters while your program is busy doing something else. | Sept 14 |  |  |
+| `ring_buffer.c/h` | `RB_Push`, `RB_Pop`, `RB_IsEmpty/Full` | Shared by UART RX (and TX) — a small storage queue for incoming serial text, so you don't lose characters while your program is busy doing something else. | Sept 14 | Tasneem | x |
 | `softrtc.c/h` | `RTC_Tick()`, `RTC_Seconds()`, `RTC_Format(sec, buf)` | Drives ticket timestamps and the `HHH:MM:SS` fields in §18.3 — a simple clock built from the 10 ms heartbeat, counting up seconds since power-on. Used to timestamp tickets. | Sept 15 |  |  |
 | `checksum.c/h` | `XOR_Checksum(buf, len)` | Shared by the telemetry frame (§18.1) and `ParkCfg_t` (§10.3) checksum field — a tiny error-checking calculation, used to make sure transmitted data wasn't corrupted. | Sept 15 |  |  |
 
