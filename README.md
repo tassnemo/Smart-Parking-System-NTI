@@ -12,6 +12,8 @@
 |-------|-------|
 | **Project code** | `PRJ-02-PARKING` |
 | **Name** | Tasneem Hossam Eldin Hassan Salem |
+| **Name** | Souad Mostafa Kamel|
+| **Name** | Haneen Yasser Saeed |
 | **Build window** | Days 11 – 15 (Sept 13 – Sept 17, 2026) |
 | **Demo & submission** | Sept 17, 2026 |
 | **Dominant skill** | Slot arbitration + timed gate sequencing (two concurrent lane FSMs) |
