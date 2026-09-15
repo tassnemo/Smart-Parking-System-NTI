@@ -37,8 +37,8 @@
 | Module | Functions | Why | Time | Name | Check |
 |---|---|---|---|---|---|
 | `ring_buffer.c/h` | `RB_Push`, `RB_Pop`, `RB_IsEmpty/Full` | Shared by UART RX (and TX) — a small storage queue for incoming serial text, so you don't lose characters while your program is busy doing something else. | Sept 14 | Tasneem | x |
-| `softrtc.c/h` | `RTC_Tick()`, `RTC_Seconds()`, `RTC_Format(sec, buf)` | Drives ticket timestamps and the `HHH:MM:SS` fields in §18.3 — a simple clock built from the 10 ms heartbeat, counting up seconds since power-on. Used to timestamp tickets. | Sept 15 |  |  |
-| `checksum.c/h` | `XOR_Checksum(buf, len)` | Shared by the telemetry frame (§18.1) and `ParkCfg_t` (§10.3) checksum field — a tiny error-checking calculation, used to make sure transmitted data wasn't corrupted. | Sept 15 |  |  |
+| `softrtc.c/h` | `RTC_Tick()`, `RTC_Seconds()`, `RTC_Format(sec, buf)` | Drives ticket timestamps and the `HHH:MM:SS` fields in §18.3 — a simple clock built from the 10 ms heartbeat, counting up seconds since power-on. Used to timestamp tickets. | Sept 15 | souad |  x  |
+| `checksum.c/h` | `XOR_Checksum(buf, len)` | Shared by the telemetry frame (§18.1) and `ParkCfg_t` (§10.3) checksum field — a tiny error-checking calculation, used to make sure transmitted data wasn't corrupted. | Sept 15 | Souad |  x  |
 
 ## APP : the actual "parking lot" logic
 
