@@ -1,29 +1,20 @@
 {
-    // Author: Ahmed Ellamie
-    // Email:  ahmed.ellamiee@gmail.com
     "configurations": [
         {
-            "name": "AVR - ATmega32",
+            "name": "AVR",
+            "compilerPath": "C:/msys64/ucrt64/bin/avr-gcc.exe",
+            "compilerArgs": [
+                "-mmcu=atmega32"
+            ],
             "includePath": [
-                "${workspaceFolder}/**",
-                "C:/WinAVR-20100110/avr/include",
-                "C:/avr-gcc/avr/include"
+                "${workspaceFolder}",
+                "${workspaceFolder}/LIB",
+                "C:/msys64/ucrt64/avr/include"
             ],
             "defines": [
-                "F_CPU=8000000UL",
                 "__AVR_ATmega32__"
             ],
-            "compilerPath": "avr-gcc",
-            "cStandard": "c11",
-            "intelliSenseMode": "gcc-x86",
-            "browse": {
-                "path": [
-                    "${workspaceFolder}",
-                    "C:/WinAVR-20100110/avr/include",
-                    "C:/avr-gcc/avr/include"
-                ],
-                "limitSymbolsToIncludedHeaders": true
-            }
+            "intelliSenseMode": "gcc-x64"
         }
     ],
     "version": 4

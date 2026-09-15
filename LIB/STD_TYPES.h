@@ -1,30 +1,28 @@
 #ifndef STD_TYPES_H
 #define STD_TYPES_H
 
-/*
- * Author: Ahmed Ellamie
- * Email:  ahmed.ellamiee@gmail.com
- *
- * Shared standard types for AVR_NTI LIB / MCAL / HAL / Logic.
- */
-
-#define NULL ((void *)0)
-
 typedef unsigned char uint8;
-typedef unsigned short uint16;
-typedef unsigned long uint32;
 typedef signed char sint8;
+typedef unsigned short uint16;
 typedef signed short sint16;
+typedef unsigned long uint32;
 typedef signed long sint32;
+typedef unsigned long long uint64;
+typedef signed long long sint64;
 
-typedef unsigned char uint8_h;
+typedef float float32;
+typedef double float64;
 
-typedef enum
-{
-    E_OK  = 0,
-    E_NOK = 1,
-    E_PORT_Not_valid = 2,
-    E_PIN_Not_valid = 3,
-} STD_ReturnType;
+#ifndef NULL
+#define NULL ((void *)0)
+#endif
 
-#endif /* STD_TYPES_H */
+#define E_OK    0u
+#define E_NOK   1u
+
+typedef uint8 STD_ReturnType;
+
+#define STD_HIGH 1u
+#define STD_LOW  0u
+
+#endif
