@@ -44,8 +44,8 @@
 
 | Module | Functions | Why | Time | Name | Check |
 |---|---|---|---|---|---|
-| `lane_fsm.c/h` | `LANE_Init`, `LANE_Run`, `LANE_RequestOpen` | One `Lane_t` type, instantiated twice (entry/exit), the state machine described above. One gate = one instance of this. It answers: is a car here, should we let it in/out, is the gate opening/holding/closing, did something get stuck. | Started Sept 14, hardened Sept 15 |  |  |
-| `lot_fsm.c/h` | `LOT_Init`, `LOT_Run`, `LOT_GetFree` | Owns the lot-level transitions in §17.1, the "big picture" mode: is the lot operating normally, full, under maintenance, or broken. | Sept 15 |  |  |
+| `lane_fsm.c/h` | `LANE_Init`, `LANE_Run`, `LANE_RequestOpen` | One `Lane_t` type, instantiated twice (entry/exit), the state machine described above. One gate = one instance of this. It answers: is a car here, should we let it in/out, is the gate opening/holding/closing, did something get stuck. | Started Sept 14, hardened Sept 15 | Souad |  x |
+| `lot_fsm.c/h` | `LOT_Init`, `LOT_Run`, `LOT_GetFree` | Owns the lot-level transitions in §17.1, the "big picture" mode: is the lot operating normally, full, under maintenance, or broken. | Sept 15 |Souad  |   x|
 | `ticketing.c/h` | `TKT_Issue`, `TKT_Close`, `TKT_Find` | Fixed `TICKET_MAX` array, no malloc (NFR-16), hands out ticket numbers and remembers which tickets are still "open" — which car hasn't left yet. | Sept 16 |  |  |
 | `billing.c/h` | `BIL_Compute(entrySec, exitSec)` | Integer-only; grace period, ceil-to-hour, daily cap — the math: how long was the car parked, how much do they owe. | Sept 16 |  |  |
 | `console.c/h` | `CONSOLE_ParseLine(line)` + dispatch table | Table-driven `{name, handler}` mapping to keep §18.2's ~18 commands out of a giant `if/else` chain — reads typed commands like `SET TARIFF 25` and does something with them. | Sept 16 |  |  |
