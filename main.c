@@ -1,27 +1,22 @@
-#include "MCAL/adc/ADC_interface.h"
-#include "MCAL/dio/dio_interface.h"
+#include "MCAL/pwm/pwm_private.h"
 
 int main(void)
 {
-    uint16 adcValue = 0u;
+    PWM_DDRD |= (1u << PWM_PD5);
 
-    ADC_Init(ADC_REF_AVCC, ADC_PRESC_64);
+    PWM_TCCR1A = (1u << PWM_COM1A1) |
+                 (1u << PWM_WGM11);
 
-    DIO_Init(DIO_PORTB, 0u, DIO_OUTPUT);
-    DIO_WritePin(DIO_PORTB, 0u, STD_LOW);
+    PWM_TCCR1B = (1u << PWM_WGM13) |
+                 (1u << PWM_WGM12) |
+                 (1u << PWM_CS11);
+
+    PWM_ICR1 = 19999u;
+
+    PWM_OCR1A = 1000u;
 
     while (1)
     {
-        ADC_ReadChannel(ADC_CHANNEL_0, &adcValue);
-
-        if (adcValue > 512u)
-        {
-            DIO_WritePin(DIO_PORTB, 0u, STD_HIGH);
-        }
-        else
-        {
-            DIO_WritePin(DIO_PORTB, 0u, STD_LOW);
-        }
     }
 
     return 0;

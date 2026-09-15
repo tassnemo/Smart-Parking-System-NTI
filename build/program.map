@@ -178,15 +178,24 @@ Discarded input sections
  .text          0x00000000        0x0 build/MCAL/adc/ADC.o
  .data          0x00000000        0x0 build/MCAL/adc/ADC.o
  .bss           0x00000000        0x0 build/MCAL/adc/ADC.o
+ .text.ADC_Init
+                0x00000000       0x26 build/MCAL/adc/ADC.o
+ .text.ADC_ReadChannel
+                0x00000000       0x2e build/MCAL/adc/ADC.o
  .text.ADC_StartConversion
                 0x00000000       0x22 build/MCAL/adc/ADC.o
  .text.ADC_GetResult
                 0x00000000       0x1c build/MCAL/adc/ADC.o
  .text.ADC_SetInterrupt
                 0x00000000       0x14 build/MCAL/adc/ADC.o
+ .comment       0x00000000       0x13 build/MCAL/adc/ADC.o
  .text          0x00000000        0x0 build/MCAL/dio/dio.o
  .data          0x00000000        0x0 build/MCAL/dio/dio.o
  .bss           0x00000000        0x0 build/MCAL/dio/dio.o
+ .text.DIO_Init
+                0x00000000       0xf8 build/MCAL/dio/dio.o
+ .text.DIO_WritePin
+                0x00000000       0xa8 build/MCAL/dio/dio.o
  .text.DIO_ReadPin
                 0x00000000       0x3e build/MCAL/dio/dio.o
  .text.DIO_WritePort
@@ -195,6 +204,7 @@ Discarded input sections
                 0x00000000       0x2c build/MCAL/dio/dio.o
  .text.DIO_TogglePin
                 0x00000000       0x60 build/MCAL/dio/dio.o
+ .comment       0x00000000       0x13 build/MCAL/dio/dio.o
  .text          0x00000000        0x0 build/MCAL/exti/exti.o
  .data          0x00000000        0x0 build/MCAL/exti/exti.o
  .bss           0x00000000        0x0 build/MCAL/exti/exti.o
@@ -571,7 +581,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x412
+.text           0x00000000      0x1fa
  *(.vectors)
  .vectors       0x00000000       0x54 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/../../../../avr/lib/avr5/crtatmega32.o
                 0x00000000                __vector_default
@@ -649,37 +659,25 @@ END GROUP
                 0x00000092                        . = ALIGN (0x2)
  *(.text.*)
  .text.startup.main
-                0x00000092       0x40 build/main.o
+                0x00000092       0x1c build/main.o
                 0x00000092                main
- .text.ADC_Init
-                0x000000d2       0x26 build/MCAL/adc/ADC.o
-                0x000000d2                ADC_Init
- .text.ADC_ReadChannel
-                0x000000f8       0x2e build/MCAL/adc/ADC.o
-                0x000000f8                ADC_ReadChannel
- .text.DIO_Init
-                0x00000126       0xf8 build/MCAL/dio/dio.o
-                0x00000126                DIO_Init
- .text.DIO_WritePin
-                0x0000021e       0xa8 build/MCAL/dio/dio.o
-                0x0000021e                DIO_WritePin
  .text.__vector_1
-                0x000002c6       0x52 build/MCAL/exti/exti.o
-                0x000002c6                __vector_1
+                0x000000ae       0x52 build/MCAL/exti/exti.o
+                0x000000ae                __vector_1
  .text.__vector_2
-                0x00000318       0x52 build/MCAL/exti/exti.o
-                0x00000318                __vector_2
+                0x00000100       0x52 build/MCAL/exti/exti.o
+                0x00000100                __vector_2
  .text.__vector_3
-                0x0000036a       0x52 build/MCAL/exti/exti.o
-                0x0000036a                __vector_3
+                0x00000152       0x52 build/MCAL/exti/exti.o
+                0x00000152                __vector_3
  .text.__vector_10
-                0x000003bc       0x52 build/MCAL/timer/timer.o
-                0x000003bc                __vector_10
-                0x0000040e                        . = ALIGN (0x2)
+                0x000001a4       0x52 build/MCAL/timer/timer.o
+                0x000001a4                __vector_10
+                0x000001f6                        . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x0000040e        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_exit.o)
-                0x0000040e                _exit
-                0x0000040e                exit
+ .fini9         0x000001f6        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_exit.o)
+                0x000001f6                _exit
+                0x000001f6                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -698,18 +696,18 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x0000040e        0x4 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_exit.o)
+ .fini0         0x000001f6        0x4 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_exit.o)
  *(.fini0)
  *(.hightext)
  *(.hightext*)
  *(.progmemx)
  *(.progmemx.*)
-                0x00000412                        . = ALIGN (0x2)
+                0x000001fa                        . = ALIGN (0x2)
  *(.jumptables)
  *(.jumptables*)
-                0x00000412                        _etext = .
+                0x000001fa                        _etext = .
 
-.data           0x00800060        0x0 load address 0x00000412
+.data           0x00800060        0x0 load address 0x000001fa
                 0x00800060                        PROVIDE (__data_start = .)
  *(.data)
  *(.data*)
@@ -731,8 +729,8 @@ END GROUP
                 0x00800066        0x2 build/MCAL/timer/timer.o
  *(COMMON)
                 0x00800068                        PROVIDE (__bss_end = .)
-                0x00000412                        __data_load_start = LOADADDR (.data)
-                0x00000412                        __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x000001fa                        __data_load_start = LOADADDR (.data)
+                0x000001fa                        __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x00800068        0x0
                 [!provide]                        PROVIDE (__noinit_start = .)
@@ -780,10 +778,6 @@ END GROUP
 .comment        0x00000000       0x12
  *(.comment)
  .comment       0x00000000       0x12 build/main.o
-                                 0x13 (size before relaxing)
- .comment       0x00000012        0x0 build/MCAL/adc/ADC.o
-                                 0x13 (size before relaxing)
- .comment       0x00000012        0x0 build/MCAL/dio/dio.o
                                  0x13 (size before relaxing)
  .comment       0x00000012        0x0 build/MCAL/exti/exti.o
                                  0x13 (size before relaxing)

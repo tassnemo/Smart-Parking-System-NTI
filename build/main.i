@@ -2,8 +2,7 @@
 # 0 "<built-in>"
 # 0 "<command-line>"
 # 1 "main.c"
-# 1 "MCAL/adc/ADC_interface.h" 1
-
+# 1 "MCAL/pwm/pwm_private.h" 1
 
 
 
@@ -24,64 +23,26 @@ typedef float float32;
 typedef double float64;
 # 23 "LIB/STD_TYPES.h"
 typedef uint8 STD_ReturnType;
-# 6 "MCAL/adc/ADC_interface.h" 2
-# 39 "MCAL/adc/ADC_interface.h"
-STD_ReturnType ADC_Init(uint8 Copy_u8Ref, uint8 Copy_u8Prescaler);
-
-
-
-
-
-STD_ReturnType ADC_ReadChannel(uint8 Copy_u8Channel, uint16 *Copy_pu16Reading);
-
-
-
-
-STD_ReturnType ADC_StartConversion(uint8 Copy_u8Channel);
-
-
-
-
-
-STD_ReturnType ADC_GetResult(uint16 *Copy_pu16Reading);
-
-
-
-
-
-STD_ReturnType ADC_SetInterrupt(uint8 Copy_u8State);
+# 5 "MCAL/pwm/pwm_private.h" 2
 # 2 "main.c" 2
-# 1 "MCAL/dio/dio_interface.h" 1
-# 27 "MCAL/dio/dio_interface.h"
-STD_ReturnType DIO_Init(uint8 Copy_u8Port, uint8 Copy_u8Pin, uint8 Copy_u8Direction);
-STD_ReturnType DIO_WritePin(uint8 Copy_u8Port, uint8 Copy_u8Pin, uint8 Copy_u8Value);
-STD_ReturnType DIO_ReadPin(uint8 Copy_u8Port, uint8 Copy_u8Pin, uint8 *Copy_pu8Value);
-STD_ReturnType DIO_WritePort(uint8 Copy_u8Port, uint8 Copy_u8Value);
-STD_ReturnType DIO_ReadPort(uint8 Copy_u8Port, uint8 *Copy_pu8Value);
-STD_ReturnType DIO_TogglePin(uint8 Copy_u8Port, uint8 Copy_u8Pin);
-# 3 "main.c" 2
 
 int main(void)
 {
-    uint16 adcValue = 0u;
+    (*(volatile uint8 *)0x31) |= (1u << 5u);
 
-    ADC_Init(1u, 6u);
+    (*(volatile uint8 *)0x4F) = (1u << 7u) |
+                 (1u << 1u);
 
-    DIO_Init(1u, 0u, 1u);
-    DIO_WritePin(1u, 0u, 0u);
+    (*(volatile uint8 *)0x4E) = (1u << 4u) |
+                 (1u << 3u) |
+                 (1u << 1u);
+
+    (*(volatile uint16 *)0x46) = 19999u;
+
+    (*(volatile uint16 *)0x4A) = 1000u;
 
     while (1)
     {
-        ADC_ReadChannel(0u, &adcValue);
-
-        if (adcValue > 512u)
-        {
-            DIO_WritePin(1u, 0u, 1u);
-        }
-        else
-        {
-            DIO_WritePin(1u, 0u, 0u);
-        }
     }
 
     return 0;

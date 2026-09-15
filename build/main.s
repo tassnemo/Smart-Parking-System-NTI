@@ -9,39 +9,24 @@ __zero_reg__ = 1
 .global	main
 	.type	main, @function
 main:
-	rcall .
-	in r28,__SP_L__
-	in r29,__SP_H__
 /* prologue: function */
-/* frame size = 2 */
-/* stack size = 2 */
-.L__stack_usage = 2
-	std Y+1,__zero_reg__
-	std Y+2,__zero_reg__
-	ldi r22,lo8(6)
-	ldi r24,lo8(1)
-	call ADC_Init
-	ldi r20,lo8(1)
-	ldi r22,0
-	ldi r24,lo8(1)
-	call DIO_Init
-.L6:
-	ldi r20,0
-.L5:
-	ldi r22,0
-	ldi r24,lo8(1)
-	call DIO_WritePin
-	movw r22,r28
-	subi r22,-1
-	sbci r23,-1
-	ldi r24,0
-	call ADC_ReadChannel
-	ldd r24,Y+1
-	ldd r25,Y+2
-	cpi r24,1
-	sbci r25,2
-	brlo .L6
-	ldi r20,lo8(1)
-	rjmp .L5
+/* frame size = 0 */
+/* stack size = 0 */
+.L__stack_usage = 0
+	sbi 0x11,5
+	ldi r24,lo8(-126)
+	out 0x2f,r24
+	ldi r24,lo8(26)
+	out 0x2e,r24
+	ldi r24,lo8(31)
+	ldi r25,lo8(78)
+	out 0x26+1,r25
+	out 0x26,r24
+	ldi r24,lo8(-24)
+	ldi r25,lo8(3)
+	out 0x2a+1,r25
+	out 0x2a,r24
+.L2:
+	rjmp .L2
 	.size	main, .-main
 	.ident	"GCC: (GNU) 15.2.0"
