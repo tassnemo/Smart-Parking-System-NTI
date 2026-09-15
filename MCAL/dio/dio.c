@@ -16,9 +16,15 @@ STD_ReturnType DIO_Init(uint8 Copy_u8Port, uint8 Copy_u8Pin, uint8 Copy_u8Direct
             {
                 DIO_DDRA_REG |= (uint8)(1u << Copy_u8Pin);
             }
+            else if (Copy_u8Direction == DIO_INPUT_PULLUP)
+            {
+                DIO_DDRA_REG &= (uint8)(~(1u << Copy_u8Pin));  /* input */
+                DIO_PORTA_REG |= (uint8)(1u << Copy_u8Pin);    /* enable pull-up */
+            }
             else
             {
                 DIO_DDRA_REG &= (uint8)(~(1u << Copy_u8Pin));
+                DIO_PORTA_REG &= (uint8)(~(1u << Copy_u8Pin)); /* plain input, Hi-Z */
             }
             return E_OK;
 
@@ -27,9 +33,15 @@ STD_ReturnType DIO_Init(uint8 Copy_u8Port, uint8 Copy_u8Pin, uint8 Copy_u8Direct
             {
                 DIO_DDRB_REG |= (uint8)(1u << Copy_u8Pin);
             }
+            else if (Copy_u8Direction == DIO_INPUT_PULLUP)
+            {
+                DIO_DDRB_REG &= (uint8)(~(1u << Copy_u8Pin));
+                DIO_PORTB_REG |= (uint8)(1u << Copy_u8Pin);
+            }
             else
             {
                 DIO_DDRB_REG &= (uint8)(~(1u << Copy_u8Pin));
+                DIO_PORTB_REG &= (uint8)(~(1u << Copy_u8Pin));
             }
             return E_OK;
 
@@ -38,9 +50,15 @@ STD_ReturnType DIO_Init(uint8 Copy_u8Port, uint8 Copy_u8Pin, uint8 Copy_u8Direct
             {
                 DIO_DDRC_REG |= (uint8)(1u << Copy_u8Pin);
             }
+            else if (Copy_u8Direction == DIO_INPUT_PULLUP)
+            {
+                DIO_DDRC_REG &= (uint8)(~(1u << Copy_u8Pin));
+                DIO_PORTC_REG |= (uint8)(1u << Copy_u8Pin);
+            }
             else
             {
                 DIO_DDRC_REG &= (uint8)(~(1u << Copy_u8Pin));
+                DIO_PORTC_REG &= (uint8)(~(1u << Copy_u8Pin));
             }
             return E_OK;
 
@@ -49,9 +67,15 @@ STD_ReturnType DIO_Init(uint8 Copy_u8Port, uint8 Copy_u8Pin, uint8 Copy_u8Direct
             {
                 DIO_DDRD_REG |= (uint8)(1u << Copy_u8Pin);
             }
+            else if (Copy_u8Direction == DIO_INPUT_PULLUP)
+            {
+                DIO_DDRD_REG &= (uint8)(~(1u << Copy_u8Pin));
+                DIO_PORTD_REG |= (uint8)(1u << Copy_u8Pin);
+            }
             else
             {
                 DIO_DDRD_REG &= (uint8)(~(1u << Copy_u8Pin));
+                DIO_PORTD_REG &= (uint8)(~(1u << Copy_u8Pin));
             }
             return E_OK;
 

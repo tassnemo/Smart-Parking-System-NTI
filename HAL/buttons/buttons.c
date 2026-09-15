@@ -14,7 +14,7 @@ STD_ReturnType BTN_Init(uint8 Copy_u8Port,
     {
         return E_NOK;
     }
-    if (DIO_Init(Copy_u8Port, Copy_u8Pin, DIO_INPUT) != E_OK)
+    if (DIO_Init(Copy_u8Port, Copy_u8Pin, DIO_INPUT_PULLUP) != E_OK)
 {
     return E_NOK;
 }

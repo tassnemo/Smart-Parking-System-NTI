@@ -17,7 +17,7 @@ STD_ReturnType SLOT_Init(void)
 
     for (uint8 pin = 2u; pin <= 7u; pin++)
     {
-        if (DIO_Init(DIO_PORTC, pin, DIO_INPUT) != E_OK)
+        if (DIO_Init(DIO_PORTC, pin, DIO_INPUT_PULLUP) != E_OK)
         {
             return E_NOK;
         }

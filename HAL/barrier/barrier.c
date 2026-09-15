@@ -8,7 +8,7 @@
 STD_ReturnType BAR_Init(uint8 Copy_u8Channel)
 {
     (void)Copy_u8Channel;
-    return PWM_Init();
+    return E_OK;
 }
 
 STD_ReturnType BAR_Open(uint8 Copy_u8Channel)
