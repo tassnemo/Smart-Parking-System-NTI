@@ -11,7 +11,7 @@
 | Driver | Functions | Why | Time | Name | Check |
 |---|---|---|---|---|---|
 | `dio.c/h` | `DIO_Init(port,pin,dir)`, `DIO_Write`, `DIO_Read`, `DIO_ReadPort` | Must expose a whole-port read (not per-pin) to satisfy the single `PINC`-read requirement in FR-01 | Sept 14 | Tasneem | x |
-| `adc.c/h` | `ADC_Init`, `ADC_Read(channel)` | 3 channels, single-conversion, prescaler 64, for reading the dials (potentiometers). The chip doesn't understand "a car is here"; it just reads a number 0–1023 from a voltage. ADC = Analog-to-Digital Converter. | Sept 15 |  |  |
+| `adc.c/h` | `ADC_Init`, `ADC_Read(channel)` | 3 channels, single-conversion, prescaler 64, for reading the dials (potentiometers). The chip doesn't understand "a car is here"; it just reads a number 0–1023 from a voltage. ADC = Analog-to-Digital Converter. | Sept 15 |  Souad|  x  |
 | `timer.c/h` | `TMR0_InitCTC()`, ISR for `OCR0` compare | Generates the 10 ms system tick everything else is scheduled from | Sept 14 | Tasneem | x |
 | `pwm.c/h` | `PWM_Init()` (Timer1 mode 14), `PWM_SetPulse(channel, us)` | Only legal way to move a servo — writes `OCR1A`/`OCR1B` directly (NFR-05) | Sept 14 | Tasneem | x |
 | `exti.c/h` | `EXTI_Init()`, minimal ISR stubs for INT0/INT1 that set a flag | ISRs must stay ≤10 lines (NFR-09); debounce logic lives above this layer | Sept 14 | Tasneem | x |
