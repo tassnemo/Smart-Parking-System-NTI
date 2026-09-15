@@ -20,15 +20,15 @@ PWM_Init:
 	out 0x2f,r24
 	ldi r24,lo8(26)
 	out 0x2e,r24
+	ldi r24,lo8(78)
+	out 0x27,r24
 	ldi r24,lo8(31)
-	ldi r25,lo8(78)
-	out 0x26+1,r25
 	out 0x26,r24
-	ldi r24,lo8(-24)
-	ldi r25,lo8(3)
-	out 0x2a+1,r25
+	out 0x2b,__zero_reg__
+	ldi r24,lo8(-48)
 	out 0x2a,r24
-	out 0x28+1,r25
+	out 0x29,__zero_reg__
+	ldi r24,lo8(-24)
 	out 0x28,r24
 	ldi r24,0
 /* epilogue start */
@@ -50,14 +50,14 @@ PWM_SetPulse:
 	brsh .L7
 	cpi r24,lo8(1)
 	brsh .L4
-	out 0x2a+1,r23
+	out 0x2b,r23
 	out 0x2a,r22
 .L5:
 	ldi r24,0
 	ret
 .L4:
 	brne .L7
-	out 0x28+1,r23
+	out 0x29,r23
 	out 0x28,r22
 	rjmp .L5
 .L7:

@@ -2,7 +2,7 @@
 # 0 "<built-in>"
 # 0 "<command-line>"
 # 1 "main.c"
-# 1 "MCAL/pwm/pwm_private.h" 1
+# 1 "MCAL/pwm/pwm_interface.h" 1
 
 
 
@@ -23,23 +23,22 @@ typedef float float32;
 typedef double float64;
 # 23 "LIB/STD_TYPES.h"
 typedef uint8 STD_ReturnType;
-# 5 "MCAL/pwm/pwm_private.h" 2
+# 5 "MCAL/pwm/pwm_interface.h" 2
+# 27 "MCAL/pwm/pwm_interface.h"
+STD_ReturnType PWM_Init(void);
+
+
+
+
+
+
+
+STD_ReturnType PWM_SetPulse(uint8 Copy_u8Channel, uint16 Copy_u16PulseUs);
 # 2 "main.c" 2
 
 int main(void)
 {
-    (*(volatile uint8 *)0x31) |= (1u << 5u);
-
-    (*(volatile uint8 *)0x4F) = (1u << 7u) |
-                 (1u << 1u);
-
-    (*(volatile uint8 *)0x4E) = (1u << 4u) |
-                 (1u << 3u) |
-                 (1u << 1u);
-
-    (*(volatile uint16 *)0x46) = 19999u;
-
-    (*(volatile uint16 *)0x4A) = 1000u;
+    PWM_Init();
 
     while (1)
     {

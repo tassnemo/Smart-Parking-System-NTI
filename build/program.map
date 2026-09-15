@@ -1,5 +1,7 @@
 Archive member included to satisfy reference by file (symbol)
 
+C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodhi4.o)
+                              build/HAL/buzzer/buzzer.o (__udivmodhi4)
 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodsi4.o)
                               build/LIB/softrtc.o (__udivmodsi4)
 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_exit.o)
@@ -68,9 +70,13 @@ Discarded input sections
  .text.LANE_Init
                 0x00000000       0x1c build/APP/lane/lane_fsm.o
  .text.LANE_Run
-                0x00000000      0x13a build/APP/lane/lane_fsm.o
+                0x00000000      0x12e build/APP/lane/lane_fsm.o
  .jumptables.gcc.LANE_Run
                 0x00000000       0x12 build/APP/lane/lane_fsm.o
+ .text.LANE_RequestOpen
+                0x00000000        0x6 build/APP/lane/lane_fsm.o
+ .text.LANE_GetState
+                0x00000000        0x8 build/APP/lane/lane_fsm.o
  .bss.g_exitLane
                 0x00000000        0xa build/APP/lane/lane_fsm.o
  .bss.g_entryLane
@@ -147,9 +153,30 @@ Discarded input sections
                 0x00000000       0x12 build/HAL/buttons/buttons.o
  .bss.g_btns    0x00000000       0x48 build/HAL/buttons/buttons.o
  .comment       0x00000000       0x13 build/HAL/buttons/buttons.o
- .text          0x00000000       0x1e build/HAL/buzzer/buzzer.o
+ .text          0x00000000        0x0 build/HAL/buzzer/buzzer.o
  .data          0x00000000        0x0 build/HAL/buzzer/buzzer.o
  .bss           0x00000000        0x0 build/HAL/buzzer/buzzer.o
+ .text.BUZ_Init
+                0x00000000       0x2c build/HAL/buzzer/buzzer.o
+ .text.BUZ_On   0x00000000        0xc build/HAL/buzzer/buzzer.o
+ .text.BUZ_Off  0x00000000        0xc build/HAL/buzzer/buzzer.o
+ .text.BUZ_Beep
+                0x00000000       0x5c build/HAL/buzzer/buzzer.o
+ .text.BUZ_Update
+                0x00000000       0x74 build/HAL/buzzer/buzzer.o
+ .bss.g_buzTicksPerPhase
+                0x00000000        0x2 build/HAL/buzzer/buzzer.o
+ .bss.g_buzTickCount
+                0x00000000        0x2 build/HAL/buzzer/buzzer.o
+ .bss.g_buzTargetBeepCount
+                0x00000000        0x1 build/HAL/buzzer/buzzer.o
+ .bss.g_buzBeepCount
+                0x00000000        0x1 build/HAL/buzzer/buzzer.o
+ .bss.g_buzState
+                0x00000000        0x1 build/HAL/buzzer/buzzer.o
+ .bss.g_buzActive
+                0x00000000        0x1 build/HAL/buzzer/buzzer.o
+ .bss.g_buzPin  0x00000000        0x1 build/HAL/buzzer/buzzer.o
  .comment       0x00000000       0x13 build/HAL/buzzer/buzzer.o
  .text          0x00000000        0x0 build/HAL/lcd/lcd_i2c.o
  .data          0x00000000        0x0 build/HAL/lcd/lcd_i2c.o
@@ -223,11 +250,8 @@ Discarded input sections
  .text          0x00000000        0x0 build/MCAL/pwm/pwm.o
  .data          0x00000000        0x0 build/MCAL/pwm/pwm.o
  .bss           0x00000000        0x0 build/MCAL/pwm/pwm.o
- .text.PWM_Init
-                0x00000000       0x26 build/MCAL/pwm/pwm.o
  .text.PWM_SetPulse
                 0x00000000       0x24 build/MCAL/pwm/pwm.o
- .comment       0x00000000       0x13 build/MCAL/pwm/pwm.o
  .text          0x00000000        0x0 build/MCAL/timer/timer.o
  .data          0x00000000        0x0 build/MCAL/timer/timer.o
  .bss           0x00000000        0x0 build/MCAL/timer/timer.o
@@ -241,6 +265,40 @@ Discarded input sections
                 0x00000000        0x6 build/MCAL/timer/timer.o
  .text.TMR0_SetCallback
                 0x00000000       0x14 build/MCAL/timer/timer.o
+ .text          0x00000000        0x0 build/MCAL/tone/tone.o
+ .data          0x00000000        0x0 build/MCAL/tone/tone.o
+ .bss           0x00000000        0x0 build/MCAL/tone/tone.o
+ .text.TONE_Init
+                0x00000000       0x12 build/MCAL/tone/tone.o
+ .text.TONE_Start
+                0x00000000        0x8 build/MCAL/tone/tone.o
+ .text.TONE_Stop
+                0x00000000        0xa build/MCAL/tone/tone.o
+ .comment       0x00000000       0x13 build/MCAL/tone/tone.o
+ .text          0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodhi4.o)
+ .data          0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodhi4.o)
+ .bss           0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodhi4.o)
+ .text.libgcc.mul
+                0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodhi4.o)
+ .text.libgcc.div
+                0x00000000       0x28 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodhi4.o)
+ .text.libgcc   0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodhi4.o)
+ .text.libgcc.prologue
+                0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodhi4.o)
+ .text.libgcc.builtins
+                0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodhi4.o)
+ .text.libgcc.fmul
+                0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodhi4.o)
+ .text.libgcc.fixed
+                0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodhi4.o)
+ .debug_line    0x00000000       0xbd C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodhi4.o)
+ .debug_line_str
+                0x00000000       0x5c C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodhi4.o)
+ .debug_info    0x00000000       0x24 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodhi4.o)
+ .debug_abbrev  0x00000000       0x14 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodhi4.o)
+ .debug_aranges
+                0x00000000       0x20 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodhi4.o)
+ .debug_str     0x00000000       0x68 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodhi4.o)
  .text          0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodsi4.o)
  .data          0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodsi4.o)
  .bss           0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodsi4.o)
@@ -475,6 +533,7 @@ LOAD build/MCAL/dio/dio.o
 LOAD build/MCAL/exti/exti.o
 LOAD build/MCAL/pwm/pwm.o
 LOAD build/MCAL/timer/timer.o
+LOAD build/MCAL/tone/tone.o
 START GROUP
 LOAD C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a
 LOAD C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/../../../../avr/lib/avr5\libm.a
@@ -581,7 +640,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x1fa
+.text           0x00000000      0x20a
  *(.vectors)
  .vectors       0x00000000       0x54 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/../../../../avr/lib/avr5/crtatmega32.o
                 0x00000000                __vector_default
@@ -659,25 +718,28 @@ END GROUP
                 0x00000092                        . = ALIGN (0x2)
  *(.text.*)
  .text.startup.main
-                0x00000092       0x1c build/main.o
+                0x00000092        0x6 build/main.o
                 0x00000092                main
  .text.__vector_1
-                0x000000ae       0x52 build/MCAL/exti/exti.o
-                0x000000ae                __vector_1
+                0x00000098       0x52 build/MCAL/exti/exti.o
+                0x00000098                __vector_1
  .text.__vector_2
-                0x00000100       0x52 build/MCAL/exti/exti.o
-                0x00000100                __vector_2
+                0x000000ea       0x52 build/MCAL/exti/exti.o
+                0x000000ea                __vector_2
  .text.__vector_3
-                0x00000152       0x52 build/MCAL/exti/exti.o
-                0x00000152                __vector_3
+                0x0000013c       0x52 build/MCAL/exti/exti.o
+                0x0000013c                __vector_3
+ .text.PWM_Init
+                0x0000018e       0x26 build/MCAL/pwm/pwm.o
+                0x0000018e                PWM_Init
  .text.__vector_10
-                0x000001a4       0x52 build/MCAL/timer/timer.o
-                0x000001a4                __vector_10
-                0x000001f6                        . = ALIGN (0x2)
+                0x000001b4       0x52 build/MCAL/timer/timer.o
+                0x000001b4                __vector_10
+                0x00000206                        . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x000001f6        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_exit.o)
-                0x000001f6                _exit
-                0x000001f6                exit
+ .fini9         0x00000206        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_exit.o)
+                0x00000206                _exit
+                0x00000206                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -696,18 +758,18 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x000001f6        0x4 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_exit.o)
+ .fini0         0x00000206        0x4 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_exit.o)
  *(.fini0)
  *(.hightext)
  *(.hightext*)
  *(.progmemx)
  *(.progmemx.*)
-                0x000001fa                        . = ALIGN (0x2)
+                0x0000020a                        . = ALIGN (0x2)
  *(.jumptables)
  *(.jumptables*)
-                0x000001fa                        _etext = .
+                0x0000020a                        _etext = .
 
-.data           0x00800060        0x0 load address 0x000001fa
+.data           0x00800060        0x0 load address 0x0000020a
                 0x00800060                        PROVIDE (__data_start = .)
  *(.data)
  *(.data*)
@@ -729,8 +791,8 @@ END GROUP
                 0x00800066        0x2 build/MCAL/timer/timer.o
  *(COMMON)
                 0x00800068                        PROVIDE (__bss_end = .)
-                0x000001fa                        __data_load_start = LOADADDR (.data)
-                0x000001fa                        __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x0000020a                        __data_load_start = LOADADDR (.data)
+                0x0000020a                        __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x00800068        0x0
                 [!provide]                        PROVIDE (__noinit_start = .)
@@ -780,6 +842,8 @@ END GROUP
  .comment       0x00000000       0x12 build/main.o
                                  0x13 (size before relaxing)
  .comment       0x00000012        0x0 build/MCAL/exti/exti.o
+                                 0x13 (size before relaxing)
+ .comment       0x00000012        0x0 build/MCAL/pwm/pwm.o
                                  0x13 (size before relaxing)
  .comment       0x00000012        0x0 build/MCAL/timer/timer.o
                                  0x13 (size before relaxing)

@@ -6,9 +6,14 @@
 /* ---------------- Timer1 registers (ATmega32) ---------------- */
 #define PWM_TCCR1A  (*(volatile uint8  *)0x4F)
 #define PWM_TCCR1B  (*(volatile uint8  *)0x4E)
-#define PWM_ICR1    (*(volatile uint16 *)0x46) /* ICR1L=0x46, ICR1H=0x47 */
-#define PWM_OCR1A   (*(volatile uint16 *)0x4A) /* OCR1AL=0x4A, OCR1AH=0x4B */
-#define PWM_OCR1B   (*(volatile uint16 *)0x48) /* OCR1BL=0x48, OCR1BH=0x49 */
+#define PWM_ICR1L   (*(volatile uint8 *)0x46)
+#define PWM_ICR1H   (*(volatile uint8 *)0x47)
+
+#define PWM_OCR1BL  (*(volatile uint8 *)0x48)
+#define PWM_OCR1BH  (*(volatile uint8 *)0x49)
+
+#define PWM_OCR1AL  (*(volatile uint8 *)0x4A)
+#define PWM_OCR1AH  (*(volatile uint8 *)0x4B)
 
 /* ---------------- DDRD (servo output pins live on Port D) ---------------- */
 #define PWM_DDRD    (*(volatile uint8  *)0x31)

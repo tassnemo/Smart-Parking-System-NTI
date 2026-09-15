@@ -30,5 +30,7 @@ extern Lane_t g_exitLane;
 
 void LANE_Init(Lane_t *ln, uint8 servoCh, uint8 isEntry);
 void LANE_Run(Lane_t *ln);
+void LANE_RequestOpen(Lane_t *ln, uint8 Copy_u8LoopActive);
+LaneState_t LANE_GetState(const Lane_t *ln);
 
 #endif /* LANE_FSM_H_ */

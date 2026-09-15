@@ -42,7 +42,7 @@ LANE_Run:
 	ldd r31,Y+1
 	cpi r30,9
 	cpc r31,__zero_reg__
-	brsh .L2
+	brsh .L3
 	subi r30,lo8(-(gs(.L5)))
 	sbci r31,hi8(-(gs(.L5)))
 	jmp __tablejump2__
@@ -68,7 +68,7 @@ LANE_Run:
 	std Y+2,r24
 	std Y+3,__zero_reg__
 	ldi r24,lo8(1)
-.L26:
+.L27:
 	st Y,r24
 	std Y+1,__zero_reg__
 .L2:
@@ -79,12 +79,12 @@ LANE_Run:
 .L12:
 	ldd r24,Y+4
 	cpse r24,__zero_reg__
-	rjmp .L15
-.L27:
+	rjmp .L16
+.L3:
 	st Y,__zero_reg__
 	std Y+1,__zero_reg__
 	rjmp .L2
-.L15:
+.L16:
 	ldd r24,Y+2
 	ldd r25,Y+3
 	sbiw r24,1
@@ -93,14 +93,14 @@ LANE_Run:
 	or r24,r25
 	brne .L2
 	ldi r24,lo8(2)
-	rjmp .L26
+	rjmp .L27
 .L11:
 	ldd r24,Y+6
 	cp r24, __zero_reg__
-	breq .L17
+	breq .L18
 	call LOT_CanAuthoriseEntry
 	cp r24, __zero_reg__
-	breq .L18
+	breq .L19
 	call TKT_OnEntryAuthorized
 .L28:
 	ldd r24,Y+5
@@ -109,15 +109,16 @@ LANE_Run:
 	std Y+2,r24
 	std Y+3,__zero_reg__
 	ldi r24,lo8(3)
-	rjmp .L26
-.L18:
+	rjmp .L27
+.L19:
+	ldi r24,lo8(7)
 	call BUZ_On
 	ldi r24,lo8(-56)
 	std Y+2,r24
 	std Y+3,__zero_reg__
 	ldi r24,lo8(7)
-	rjmp .L26
-.L17:
+	rjmp .L27
+.L18:
 	call BIL_OnExitAuthorized
 	rjmp .L28
 .L6:
@@ -128,42 +129,43 @@ LANE_Run:
 	std Y+3,r25
 	or r24,r25
 	brne .L2
+	ldi r24,lo8(7)
 	call BUZ_Off
-	rjmp .L27
+	rjmp .L3
 .L10:
 	ldd r24,Y+2
 	ldd r25,Y+3
 	sbiw r24,1
-	breq .L19
+	breq .L20
 	std Y+2,r24
 	std Y+3,r25
 	rjmp .L2
-.L19:
+.L20:
 	ldi r24,lo8(-12)
 	ldi r25,lo8(1)
 	std Y+2,r24
 	std Y+3,r25
 	ldi r24,lo8(4)
-	rjmp .L26
+	rjmp .L27
 .L9:
 	ldd r24,Y+4
 	cp r24, __zero_reg__
-	breq .L20
+	breq .L29
 	ldi r24,lo8(-48)
 	ldi r25,lo8(7)
 	std Y+2,r24
 	std Y+3,r25
 	ldi r24,lo8(5)
-	rjmp .L26
-.L20:
-	ldd r24,Y+2
-	ldd r25,Y+3
-	sbiw r24,1
-	std Y+2,r24
-	std Y+3,r25
-	or r24,r25
-	breq .+2
-	rjmp .L2
+	rjmp .L27
+.L8:
+	ldd r24,Y+4
+	cpse r24,__zero_reg__
+	rjmp .L22
+	ldd r24,Y+7
+	ldd r25,Y+8
+	adiw r24,1
+	std Y+7,r24
+	std Y+8,r25
 .L29:
 	ldd r24,Y+5
 	call BAR_Close
@@ -171,18 +173,8 @@ LANE_Run:
 	std Y+2,r24
 	std Y+3,__zero_reg__
 	ldi r24,lo8(6)
-	rjmp .L26
-.L8:
-	ldd r24,Y+4
-	cpse r24,__zero_reg__
-	rjmp .L21
-	ldd r24,Y+7
-	ldd r25,Y+8
-	adiw r24,1
-	std Y+7,r24
-	std Y+8,r25
-	rjmp .L29
-.L21:
+	rjmp .L27
+.L22:
 	ldd r24,Y+2
 	ldd r25,Y+3
 	sbiw r24,1
@@ -195,12 +187,13 @@ LANE_Run:
 	std Y+9,r24
 	ldd r24,Y+5
 	call BAR_Close
-	ldi r22,lo8(100)
-	ldi r23,0
-	ldi r24,lo8(3)
+	ldi r20,lo8(100)
+	ldi r21,0
+	ldi r22,lo8(3)
+	ldi r24,lo8(7)
 	call BUZ_Beep
 	ldi r24,lo8(8)
-	rjmp .L26
+	rjmp .L27
 .L7:
 	ldd r24,Y+2
 	ldd r25,Y+3
@@ -209,15 +202,42 @@ LANE_Run:
 	std Y+3,r25
 	or r24,r25
 	brne .+2
-	rjmp .L27
+	rjmp .L3
 	rjmp .L2
 .L4:
 	ldd r24,Y+4
 	cpse r24,__zero_reg__
 	rjmp .L2
 	std Y+9,__zero_reg__
-	rjmp .L27
+	rjmp .L3
 	.size	LANE_Run, .-LANE_Run
+	.section	.text.LANE_RequestOpen,"ax",@progbits
+.global	LANE_RequestOpen
+	.type	LANE_RequestOpen, @function
+LANE_RequestOpen:
+/* prologue: function */
+/* frame size = 0 */
+/* stack size = 0 */
+.L__stack_usage = 0
+	movw r30,r24
+	std Z+4,r22
+/* epilogue start */
+	ret
+	.size	LANE_RequestOpen, .-LANE_RequestOpen
+	.section	.text.LANE_GetState,"ax",@progbits
+.global	LANE_GetState
+	.type	LANE_GetState, @function
+LANE_GetState:
+/* prologue: function */
+/* frame size = 0 */
+/* stack size = 0 */
+.L__stack_usage = 0
+	movw r30,r24
+	ld r24,Z
+	ldd r25,Z+1
+/* epilogue start */
+	ret
+	.size	LANE_GetState, .-LANE_GetState
 .global	g_exitLane
 	.section	.bss.g_exitLane,"aw",@nobits
 	.type	g_exitLane, @object
