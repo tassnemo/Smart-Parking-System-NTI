@@ -1,10 +1,13 @@
-#ifndef LOT_FSM_H_
-#define LOT_FSM_H_
+#ifndef LOT_FSM_H
+#define LOT_FSM_H
 
-#include "../LIB/STD_TYPES.h"
+#include "LIB/STD_TYPES.h"
 
-typedef enum {
-    LOT_INIT = 0,
+#define SLOT_COUNT 6u
+
+typedef enum
+{
+    LOT_INIT = 0u,
     LOT_OPERATIONAL,
     LOT_FULL,
     LOT_MAINTENANCE,
@@ -13,8 +16,15 @@ typedef enum {
 
 void LOT_Init(void);
 void LOT_Run(void);
+
+uint8 LOT_GetMap(void);
 uint8 LOT_GetFree(void);
-uint8 LOT_CanAuthoriseEntry(void);
+uint8 LOT_GetOccupied(void);
 LotState_t LOT_GetState(void);
 
-#endif /* LOT_FSM_H_ */
+uint8 LOT_CanAuthoriseEntry(void);
+
+void LOT_SetMaintenance(uint8 Copy_u8Enabled);
+void LOT_SetFault(uint8 Copy_u8Enabled);
+
+#endif

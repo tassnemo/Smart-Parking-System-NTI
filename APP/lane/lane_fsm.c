@@ -1,5 +1,5 @@
 #include "lane_fsm.h"
-/* دوال التحكم في البوابات والبزر من طبقة الـ HAL */
+
 extern void BAR_Open(uint8 Copy_u8Channel);
 extern void BAR_Close(uint8 Copy_u8Channel);
 extern void BUZ_On(void);

@@ -7,7 +7,12 @@
 
 STD_ReturnType BAR_Init(uint8 Copy_u8Channel)
 {
-    (void)Copy_u8Channel;
+    if (Copy_u8Channel != PWM_CH_ENTRY &&
+        Copy_u8Channel != PWM_CH_EXIT)
+    {
+        return E_NOK;
+    }
+
     return E_OK;
 }
 
@@ -28,12 +33,12 @@ STD_ReturnType BAR_IsMoving(uint8 Copy_u8Channel, uint8 *Copy_pu8Status)
         return E_NOK;
     }
 
-    (void)Copy_u8Channel;
+    if (Copy_u8Channel != PWM_CH_ENTRY &&
+        Copy_u8Channel != PWM_CH_EXIT)
+    {
+        return E_NOK;
+    }
 
-    /*
-     * Servo movement is handled by the lane FSM timing.
-     * No blocking or hardware polling is required here.
-     */
     *Copy_pu8Status = STD_LOW;
 
     return E_OK;

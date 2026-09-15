@@ -8,7 +8,7 @@
 #define TMR_OCR0    (*(volatile uint8 *)0x5C)
 #define TMR_TIMSK   (*(volatile uint8 *)0x59)
 #define TMR_TIFR    (*(volatile uint8 *)0x58)
-
+#define TMR_OCF0 1u
 #define TMR_CS00 0u
 #define TMR_CS01 1u
 #define TMR_CS02 2u

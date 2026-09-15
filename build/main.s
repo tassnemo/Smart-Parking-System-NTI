@@ -1,57 +1,47 @@
 	.file	"main.c"
-__SREG__ = 0x3f
 __SP_H__ = 0x3e
 __SP_L__ = 0x3d
-__CCP__  = 0x34
+__SREG__ = 0x3f
 __tmp_reg__ = 0
 __zero_reg__ = 1
-	.section	.text.INT0_Handler,"ax",@progbits
-.global	INT0_Handler
-	.type	INT0_Handler, @function
-INT0_Handler:
-/* prologue: function */
-/* frame size = 0 */
-	ldi r24,lo8(0)
-	ldi r22,lo8(6)
-	call GPIO_TogglePinValue
-/* epilogue start */
-	ret
-	.size	INT0_Handler, .-INT0_Handler
-	.section	.text.main,"ax",@progbits
+	.text
+	.section	.text.startup.main,"ax",@progbits
 .global	main
 	.type	main, @function
 main:
+	rcall .
+	in r28,__SP_L__
+	in r29,__SP_H__
 /* prologue: function */
-/* frame size = 0 */
-	ldi r24,lo8(0)
-	ldi r22,lo8(5)
-	ldi r20,lo8(1)
-	call GPIO_SetPinDirection
-	ldi r24,lo8(0)
+/* frame size = 2 */
+/* stack size = 2 */
+.L__stack_usage = 2
+	std Y+1,__zero_reg__
+	std Y+2,__zero_reg__
 	ldi r22,lo8(6)
+	ldi r24,lo8(1)
+	call ADC_Init
 	ldi r20,lo8(1)
-	call GPIO_SetPinDirection
-	ldi r24,lo8(3)
-	ldi r22,lo8(2)
-	ldi r20,lo8(0)
-	call GPIO_SetPinDirection
-	call TIMER0_Init
-	ldi r24,lo8(0)
-	ldi r22,lo8(gs(INT0_Handler))
-	ldi r23,hi8(gs(INT0_Handler))
-	call EXTI_SetCallback
-	ldi r24,lo8(0)
-	ldi r22,lo8(1)
-	call EXTI_SetSense
-	ldi r24,lo8(0)
-	call EXTI_Enable
-	call INTERRUPT_EnableGlobal
-.L4:
-	ldi r24,lo8(0)
-	ldi r22,lo8(5)
-	call GPIO_TogglePinValue
-	ldi r24,lo8(1000)
-	ldi r25,hi8(1000)
-	call TIMER0_DelayMS
-	rjmp .L4
+	ldi r22,0
+	ldi r24,lo8(1)
+	call DIO_Init
+.L6:
+	ldi r20,0
+.L5:
+	ldi r22,0
+	ldi r24,lo8(1)
+	call DIO_WritePin
+	movw r22,r28
+	subi r22,-1
+	sbci r23,-1
+	ldi r24,0
+	call ADC_ReadChannel
+	ldd r24,Y+1
+	ldd r25,Y+2
+	cpi r24,1
+	sbci r25,2
+	brlo .L6
+	ldi r20,lo8(1)
+	rjmp .L5
 	.size	main, .-main
+	.ident	"GCC: (GNU) 15.2.0"

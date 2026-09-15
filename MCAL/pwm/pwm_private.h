@@ -31,6 +31,12 @@
 #define PWM_CS10    0u
 
 /* Fast PWM mode 14 (ICR1 = TOP): WGM13:10 = 1110 -> WGM13=1,WGM12=1,WGM11=1,WGM10=0 */
-/* Prescaler /8: CS12:10 = 010 -> CS11=1 only                                        */
+/* Prescaler /8: CS12:10 = 010 -> CS11=1 only     
+
+*/
+
+#define PWM_SERVO_CLOSED_US  1000u
+#define PWM_SERVO_OPEN_US    2000u
+#define PWM_TIMER1_TOP       19999u
 
 #endif /* PWM_PRIVATE_H */
