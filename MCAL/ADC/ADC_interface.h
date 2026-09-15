@@ -1,13 +1,6 @@
 #ifndef ADC_INTERFACE_H
 #define ADC_INTERFACE_H
 
-/*
- * Author: Ahmed Ellamie
- * Email:  ahmed.ellamiee@gmail.com
- *
- * MCAL ADC — public API for the ATmega32 10-bit ADC (channels ADC0..ADC7).
- * Include this header from HAL, Logic, and main. Do not include ADC_private.h there.
- */
 
 #include "STD_TYPES.h"
 
