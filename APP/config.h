@@ -69,7 +69,7 @@
 #define PWM_CH_ENTRY                0u      /* -> OCR1A */
 #define PWM_CH_EXIT                 1u      /* -> OCR1B */
 
-#define SERVO_CLOSED_US             1000u
+#define SERVO_CLOSED_US             1500u
 #define SERVO_OPEN_US               2000u
 
 #define PWM_TOP                     19999u  /* 20.000 ms frame */
