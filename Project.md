@@ -15,7 +15,7 @@
 | `timer.c/h` | `TMR0_InitCTC()`, ISR for `OCR0` compare | Generates the 10 ms system tick everything else is scheduled from | Sept 14 | Tasneem | x |
 | `pwm.c/h` | `PWM_Init()` (Timer1 mode 14), `PWM_SetPulse(channel, us)` | Only legal way to move a servo — writes `OCR1A`/`OCR1B` directly (NFR-05) | Sept 14 | Tasneem | x |
 | `exti.c/h` | `EXTI_Init()`, minimal ISR stubs for INT0/INT1 that set a flag | ISRs must stay ≤10 lines (NFR-09); debounce logic lives above this layer | Sept 14 | Tasneem | x |
-| `usart.c/h` | `USART_Init`, `USART_SendByte/String`, RX ISR → ring buffer | Needs the shared ring buffer from LIB, ≥32 bytes (NFR-14) | Sept 15 |  |  |
+| `usart.c/h` | `USART_Init`, `USART_SendByte/String`, RX ISR → ring buffer | Needs the shared ring buffer from LIB, ≥32 bytes (NFR-14) | Sept 15 | Tasneem | x |
 | `spi.c/h` | `SPI_Init`, `SPI_Transfer(byte)` | Master, mode 0, f/16, for the 74HC595 | Sept 15 |  |  |
 | `i2c.c/h` | `I2C_Init`, `I2C_Start/Stop/Write/Read` | 100 kHz master for the PCF8574 → LCD path | Sept 15 |  |  |
 | `tone.c/h` | `TONE_Init`, `TONE_Start` | handles how the hardware generates the actual frequency. | Sept 15 | Tasneem | x |

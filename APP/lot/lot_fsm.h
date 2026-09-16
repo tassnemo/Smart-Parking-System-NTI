@@ -2,8 +2,7 @@
 #define LOT_FSM_H
 
 #include "LIB/STD_TYPES.h"
-
-#define SLOT_COUNT 6u
+#include "config.h"
 
 typedef enum
 {

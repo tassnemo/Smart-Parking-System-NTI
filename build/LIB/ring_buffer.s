@@ -50,13 +50,19 @@ RingBuffer_Push:
 	movw r30,r24
 	or r24,r25
 	breq .L10
-	ldd r18,Z+8
-	ldd r19,Z+9
+	in r18,__SREG__
+/* #APP */
+ ;  50 "C:/avr-gcc/avr/include/util/atomic.h" 1
+	cli
+ ;  0 "" 2
+/* #NOAPP */
+	ldd r20,Z+8
+	ldd r21,Z+9
 	ldd r24,Z+2
 	ldd r25,Z+3
-	cp r18,r24
-	cpc r19,r25
-	brsh .L10
+	cp r20,r24
+	cpc r21,r25
+	brsh .L11
 	ld r26,Z
 	ldd r27,Z+1
 	ldd r24,Z+4
@@ -69,21 +75,26 @@ RingBuffer_Push:
 	adiw r24,1
 	std Z+4,r24
 	std Z+5,r25
-	ldd r18,Z+2
-	ldd r19,Z+3
-	cp r24,r18
-	cpc r25,r19
-	brlo .L8
+	ldd r20,Z+2
+	ldd r21,Z+3
+	cp r24,r20
+	cpc r25,r21
+	brlo .L9
 	std Z+4,__zero_reg__
 	std Z+5,__zero_reg__
-.L8:
+.L9:
 	ldd r24,Z+8
 	ldd r25,Z+9
 	adiw r24,1
 	std Z+8,r24
 	std Z+9,r25
 	ldi r24,0
+.L8:
+	out __SREG__,r18
 	ret
+.L11:
+	ldi r24,lo8(1)
+	rjmp .L8
 .L10:
 	ldi r24,lo8(1)
 /* epilogue start */
@@ -99,14 +110,20 @@ RingBuffer_Pop:
 .L__stack_usage = 0
 	movw r30,r24
 	or r24,r25
-	breq .L16
+	breq .L17
 	cp r22,__zero_reg__
 	cpc r23,__zero_reg__
-	breq .L16
+	breq .L17
+	in r18,__SREG__
+/* #APP */
+ ;  50 "C:/avr-gcc/avr/include/util/atomic.h" 1
+	cli
+ ;  0 "" 2
+/* #NOAPP */
 	ldd r24,Z+8
 	ldd r25,Z+9
 	or r24,r25
-	breq .L16
+	breq .L18
 	ld r26,Z
 	ldd r27,Z+1
 	ldd r24,Z+6
@@ -121,22 +138,27 @@ RingBuffer_Pop:
 	adiw r24,1
 	std Z+6,r24
 	std Z+7,r25
-	ldd r18,Z+2
-	ldd r19,Z+3
-	cp r24,r18
-	cpc r25,r19
-	brlo .L13
+	ldd r20,Z+2
+	ldd r21,Z+3
+	cp r24,r20
+	cpc r25,r21
+	brlo .L15
 	std Z+6,__zero_reg__
 	std Z+7,__zero_reg__
-.L13:
+.L15:
 	ldd r24,Z+8
 	ldd r25,Z+9
 	sbiw r24,1
 	std Z+8,r24
 	std Z+9,r25
 	ldi r24,0
+.L14:
+	out __SREG__,r18
 	ret
-.L16:
+.L18:
+	ldi r24,lo8(1)
+	rjmp .L14
+.L17:
 	ldi r24,lo8(1)
 /* epilogue start */
 	ret
@@ -151,22 +173,29 @@ RingBuffer_IsEmpty:
 .L__stack_usage = 0
 	movw r30,r24
 	or r24,r25
-	breq .L21
+	breq .L23
 	cp r22,__zero_reg__
 	cpc r23,__zero_reg__
-	breq .L21
+	breq .L23
+	in r24,__SREG__
+/* #APP */
+ ;  50 "C:/avr-gcc/avr/include/util/atomic.h" 1
+	cli
+ ;  0 "" 2
+/* #NOAPP */
 	ldi r25,lo8(1)
 	ldd r18,Z+8
 	ldd r19,Z+9
 	or r18,r19
-	breq .L19
+	breq .L21
 	ldi r25,0
-.L19:
+.L21:
 	movw r30,r22
 	st Z,r25
+	out __SREG__,r24
 	ldi r24,0
 	ret
-.L21:
+.L23:
 	ldi r24,lo8(1)
 /* epilogue start */
 	ret
@@ -180,10 +209,16 @@ RingBuffer_IsFull:
 /* stack size = 0 */
 .L__stack_usage = 0
 	sbiw r24,0
-	breq .L29
+	breq .L31
 	cp r22,__zero_reg__
 	cpc r23,__zero_reg__
-	breq .L29
+	breq .L31
+	in r19,__SREG__
+/* #APP */
+ ;  50 "C:/avr-gcc/avr/include/util/atomic.h" 1
+	cli
+ ;  0 "" 2
+/* #NOAPP */
 	ldi r18,lo8(1)
 	movw r30,r24
 	ldd r20,Z+8
@@ -192,14 +227,15 @@ RingBuffer_IsFull:
 	ldd r25,Z+3
 	cp r20,r24
 	cpc r21,r25
-	brsh .L27
+	brsh .L29
 	ldi r18,0
-.L27:
+.L29:
 	movw r30,r22
 	st Z,r18
+	out __SREG__,r19
 	ldi r24,0
 	ret
-.L29:
+.L31:
 	ldi r24,lo8(1)
 /* epilogue start */
 	ret
@@ -213,19 +249,26 @@ RingBuffer_Size:
 /* stack size = 0 */
 .L__stack_usage = 0
 	sbiw r24,0
-	breq .L33
+	breq .L35
 	cp r22,__zero_reg__
 	cpc r23,__zero_reg__
-	breq .L33
+	breq .L35
+	in r18,__SREG__
+/* #APP */
+ ;  50 "C:/avr-gcc/avr/include/util/atomic.h" 1
+	cli
+ ;  0 "" 2
+/* #NOAPP */
 	movw r30,r24
 	ldd r24,Z+8
 	ldd r25,Z+9
 	movw r30,r22
 	st Z,r24
 	std Z+1,r25
+	out __SREG__,r18
 	ldi r24,0
 	ret
-.L33:
+.L35:
 	ldi r24,lo8(1)
 /* epilogue start */
 	ret
@@ -240,16 +283,23 @@ RingBuffer_Clear:
 .L__stack_usage = 0
 	movw r30,r24
 	or r24,r25
-	breq .L36
+	breq .L38
+	in r24,__SREG__
+/* #APP */
+ ;  50 "C:/avr-gcc/avr/include/util/atomic.h" 1
+	cli
+ ;  0 "" 2
+/* #NOAPP */
 	std Z+4,__zero_reg__
 	std Z+5,__zero_reg__
 	std Z+6,__zero_reg__
 	std Z+7,__zero_reg__
 	std Z+8,__zero_reg__
 	std Z+9,__zero_reg__
+	out __SREG__,r24
 	ldi r24,0
 	ret
-.L36:
+.L38:
 	ldi r24,lo8(1)
 /* epilogue start */
 	ret

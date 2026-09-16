@@ -2,6 +2,7 @@
 #define PWM_PRIVATE_H
 
 #include "STD_TYPES.h"
+#include "config.h"
 
 /* ---------------- Timer1 registers (ATmega32) ---------------- */
 #define PWM_TCCR1A  (*(volatile uint8  *)0x4F)
@@ -40,8 +41,8 @@
 
 */
 
-#define PWM_SERVO_CLOSED_US  1000u
-#define PWM_SERVO_OPEN_US    2000u
-#define PWM_TIMER1_TOP       19999u
+#define PWM_SERVO_CLOSED_US  SERVO_CLOSED_US
+#define PWM_SERVO_OPEN_US    SERVO_OPEN_US
+#define PWM_TIMER1_TOP       PWM_TOP
 
 #endif /* PWM_PRIVATE_H */

@@ -30,6 +30,12 @@ uint8 XOR_Checksum(const uint8 *Copy_pu8Buf, uint16 Copy_u16Len);
 
 uint8 XOR_Checksum(const uint8 *Copy_pu8Buf, uint16 Copy_u16Len) {
     uint8 Local_u8Checksum = 0;
+
+    if (Copy_pu8Buf == ((void *)0))
+    {
+        return 0u;
+    }
+
     while (Copy_u16Len--) {
         Local_u8Checksum ^= *Copy_pu8Buf++;
     }

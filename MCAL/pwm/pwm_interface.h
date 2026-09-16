@@ -2,6 +2,7 @@
 #define PWM_INTERFACE_H
 
 #include "STD_TYPES.h"
+#include "config.h"
 
 /*
  * MCAL PWM — Timer1 Fast PWM (mode 14), two channels for the barrier servos.
@@ -12,12 +13,6 @@
  *   1000 us -> 0 deg  (barrier CLOSED)
  *   2000 us -> 90 deg (barrier OPEN)
  */
-
-#define PWM_CH_ENTRY 0u   /* OC1A / PD5 */
-#define PWM_CH_EXIT  1u   /* OC1B / PD4 */
-
-#define PWM_SERVO_CLOSED_US 1000u
-#define PWM_SERVO_OPEN_US   2000u
 
 /*
  * Description : Configure Timer1 for Fast PWM mode 14, 20 ms frame,

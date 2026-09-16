@@ -24,7 +24,9 @@ typedef double float64;
 # 23 "LIB/STD_TYPES.h"
 typedef uint8 STD_ReturnType;
 # 5 "MCAL/pwm/pwm_interface.h" 2
-# 27 "MCAL/pwm/pwm_interface.h"
+# 1 "APP/config.h" 1
+# 6 "MCAL/pwm/pwm_interface.h" 2
+# 22 "MCAL/pwm/pwm_interface.h"
 STD_ReturnType PWM_Init(void);
 
 

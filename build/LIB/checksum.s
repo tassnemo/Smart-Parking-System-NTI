@@ -16,18 +16,22 @@ XOR_Checksum:
 	add r22,r24
 	adc r23,r25
 	ldi r18,0
-.L2:
-	cp r24,r22
-	cpc r25,r23
+	sbiw r24,0
 	brne .L3
-	mov r24,r18
-/* epilogue start */
-	ret
-.L3:
+	ldi r18,0
+	rjmp .L1
+.L4:
 	movw r30,r24
 	ld r24,Z+
 	eor r18,r24
 	movw r24,r30
-	rjmp .L2
+.L3:
+	cp r24,r22
+	cpc r25,r23
+	brne .L4
+.L1:
+	mov r24,r18
+/* epilogue start */
+	ret
 	.size	XOR_Checksum, .-XOR_Checksum
 	.ident	"GCC: (GNU) 15.2.0"

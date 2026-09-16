@@ -1,4 +1,5 @@
 #include "ring_buffer.h"
+#include <util/atomic.h>
 
 STD_ReturnType RingBuffer_Init(
     RingBuffer *Copy_pstBuffer,
@@ -27,27 +28,34 @@ STD_ReturnType RingBuffer_Push(
     uint8 Copy_u8Data
 )
 {
+    STD_ReturnType Local_u8Result = E_OK;
+
     if (Copy_pstBuffer == NULL)
     {
         return E_NOK;
     }
 
-    if (Copy_pstBuffer->count >= Copy_pstBuffer->capacity)
+    ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
     {
-        return E_NOK;
+        if (Copy_pstBuffer->count >= Copy_pstBuffer->capacity)
+        {
+            Local_u8Result = E_NOK;
+        }
+        else
+        {
+            Copy_pstBuffer->buffer[Copy_pstBuffer->head] = Copy_u8Data;
+
+            Copy_pstBuffer->head++;
+            if (Copy_pstBuffer->head >= Copy_pstBuffer->capacity)
+            {
+                Copy_pstBuffer->head = 0u;
+            }
+
+            Copy_pstBuffer->count++;
+        }
     }
 
-    Copy_pstBuffer->buffer[Copy_pstBuffer->head] = Copy_u8Data;
-
-    Copy_pstBuffer->head++;
-    if (Copy_pstBuffer->head >= Copy_pstBuffer->capacity)
-    {
-        Copy_pstBuffer->head = 0u;
-    }
-
-    Copy_pstBuffer->count++;
-
-    return E_OK;
+    return Local_u8Result;
 }
 
 STD_ReturnType RingBuffer_Pop(
@@ -55,27 +63,34 @@ STD_ReturnType RingBuffer_Pop(
     uint8 *Copy_pu8Data
 )
 {
+    STD_ReturnType Local_u8Result = E_OK;
+
     if ((Copy_pstBuffer == NULL) || (Copy_pu8Data == NULL))
     {
         return E_NOK;
     }
 
-    if (Copy_pstBuffer->count == 0u)
+    ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
     {
-        return E_NOK;
+        if (Copy_pstBuffer->count == 0u)
+        {
+            Local_u8Result = E_NOK;
+        }
+        else
+        {
+            *Copy_pu8Data = Copy_pstBuffer->buffer[Copy_pstBuffer->tail];
+
+            Copy_pstBuffer->tail++;
+            if (Copy_pstBuffer->tail >= Copy_pstBuffer->capacity)
+            {
+                Copy_pstBuffer->tail = 0u;
+            }
+
+            Copy_pstBuffer->count--;
+        }
     }
 
-    *Copy_pu8Data = Copy_pstBuffer->buffer[Copy_pstBuffer->tail];
-
-    Copy_pstBuffer->tail++;
-    if (Copy_pstBuffer->tail >= Copy_pstBuffer->capacity)
-    {
-        Copy_pstBuffer->tail = 0u;
-    }
-
-    Copy_pstBuffer->count--;
-
-    return E_OK;
+    return Local_u8Result;
 }
 
 STD_ReturnType RingBuffer_IsEmpty(
@@ -83,14 +98,19 @@ STD_ReturnType RingBuffer_IsEmpty(
     uint8 *Copy_pu8Result
 )
 {
+    STD_ReturnType Local_u8Result = E_OK;
+
     if ((Copy_pstBuffer == NULL) || (Copy_pu8Result == NULL))
     {
         return E_NOK;
     }
 
-    *Copy_pu8Result = (Copy_pstBuffer->count == 0u) ? STD_HIGH : STD_LOW;
+    ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
+    {
+        *Copy_pu8Result = (Copy_pstBuffer->count == 0u) ? STD_HIGH : STD_LOW;
+    }
 
-    return E_OK;
+    return Local_u8Result;
 }
 
 STD_ReturnType RingBuffer_IsFull(
@@ -98,17 +118,22 @@ STD_ReturnType RingBuffer_IsFull(
     uint8 *Copy_pu8Result
 )
 {
+    STD_ReturnType Local_u8Result = E_OK;
+
     if ((Copy_pstBuffer == NULL) || (Copy_pu8Result == NULL))
     {
         return E_NOK;
     }
 
-    *Copy_pu8Result =
-        (Copy_pstBuffer->count >= Copy_pstBuffer->capacity)
-        ? STD_HIGH
-        : STD_LOW;
+    ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
+    {
+        *Copy_pu8Result =
+            (Copy_pstBuffer->count >= Copy_pstBuffer->capacity)
+            ? STD_HIGH
+            : STD_LOW;
+    }
 
-    return E_OK;
+    return Local_u8Result;
 }
 
 STD_ReturnType RingBuffer_Size(
@@ -116,14 +141,19 @@ STD_ReturnType RingBuffer_Size(
     uint16 *Copy_pu16Size
 )
 {
+    STD_ReturnType Local_u8Result = E_OK;
+
     if ((Copy_pstBuffer == NULL) || (Copy_pu16Size == NULL))
     {
         return E_NOK;
     }
 
-    *Copy_pu16Size = Copy_pstBuffer->count;
+    ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
+    {
+        *Copy_pu16Size = Copy_pstBuffer->count;
+    }
 
-    return E_OK;
+    return Local_u8Result;
 }
 
 STD_ReturnType RingBuffer_Clear(
@@ -135,9 +165,12 @@ STD_ReturnType RingBuffer_Clear(
         return E_NOK;
     }
 
-    Copy_pstBuffer->head = 0u;
-    Copy_pstBuffer->tail = 0u;
-    Copy_pstBuffer->count = 0u;
+    ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
+    {
+        Copy_pstBuffer->head = 0u;
+        Copy_pstBuffer->tail = 0u;
+        Copy_pstBuffer->count = 0u;
+    }
 
     return E_OK;
 }

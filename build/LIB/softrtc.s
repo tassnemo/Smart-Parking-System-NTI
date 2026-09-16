@@ -43,20 +43,26 @@ RTC_Seconds:
 /* frame size = 0 */
 /* stack size = 0 */
 .L__stack_usage = 0
+	in r18,__SREG__
+/* #APP */
+ ;  50 "C:/avr-gcc/avr/include/util/atomic.h" 1
+	cli
+ ;  0 "" 2
+/* #NOAPP */
 	lds r22,g_u32UptimeSec
 	lds r23,g_u32UptimeSec+1
 	lds r24,g_u32UptimeSec+2
 	lds r25,g_u32UptimeSec+3
+	out __SREG__,r18
 /* epilogue start */
 	ret
 	.size	RTC_Seconds, .-RTC_Seconds
-	.section	.rodata.RTC_Format.str1.1,"aMS",@progbits,1
-.LC0:
-	.string	"%03lu:%02u:%02u"
 	.section	.text.RTC_Format,"ax",@progbits
 .global	RTC_Format
 	.type	RTC_Format, @function
 RTC_Format:
+	push r10
+	push r11
 	push r12
 	push r13
 	push r14
@@ -65,40 +71,46 @@ RTC_Format:
 	push r29
 	in r28,__SP_L__
 	in r29,__SP_H__
-	sbiw r28,14
+	sbiw r28,11
 	in __tmp_reg__,__SREG__
 	cli
 	out __SP_H__,r29
 	out __SREG__,__tmp_reg__
 	out __SP_L__,r28
 /* prologue: function */
-/* frame size = 14 */
-/* stack size = 20 */
-.L__stack_usage = 20
+/* frame size = 11 */
+/* stack size = 19 */
+.L__stack_usage = 19
 	std Y+1,r22
 	std Y+2,r23
 	std Y+3,r24
 	std Y+4,r25
-	std Y+9,r20
-	std Y+10,r21
+	std Y+10,r20
+	std Y+11,r21
+	or r20,r21
+	brne .+2
+	rjmp .L8
+	cpi r18,lo8(10)
+	brsh .+2
+	rjmp .L8
 	ldi r18,lo8(16)
 	ldi r19,lo8(14)
 	ldi r20,0
 	ldi r21,0
 	call __udivmodsi4
-	std Y+11,r18
-	std Y+12,r19
-	std Y+13,r20
-	std Y+14,r21
-	std Y+5,r22
-	std Y+6,r23
-	std Y+7,r24
-	std Y+8,r25
-	ldi r24,lo8(60)
-	mov r12,r24
+	std Y+5,r18
+	std Y+6,r19
+	std Y+7,r20
+	std Y+8,r21
+	ldi r18,lo8(60)
+	mov r12,r18
 	mov r13,__zero_reg__
 	mov r14,__zero_reg__
 	mov r15,__zero_reg__
+	movw r20,r14
+	movw r18,r12
+	call __udivmodsi4
+	std Y+9,r18
 	ldd r22,Y+1
 	ldd r23,Y+2
 	ldd r24,Y+3
@@ -106,8 +118,27 @@ RTC_Format:
 	movw r20,r14
 	movw r18,r12
 	call __udivmodsi4
-	push r23
-	push r22
+	mov r11,r22
+	ldd r22,Y+1
+	ldd r23,Y+2
+	ldd r24,Y+3
+	ldd r25,Y+4
+	ldi r18,lo8(64)
+	ldi r19,lo8(126)
+	ldi r20,lo8(5)
+	ldi r21,0
+	call __udivmodsi4
+	ldi r22,lo8(10)
+	mov r12,r22
+	movw r22,r18
+	movw r24,r20
+	movw r20,r14
+	movw r18,r12
+	call __udivmodsi4
+	subi r22,lo8(-(48))
+	ldd r30,Y+10
+	ldd r31,Y+11
+	st Z,r22
 	ldd r22,Y+5
 	ldd r23,Y+6
 	ldd r24,Y+7
@@ -115,32 +146,40 @@ RTC_Format:
 	movw r20,r14
 	movw r18,r12
 	call __udivmodsi4
-	push r19
-	push r18
-	ldd r24,Y+14
-	push r24
-	ldd r25,Y+13
-	push r25
-	ldd r24,Y+12
-	push r24
-	ldd r25,Y+11
-	push r25
-	ldi r24,lo8(.LC0)
-	ldi r25,hi8(.LC0)
-	push r25
-	push r24
-	ldd r24,Y+10
-	push r24
-	ldd r25,Y+9
-	push r25
-	call sprintf
-	in __tmp_reg__,__SREG__
-	cli
-	out __SP_H__,r29
-	out __SREG__,__tmp_reg__
-	out __SP_L__,r28
+	mov r10,r22
+	movw r22,r18
+	movw r24,r20
+	movw r20,r14
+	movw r18,r12
+	call __udivmodsi4
+	subi r22,lo8(-(48))
+	ldd r30,Y+10
+	ldd r31,Y+11
+	std Z+1,r22
+	ldi r24,lo8(48)
+	add r24,r10
+	std Z+2,r24
+	ldi r19,lo8(58)
+	std Z+3,r19
+	ldd r24,Y+9
+	ldi r22,lo8(10)
+	call __udivmodqi4
+	subi r24,lo8(-(48))
+	std Z+4,r24
+	subi r25,lo8(-(48))
+	std Z+5,r25
+	std Z+6,r19
+	mov r24,r11
+	call __udivmodqi4
+	subi r24,lo8(-(48))
+	std Z+7,r24
+	subi r25,lo8(-(48))
+	std Z+8,r25
+	std Z+9,__zero_reg__
+	ldi r24,0
+.L5:
 /* epilogue start */
-	adiw r28,14
+	adiw r28,11
 	in __tmp_reg__,__SREG__
 	cli
 	out __SP_H__,r29
@@ -152,7 +191,12 @@ RTC_Format:
 	pop r14
 	pop r13
 	pop r12
+	pop r11
+	pop r10
 	ret
+.L8:
+	ldi r24,lo8(1)
+	rjmp .L5
 	.size	RTC_Format, .-RTC_Format
 	.section	.bss.g_u8SubTick,"aw",@nobits
 	.type	g_u8SubTick, @object
@@ -165,5 +209,4 @@ g_u8SubTick:
 g_u32UptimeSec:
 	.zero	4
 	.ident	"GCC: (GNU) 15.2.0"
-.global __do_copy_data
 .global __do_clear_bss

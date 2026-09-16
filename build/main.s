@@ -14,11 +14,13 @@ main:
 /* stack size = 0 */
 .L__stack_usage = 0
 	call PWM_Init
-.L2:
-	ldi r22,lo8(-24)
-	ldi r23,lo8(3)
 	ldi r24,0
-	call PWM_SetPulse
+	call BAR_Init
+	ldi r24,lo8(1)
+	call BAR_Init
+.L2:
+	ldi r24,0
+	call BAR_Open
 	ldi r18,lo8(3199999)
 	ldi r24,hi8(3199999)
 	ldi r25,hlo8(3199999)
@@ -28,10 +30,30 @@ main:
 	brne 1b
 	rjmp .
 	nop
-	ldi r22,lo8(-36)
-	ldi r23,lo8(5)
 	ldi r24,0
-	call PWM_SetPulse
+	call BAR_Close
+	ldi r18,lo8(3199999)
+	ldi r24,hi8(3199999)
+	ldi r25,hlo8(3199999)
+1:	subi r18,1
+	sbci r24,0
+	sbci r25,0
+	brne 1b
+	rjmp .
+	nop
+	ldi r24,lo8(1)
+	call BAR_Open
+	ldi r18,lo8(3199999)
+	ldi r24,hi8(3199999)
+	ldi r25,hlo8(3199999)
+1:	subi r18,1
+	sbci r24,0
+	sbci r25,0
+	brne 1b
+	rjmp .
+	nop
+	ldi r24,lo8(1)
+	call BAR_Close
 	ldi r18,lo8(3199999)
 	ldi r24,hi8(3199999)
 	ldi r25,hlo8(3199999)

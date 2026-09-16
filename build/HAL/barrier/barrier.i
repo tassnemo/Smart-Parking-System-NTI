@@ -36,7 +36,9 @@ STD_ReturnType BAR_IsMoving(uint8 Copy_u8Channel, uint8 *Copy_pu8Status);
 
 # 1 "LIB/STD_TYPES.h" 1
 # 5 "./MCAL/pwm/pwm_interface.h" 2
-# 27 "./MCAL/pwm/pwm_interface.h"
+# 1 "APP/config.h" 1
+# 6 "./MCAL/pwm/pwm_interface.h" 2
+# 22 "./MCAL/pwm/pwm_interface.h"
 STD_ReturnType PWM_Init(void);
 
 
@@ -59,10 +61,7 @@ typedef int wchar_t;
 # 4 "HAL/barrier/barrier.c" 2
 
 
-
-
-
-# 8 "HAL/barrier/barrier.c"
+# 5 "HAL/barrier/barrier.c"
 STD_ReturnType BAR_Init(uint8 Copy_u8Channel)
 {
     if (Copy_u8Channel != 0u &&
@@ -87,9 +86,9 @@ STD_ReturnType BAR_Close(uint8 Copy_u8Channel)
 STD_ReturnType BAR_IsMoving(uint8 Copy_u8Channel, uint8 *Copy_pu8Status)
 {
     if (Copy_pu8Status == 
-# 31 "HAL/barrier/barrier.c" 3 4
+# 28 "HAL/barrier/barrier.c" 3 4
                          ((void *)0)
-# 31 "HAL/barrier/barrier.c"
+# 28 "HAL/barrier/barrier.c"
                              )
     {
         return 1u;

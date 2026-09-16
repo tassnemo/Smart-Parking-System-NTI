@@ -5,6 +5,8 @@
 
 void RTC_Tick10ms(void);
 uint32 RTC_Seconds(void);
-void RTC_Format(uint32 Copy_u32Sec, char *Copy_pcBuf);
+STD_ReturnType RTC_Format(uint32 Copy_u32Sec,
+						  char *Copy_pcBuf,
+						  uint8 Copy_u8BufSize);
 
 #endif /* SOFTRTC_H_ */

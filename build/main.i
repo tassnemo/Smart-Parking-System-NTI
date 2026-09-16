@@ -2,11 +2,11 @@
 # 0 "<built-in>"
 # 0 "<command-line>"
 # 1 "main.c"
-# 1 "MCAL/pwm/pwm_interface.h" 1
+# 1 "HAL/barrier/barrier.h" 1
 
 
 
-# 1 "LIB/STD_TYPES.h" 1
+# 1 "./LIB/STD_TYPES.h" 1
 
 
 
@@ -21,10 +21,24 @@ typedef signed long long sint64;
 
 typedef float float32;
 typedef double float64;
-# 23 "LIB/STD_TYPES.h"
+# 23 "./LIB/STD_TYPES.h"
 typedef uint8 STD_ReturnType;
+# 5 "HAL/barrier/barrier.h" 2
+
+STD_ReturnType BAR_Init(uint8 Copy_u8Channel);
+STD_ReturnType BAR_Open(uint8 Copy_u8Channel);
+STD_ReturnType BAR_Close(uint8 Copy_u8Channel);
+STD_ReturnType BAR_IsMoving(uint8 Copy_u8Channel, uint8 *Copy_pu8Status);
+# 2 "main.c" 2
+# 1 "MCAL/pwm/pwm_interface.h" 1
+
+
+
+# 1 "LIB/STD_TYPES.h" 1
 # 5 "MCAL/pwm/pwm_interface.h" 2
-# 27 "MCAL/pwm/pwm_interface.h"
+# 1 "APP/config.h" 1
+# 6 "MCAL/pwm/pwm_interface.h" 2
+# 22 "MCAL/pwm/pwm_interface.h"
 STD_ReturnType PWM_Init(void);
 
 
@@ -34,7 +48,7 @@ STD_ReturnType PWM_Init(void);
 
 
 STD_ReturnType PWM_SetPulse(uint8 Copy_u8Channel, uint16 Copy_u16PulseUs);
-# 2 "main.c" 2
+# 3 "main.c" 2
 # 1 "C:/avr-gcc/avr/include/util/delay.h" 1 3
 # 49 "C:/avr-gcc/avr/include/util/delay.h" 3
 # 1 "C:/avr-gcc/lib/gcc/avr/15.2.0/include/stdint.h" 1 3 4
@@ -239,20 +253,28 @@ _delay_us(double __us)
  __builtin_avr_delay_cycles(__ticks_dc);
 # 281 "C:/avr-gcc/avr/include/util/delay.h" 3
 }
-# 3 "main.c" 2
+# 4 "main.c" 2
 
 
-# 4 "main.c"
+# 5 "main.c"
 int main(void)
 {
     PWM_Init();
+    BAR_Init(0u);
+    BAR_Init(1u);
 
     while (1)
     {
-        PWM_SetPulse(0u, 1000u);
+        BAR_Open(0u);
         _delay_ms(2000);
 
-        PWM_SetPulse(0u, 1500u);
+        BAR_Close(0u);
+        _delay_ms(2000);
+
+        BAR_Open(1u);
+        _delay_ms(2000);
+
+        BAR_Close(1u);
         _delay_ms(2000);
     }
 

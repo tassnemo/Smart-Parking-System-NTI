@@ -24,8 +24,8 @@ typedef double float64;
 # 23 "./LIB/STD_TYPES.h"
 typedef uint8 STD_ReturnType;
 # 5 "APP/lot/lot_fsm.h" 2
-
-
+# 1 "APP/config.h" 1
+# 6 "APP/lot/lot_fsm.h" 2
 
 typedef enum
 {
