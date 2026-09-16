@@ -54,13 +54,21 @@ void LOT_SetFault(uint8 Copy_u8Enabled);
 
 
 
-
-
+# 1 "LIB/STD_TYPES.h" 1
+# 5 "./HAL/slots/slots.h" 2
+# 20 "./HAL/slots/slots.h"
 STD_ReturnType SLOT_Init(void);
+
+
+
 STD_ReturnType SLOT_Poll(void);
-uint8 SLOT_CountFree(uint8 Copy_u8SlotMap);
-uint8 SLOT_IsOccupied(uint8 Copy_u8SlotMap, uint8 Copy_u8Index);
+
+
 uint8 SLOT_GetMap(void);
+
+
+
+uint8 SLOT_CountFree(void);
 # 4 "APP/lot/lot_fsm.c" 2
 
 static LotState_t g_LotState = LOT_INIT;

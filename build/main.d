@@ -1,5 +1,4 @@
-build/main.s: main.c MCAL/i2c/i2c_interface.h LIB/STD_TYPES.h \
- MCAL/usart/usart_interface.h
-MCAL/i2c/i2c_interface.h:
+build/main.s: main.c APP/config.h LIB/STD_TYPES.h HAL/shiftreg/shiftreg.h
+APP/config.h:
 LIB/STD_TYPES.h:
-MCAL/usart/usart_interface.h:
+HAL/shiftreg/shiftreg.h:

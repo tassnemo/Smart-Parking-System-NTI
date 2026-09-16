@@ -30,6 +30,7 @@
 | `lcd_i2c.c/h` | `LCD_Init`, `LCD_SetCursor`, `LCD_Print`, `LCD_UpdateIfChanged(line, text)` | FR-03 requires "no visible flicker; only changed characters rewritten" — needs a shadow buffer of each line's current contents to diff against. Writes text to the LCD screen. | Sept 15 |  |  |
 | `buttons.c/h` | `BTN_Debounce()`, polled from the 10 ms task | Keeps the EXTI ISR itself tiny per NFR-09 — cleans up button presses because real buttons "bounce" electrically and can register as multiple presses; this filters that out. | Sept 14 | Tasneem | x |
 | `buzzer.c/h` | `BUZ_On()`, `BUZ_Off()`, `BUZ_Beep(times, ms)` | Makes the beep sound for rejected cars or errors. | Sept 14 | Tasneem | x |
+| `slotleds.c/h` | | for the led patterns | Sept 16 | Tasneem | x |
 
 
 ## LIB
@@ -53,6 +54,7 @@
 | `telemetry.c/h` | `TELEM_BuildFrame(buf)`, `TELEM_Send()` | Owns FR-15's periodic status frame; uses shared `checksum.c` — periodically prints a status summary automatically, without being asked. | Sept 16 |  |  |
 | `config.c/h` | `CFG_LoadDefaults`, `CFG_Validate`, `CFG_MarkDirty`, `CFG_MaybeWrite` | Owns FR-16's rate-limited republish and FR-17's boot validation/fallback — holds all your adjustable settings (price per hour, grace period, etc.) and their default values. | Sept 16 | Tasneem | x |
 | `scheduler.c/h` | `SCHED_Init`, `SCHED_Tick()`, task table `{period, offset, lastRun, fn}` | Implements the dispatch table implied by §19 and the "scheduler (10 ms)" bar in §9.1 — the "traffic cop" that decides, every 10 ms, which pieces of code get to run. Some things (like checking the gates) run every tick; others (like updating the display) only need to run every 250 ms, since redrawing a screen 100 times a second is wasteful. | Core built Sept 14, entries added Sept 15/16 | Tasneem | x |
+| `display.h/c` | DISPLAY_Task | scheduler.h never lists specific tasks by design. It's generic — it only knows about a function pointer type (SCHED_TaskFunc) and a registration call (SCHED_RegisterTask). It doesn't hardcode DISPLAY_Task, LOT_Run, or anything else by name. That's intentional and correct | Sept 16 | Tasneem | x |
 | `main.c` | Init sequence, `sei()`, super-loop calling `SCHED_Tick()` | — | — |  |  |
 
 

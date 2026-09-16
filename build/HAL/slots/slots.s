@@ -14,9 +14,6 @@ SLOT_Init:
 /* frame size = 0 */
 /* stack size = 1 */
 .L__stack_usage = 1
-	sts g_slotMap,__zero_reg__
-	sts g_lastRawMap,__zero_reg__
-	sts g_stableCount,__zero_reg__
 	ldi r28,lo8(2)
 .L3:
 	ldi r20,lo8(2)
@@ -28,6 +25,9 @@ SLOT_Init:
 	subi r28,lo8(-(1))
 	cpi r28,lo8(8)
 	brne .L3
+	sts SLOT_u8PublishedMap,__zero_reg__
+	sts SLOT_u8Candidate,__zero_reg__
+	sts SLOT_u8SampleCount,__zero_reg__
 .L1:
 /* epilogue start */
 	pop r28
@@ -49,36 +49,43 @@ SLOT_Poll:
 /* frame size = 1 */
 /* stack size = 3 */
 .L__stack_usage = 3
+	std Y+1,__zero_reg__
 	movw r22,r28
 	subi r22,-1
 	sbci r23,-1
 	ldi r24,lo8(2)
 	call DIO_ReadPort
-	ldd r24,Y+1
-	com r24
-	lsr r24
-	lsr r24
-	lds r25,g_lastRawMap
-	cpse r25,r24
-	rjmp .L7
-	lds r25,g_stableCount
-	cpse r25,__zero_reg__
-	rjmp .L8
+	cpse r24,__zero_reg__
+	rjmp .L12
+	ldd r25,Y+1
+	com r25
+	lsr r25
+	lsr r25
+	lds r18,SLOT_u8Candidate
+	cp r18,r25
+	breq .L8
+	sts SLOT_u8Candidate,r25
 	ldi r25,lo8(1)
-	sts g_stableCount,r25
-.L8:
-	sts g_slotMap,r24
-	rjmp .L10
-.L7:
-	sts g_lastRawMap,r24
-	sts g_stableCount,__zero_reg__
-.L10:
-	ldi r24,0
+	sts SLOT_u8SampleCount,r25
+.L6:
 /* epilogue start */
 	pop __tmp_reg__
 	pop r29
 	pop r28
 	ret
+.L8:
+	lds r25,SLOT_u8SampleCount
+	cpi r25,lo8(5)
+	brsh .L6
+	subi r25,lo8(-(1))
+	sts SLOT_u8SampleCount,r25
+	cpi r25,lo8(5)
+	brne .L6
+	sts SLOT_u8PublishedMap,r18
+	rjmp .L6
+.L12:
+	ldi r24,lo8(1)
+	rjmp .L6
 	.size	SLOT_Poll, .-SLOT_Poll
 	.section	.text.SLOT_GetMap,"ax",@progbits
 .global	SLOT_GetMap
@@ -88,7 +95,7 @@ SLOT_GetMap:
 /* frame size = 0 */
 /* stack size = 0 */
 .L__stack_usage = 0
-	lds r24,g_slotMap
+	lds r24,SLOT_u8PublishedMap
 /* epilogue start */
 	ret
 	.size	SLOT_GetMap, .-SLOT_GetMap
@@ -100,16 +107,17 @@ SLOT_CountFree:
 /* frame size = 0 */
 /* stack size = 0 */
 .L__stack_usage = 0
-	andi r24,lo8(63)
-	mov r25,r24
-	lsr r25
-	andi r25,lo8(85)
-	sub r24,r25
-	mov r25,r24
-	andi r25,lo8(51)
+	lds r25,SLOT_u8PublishedMap
+	andi r25,lo8(63)
+	mov r24,r25
 	lsr r24
-	lsr r24
+	andi r24,lo8(85)
+	sub r25,r24
+	mov r24,r25
 	andi r24,lo8(51)
+	lsr r25
+	lsr r25
+	andi r25,lo8(51)
 	add r25,r24
 	mov r24,r25
 	swap r24
@@ -122,50 +130,20 @@ SLOT_CountFree:
 /* epilogue start */
 	ret
 	.size	SLOT_CountFree, .-SLOT_CountFree
-	.section	.text.SLOT_IsOccupied,"ax",@progbits
-.global	SLOT_IsOccupied
-	.type	SLOT_IsOccupied, @function
-SLOT_IsOccupied:
-/* prologue: function */
-/* frame size = 0 */
-/* stack size = 0 */
-.L__stack_usage = 0
-	cpi r22,lo8(6)
-	brsh .L16
-	ldi r18,lo8(1)
-	ldi r19,0
-	movw r20,r18
-	rjmp 2f
-	1:
-	lsl r20
-	2:
-	dec r22
-	brpl 1b
-	mov r22,r20
-	and r22,r24
-	ldi r24,lo8(1)
-	cpse r22,__zero_reg__
-	rjmp .L13
-.L16:
-	ldi r24,0
-.L13:
-/* epilogue start */
-	ret
-	.size	SLOT_IsOccupied, .-SLOT_IsOccupied
-	.section	.bss.g_stableCount,"aw",@nobits
-	.type	g_stableCount, @object
-	.size	g_stableCount, 1
-g_stableCount:
+	.section	.bss.SLOT_u8SampleCount,"aw",@nobits
+	.type	SLOT_u8SampleCount, @object
+	.size	SLOT_u8SampleCount, 1
+SLOT_u8SampleCount:
 	.zero	1
-	.section	.bss.g_lastRawMap,"aw",@nobits
-	.type	g_lastRawMap, @object
-	.size	g_lastRawMap, 1
-g_lastRawMap:
+	.section	.bss.SLOT_u8Candidate,"aw",@nobits
+	.type	SLOT_u8Candidate, @object
+	.size	SLOT_u8Candidate, 1
+SLOT_u8Candidate:
 	.zero	1
-	.section	.bss.g_slotMap,"aw",@nobits
-	.type	g_slotMap, @object
-	.size	g_slotMap, 1
-g_slotMap:
+	.section	.bss.SLOT_u8PublishedMap,"aw",@nobits
+	.type	SLOT_u8PublishedMap, @object
+	.size	SLOT_u8PublishedMap, 1
+SLOT_u8PublishedMap:
 	.zero	1
 	.ident	"GCC: (GNU) 15.2.0"
 .global __do_clear_bss

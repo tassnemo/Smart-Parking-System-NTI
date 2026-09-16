@@ -24,9 +24,15 @@ typedef double float64;
 # 23 "LIB/STD_TYPES.h"
 typedef uint8 STD_ReturnType;
 # 5 "HAL/shiftreg/shiftreg.h" 2
-
+# 20 "HAL/shiftreg/shiftreg.h"
 STD_ReturnType SR_Init(void);
-STD_ReturnType SR_Write(uint8 Copy_u8Data);
+
+
+
+STD_ReturnType SR_Write(uint16 Copy_u16Data);
+
+
+uint16 SR_GetShadow(void);
 # 2 "HAL/shiftreg/shiftreg.c" 2
 # 1 "APP/config.h" 1
 # 3 "HAL/shiftreg/shiftreg.c" 2
@@ -49,6 +55,10 @@ STD_ReturnType SPI_Init(void);
 STD_ReturnType SPI_Transfer(uint8 Copy_u8Data, uint8 *Copy_pu8Received);
 # 5 "HAL/shiftreg/shiftreg.c" 2
 
+static uint16 SR_u16Shadow = 0u;
+
+static STD_ReturnType SR_StrobePulse(void);
+
 STD_ReturnType SR_Init(void)
 {
     if (SPI_Init() != 0u)
@@ -63,26 +73,64 @@ STD_ReturnType SR_Init(void)
         return 1u;
     }
 
-    return DIO_WritePin(1u,
-                        4u,
-                        0u);
-}
 
-STD_ReturnType SR_Write(uint8 Copy_u8Data)
-{
-    uint8 Local_u8Received;
 
-    if (SPI_Transfer(Copy_u8Data, &Local_u8Received) != 0u)
+    if (DIO_WritePin(1u,
+                     4u,
+                     0u) != 0u)
     {
         return 1u;
     }
 
+
+    SR_u16Shadow = 0xFFFFu;
+    return SR_Write(0x0000u);
+}
+
+STD_ReturnType SR_Write(uint16 Copy_u16Data)
+{
+    uint8 Local_u8Dummy;
+    uint8 Local_u8Index;
+    uint8 Local_au8Bytes[2u];
+
+
+    Local_au8Bytes[0] = (uint8)(Copy_u16Data >> 8);
+    Local_au8Bytes[1] = (uint8)(Copy_u16Data & 0xFFu);
+
+    for (Local_u8Index = 0u; Local_u8Index < 2u; Local_u8Index++)
+    {
+        if (SPI_Transfer(Local_au8Bytes[Local_u8Index],
+                         &Local_u8Dummy) != 0u)
+        {
+            return 1u;
+        }
+    }
+
+    if (SR_StrobePulse() != 0u)
+    {
+        return 1u;
+    }
+
+    SR_u16Shadow = Copy_u16Data;
+    return 0u;
+}
+
+uint16 SR_GetShadow(void)
+{
+    return SR_u16Shadow;
+}
+
+static STD_ReturnType SR_StrobePulse(void)
+{
     if (DIO_WritePin(1u,
                      4u,
                      1u) != 0u)
     {
         return 1u;
     }
+
+
+
 
     return DIO_WritePin(1u,
                         4u,

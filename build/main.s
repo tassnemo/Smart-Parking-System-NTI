@@ -5,19 +5,6 @@ __SREG__ = 0x3f
 __tmp_reg__ = 0
 __zero_reg__ = 1
 	.text
-	.section	.rodata.main.str1.1,"aMS",@progbits,1
-.LC0:
-	.string	"I2C TEST START\r\n"
-.LC1:
-	.string	"I2C INIT FAILED\r\n"
-.LC2:
-	.string	"I2C START OK\r\n"
-.LC3:
-	.string	"I2C DEVICE ACK\r\n"
-.LC4:
-	.string	"I2C DEVICE NACK\r\n"
-.LC5:
-	.string	"I2C START FAILED\r\n"
 	.section	.text.startup.main,"ax",@progbits
 .global	main
 	.type	main, @function
@@ -26,49 +13,99 @@ main:
 /* frame size = 0 */
 /* stack size = 0 */
 .L__stack_usage = 0
-	call USART_Init
-/* #APP */
- ;  10 "main.c" 1
-	sei
- ;  0 "" 2
-/* #NOAPP */
-	ldi r24,lo8(.LC0)
-	ldi r25,hi8(.LC0)
-	call USART_SendString
-	call I2C_Init
-	cp r24, __zero_reg__
-	breq .L2
-	ldi r24,lo8(.LC1)
-	ldi r25,hi8(.LC1)
-	call USART_SendString
-.L2:
-	call I2C_Start
+	call SR_Init
+	ldi r16,lo8(1)
+	ldi r17,0
 	cpse r24,__zero_reg__
-	rjmp .L3
-	ldi r24,lo8(.LC2)
-	ldi r25,hi8(.LC2)
-	call USART_SendString
-	ldi r24,lo8(64)
-	call I2C_Write
-	cpse r24,__zero_reg__
-	rjmp .L4
-	ldi r24,lo8(.LC3)
-	ldi r25,hi8(.LC3)
-.L11:
-	call USART_SendString
-	call I2C_Stop
-.L6:
-.L10:
-	rjmp .L10
-.L4:
-	ldi r24,lo8(.LC4)
-	ldi r25,hi8(.LC4)
-	rjmp .L11
 .L3:
-	ldi r24,lo8(.LC5)
-	ldi r25,hi8(.LC5)
-	call USART_SendString
-	rjmp .L6
+	rjmp .L3
+.L2:
+	ldi r28,0
+	ldi r29,0
+.L4:
+	movw r24,r16
+	mov r0,r28
+	rjmp 2f
+	1:
+	lsl r24
+	rol r25
+	2:
+	dec r0
+	brpl 1b
+	call SR_Write
+	ldi r24,lo8(479999)
+	ldi r25,hi8(479999)
+	ldi r18,hlo8(479999)
+1:	subi r24,1
+	sbci r25,0
+	sbci r18,0
+	brne 1b
+	rjmp .
+	nop
+	adiw r28,1
+	cpi r28,16
+	cpc r29,__zero_reg__
+	brne .L4
+	ldi r24,0
+	ldi r25,0
+	call SR_Write
+	ldi r24,lo8(799999)
+	ldi r25,hi8(799999)
+	ldi r18,hlo8(799999)
+1:	subi r24,1
+	sbci r25,0
+	sbci r18,0
+	brne 1b
+	rjmp .
+	nop
+	ldi r24,lo8(85)
+	ldi r25,lo8(5)
+	call SR_Write
+	ldi r24,lo8(1119999)
+	ldi r25,hi8(1119999)
+	ldi r18,hlo8(1119999)
+1:	subi r24,1
+	sbci r25,0
+	sbci r18,0
+	brne 1b
+	rjmp .
+	nop
+	ldi r24,lo8(-86)
+	ldi r25,lo8(10)
+	call SR_Write
+	ldi r24,lo8(1119999)
+	ldi r25,hi8(1119999)
+	ldi r18,hlo8(1119999)
+1:	subi r24,1
+	sbci r25,0
+	sbci r18,0
+	brne 1b
+	rjmp .
+	nop
+	ldi r24,0
+	ldi r25,lo8(16)
+	call SR_Write
+	ldi r24,lo8(1119999)
+	ldi r25,hi8(1119999)
+	ldi r18,hlo8(1119999)
+1:	subi r24,1
+	sbci r25,0
+	sbci r18,0
+	brne 1b
+	rjmp .
+	nop
+	ldi r24,0
+	ldi r25,0
+	call SR_Write
+	ldi r24,lo8(1119999)
+	ldi r25,hi8(1119999)
+	ldi r18,hlo8(1119999)
+1:	subi r24,1
+	sbci r25,0
+	sbci r18,0
+	brne 1b
+	rjmp .
+	nop
+	rjmp .L2
 	.size	main, .-main
 	.ident	"GCC: (GNU) 15.2.0"
-.global __do_copy_data

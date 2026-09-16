@@ -1,5 +1,5 @@
 #include "lot_fsm.h"
-
+#include "config.h"
 #include "HAL/slots/slots.h"
 
 static LotState_t g_LotState = LOT_INIT;

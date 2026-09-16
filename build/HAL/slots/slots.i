@@ -6,7 +6,7 @@
 
 
 
-# 1 "./LIB/STD_TYPES.h" 1
+# 1 "LIB/STD_TYPES.h" 1
 
 
 
@@ -21,86 +21,94 @@ typedef signed long long sint64;
 
 typedef float float32;
 typedef double float64;
-# 23 "./LIB/STD_TYPES.h"
+# 23 "LIB/STD_TYPES.h"
 typedef uint8 STD_ReturnType;
 # 5 "HAL/slots/slots.h" 2
-
+# 20 "HAL/slots/slots.h"
 STD_ReturnType SLOT_Init(void);
+
+
+
 STD_ReturnType SLOT_Poll(void);
-uint8 SLOT_CountFree(uint8 Copy_u8SlotMap);
-uint8 SLOT_IsOccupied(uint8 Copy_u8SlotMap, uint8 Copy_u8Index);
+
+
 uint8 SLOT_GetMap(void);
+
+
+
+uint8 SLOT_CountFree(void);
 # 2 "HAL/slots/slots.c" 2
-# 1 "./MCAL/dio/dio_interface.h" 1
-
-
-
-# 1 "LIB/STD_TYPES.h" 1
-# 5 "./MCAL/dio/dio_interface.h" 2
-# 27 "./MCAL/dio/dio_interface.h"
+# 1 "APP/config.h" 1
+# 3 "HAL/slots/slots.c" 2
+# 1 "MCAL/dio/dio_interface.h" 1
+# 27 "MCAL/dio/dio_interface.h"
 STD_ReturnType DIO_Init(uint8 Copy_u8Port, uint8 Copy_u8Pin, uint8 Copy_u8Direction);
 STD_ReturnType DIO_WritePin(uint8 Copy_u8Port, uint8 Copy_u8Pin, uint8 Copy_u8Value);
 STD_ReturnType DIO_ReadPin(uint8 Copy_u8Port, uint8 Copy_u8Pin, uint8 *Copy_pu8Value);
 STD_ReturnType DIO_WritePort(uint8 Copy_u8Port, uint8 Copy_u8Value);
 STD_ReturnType DIO_ReadPort(uint8 Copy_u8Port, uint8 *Copy_pu8Value);
 STD_ReturnType DIO_TogglePin(uint8 Copy_u8Port, uint8 Copy_u8Pin);
-# 3 "HAL/slots/slots.c" 2
+# 4 "HAL/slots/slots.c" 2
+# 13 "HAL/slots/slots.c"
+static uint8 SLOT_u8PublishedMap = 0u;
+static uint8 SLOT_u8Candidate = 0u;
+static uint8 SLOT_u8SampleCount = 0u;
 
-
-
-
-
-static uint8 g_slotMap = 0u;
-static uint8 g_lastRawMap = 0u;
-static uint8 g_stableCount = 0u;
+static uint8 SLOT_Popcount6(uint8 Copy_u8Map);
 
 STD_ReturnType SLOT_Init(void)
 {
-    g_slotMap = 0u;
-    g_lastRawMap = 0u;
-    g_stableCount = 0u;
+    uint8 Local_u8Index;
 
-    for (uint8 pin = 2u; pin <= 7u; pin++)
+    for (Local_u8Index = 0u; Local_u8Index < 6u; Local_u8Index++)
     {
-        if (DIO_Init(2u, pin, 2u) != 0u)
+        if (DIO_Init(2u,
+                     (uint8)(2u + Local_u8Index),
+                     2u) != 0u)
         {
             return 1u;
         }
     }
 
+    SLOT_u8PublishedMap = 0u;
+    SLOT_u8Candidate = 0u;
+    SLOT_u8SampleCount = 0u;
     return 0u;
 }
+
 STD_ReturnType SLOT_Poll(void)
 {
-    uint8 portValue;
-    uint8 rawMap;
+    uint8 Local_u8Port = 0u;
+    uint8 Local_u8Raw;
 
 
 
-
-
-
-
-    (void)DIO_ReadPort(2u, &portValue);
-
-   rawMap = (uint8)((~portValue >> 2u) & 0x3Fu);
-
-    if (rawMap == g_lastRawMap)
+    if (DIO_ReadPort((2u), (&Local_u8Port)) != 0u)
     {
-        if (g_stableCount < 1u)
-        {
-            g_stableCount++;
-        }
+        return 1u;
+    }
 
-        if (g_stableCount >= 1u)
+    Local_u8Raw = (uint8)((uint8)(~Local_u8Port & 0xFCu) >> 2u);
+    Local_u8Raw &= 0x3Fu;
+
+    if (Local_u8Raw != SLOT_u8Candidate)
+    {
+
+        SLOT_u8Candidate = Local_u8Raw;
+        SLOT_u8SampleCount = 1u;
+    }
+    else if (SLOT_u8SampleCount < 5u)
+    {
+        SLOT_u8SampleCount++;
+        if (SLOT_u8SampleCount >= 5u)
         {
-            g_slotMap = rawMap;
+
+            SLOT_u8PublishedMap = SLOT_u8Candidate;
         }
     }
     else
     {
-        g_lastRawMap = rawMap;
-        g_stableCount = 0u;
+
     }
 
     return 0u;
@@ -108,33 +116,19 @@ STD_ReturnType SLOT_Poll(void)
 
 uint8 SLOT_GetMap(void)
 {
-    return g_slotMap;
+    return SLOT_u8PublishedMap;
 }
 
-uint8 SLOT_CountFree(uint8 Copy_u8SlotMap)
+uint8 SLOT_CountFree(void)
 {
-    Copy_u8SlotMap &= 0x3Fu;
-
-    Copy_u8SlotMap =
-        (uint8)(Copy_u8SlotMap - ((Copy_u8SlotMap >> 1) & 0x55u));
-
-    Copy_u8SlotMap =
-        (uint8)((Copy_u8SlotMap & 0x33u) +
-                ((Copy_u8SlotMap >> 2) & 0x33u));
-
-    Copy_u8SlotMap =
-        (uint8)((Copy_u8SlotMap +
-                (Copy_u8SlotMap >> 4)) & 0x0Fu);
-
-    return (uint8)(6u - Copy_u8SlotMap);
+    return (uint8)(6u - SLOT_Popcount6(SLOT_u8PublishedMap));
 }
 
-uint8 SLOT_IsOccupied(uint8 Copy_u8SlotMap, uint8 Copy_u8Index)
-{
-    if (Copy_u8Index >= 6u)
-    {
-        return 0u;
-    }
 
-    return (Copy_u8SlotMap & (uint8)(1u << Copy_u8Index)) ? 1u : 0u;
+static uint8 SLOT_Popcount6(uint8 Copy_u8Map)
+{
+    Copy_u8Map &= 0x3Fu;
+    Copy_u8Map = (uint8)(Copy_u8Map - ((Copy_u8Map >> 1) & 0x55u));
+    Copy_u8Map = (uint8)((Copy_u8Map & 0x33u) + ((Copy_u8Map >> 2) & 0x33u));
+    return (uint8)((Copy_u8Map + (Copy_u8Map >> 4)) & 0x0Fu);
 }
