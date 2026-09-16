@@ -54,14 +54,14 @@ STD_ReturnType PWM_Init(void)
                 (1u << 3u) |
                 (1u << 1u));
 
-    (*(volatile uint8 *)0x47) = (uint8)(19999u >> 8u);
-    (*(volatile uint8 *)0x46) = (uint8)(19999u & 0xFFu);
+   (*(volatile uint8 *)0x47) = (uint8)(19999u >> 8u);
+   (*(volatile uint8 *)0x46) = (uint8)(19999u & 0xFFu);
 
-    (*(volatile uint8 *)0x4B) = 0u;
-    (*(volatile uint8 *)0x4A) = 2000u;
+   (*(volatile uint8 *)0x4B) = (uint8)(1000u >> 8u);
+   (*(volatile uint8 *)0x4A) = (uint8)(1000u & 0xFFu);
 
-    (*(volatile uint8 *)0x49) = 0u;
-    (*(volatile uint8 *)0x48) = 1000u;
+   (*(volatile uint8 *)0x49) = (uint8)(1000u >> 8u);
+   (*(volatile uint8 *)0x48) = (uint8)(1000u & 0xFFu);
 
     return 0u;
 }

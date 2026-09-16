@@ -2,14 +2,33 @@
     "configurations": [
         {
             "name": "AVR",
-            "compilerPath": "C:/msys64/ucrt64/bin/avr-gcc.exe",
+            "compilerPath": "C:/avr-gcc/bin/avr-gcc.exe",
             "compilerArgs": [
                 "-mmcu=atmega32"
             ],
             "includePath": [
                 "${workspaceFolder}",
+                "${workspaceFolder}/APP",
+                "${workspaceFolder}/APP/lane",
+                "${workspaceFolder}/APP/lot",
+                "${workspaceFolder}/APP/scheduler",
+                "${workspaceFolder}/HAL",
+                "${workspaceFolder}/HAL/barrier",
+                "${workspaceFolder}/HAL/buttons",
+                "${workspaceFolder}/HAL/buzzer",
+                "${workspaceFolder}/HAL/lcd",
+                "${workspaceFolder}/HAL/slots",
                 "${workspaceFolder}/LIB",
-                "C:/msys64/ucrt64/avr/include"
+                "${workspaceFolder}/MCAL",
+                "${workspaceFolder}/MCAL/adc",
+                "${workspaceFolder}/MCAL/dio",
+                "${workspaceFolder}/MCAL/exti",
+                "${workspaceFolder}/MCAL/pwm",
+                "${workspaceFolder}/MCAL/timer",
+                "${workspaceFolder}/MCAL/tone",
+                "${workspaceFolder}/MCAL/usart",
+                "C:/avr-gcc/lib/gcc/avr/15.2.0/include",
+                "C:/avr-gcc/avr/include"
             ],
             "defines": [
                 "__AVR_ATmega32__"

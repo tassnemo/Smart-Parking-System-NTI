@@ -24,11 +24,11 @@ PWM_Init:
 	out 0x27,r24
 	ldi r24,lo8(31)
 	out 0x26,r24
-	out 0x2b,__zero_reg__
-	ldi r24,lo8(-48)
-	out 0x2a,r24
-	out 0x29,__zero_reg__
+	ldi r25,lo8(3)
+	out 0x2b,r25
 	ldi r24,lo8(-24)
+	out 0x2a,r24
+	out 0x29,r25
 	out 0x28,r24
 	ldi r24,0
 /* epilogue start */
