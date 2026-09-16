@@ -1,7 +1,5 @@
-build/main.s: main.c HAL/barrier/barrier.h LIB/STD_TYPES.h \
- MCAL/pwm/pwm_interface.h LIB/STD_TYPES.h APP/config.h
-HAL/barrier/barrier.h:
+build/main.s: main.c MCAL/i2c/i2c_interface.h LIB/STD_TYPES.h \
+ MCAL/usart/usart_interface.h
+MCAL/i2c/i2c_interface.h:
 LIB/STD_TYPES.h:
-MCAL/pwm/pwm_interface.h:
-LIB/STD_TYPES.h:
-APP/config.h:
+MCAL/usart/usart_interface.h:

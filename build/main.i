@@ -2,11 +2,11 @@
 # 0 "<built-in>"
 # 0 "<command-line>"
 # 1 "main.c"
-# 1 "HAL/barrier/barrier.h" 1
+# 1 "MCAL/i2c/i2c_interface.h" 1
 
 
 
-# 1 "./LIB/STD_TYPES.h" 1
+# 1 "LIB/STD_TYPES.h" 1
 
 
 
@@ -21,36 +21,39 @@ typedef signed long long sint64;
 
 typedef float float32;
 typedef double float64;
-# 23 "./LIB/STD_TYPES.h"
+# 23 "LIB/STD_TYPES.h"
 typedef uint8 STD_ReturnType;
-# 5 "HAL/barrier/barrier.h" 2
+# 5 "MCAL/i2c/i2c_interface.h" 2
 
-STD_ReturnType BAR_Init(uint8 Copy_u8Channel);
-STD_ReturnType BAR_Open(uint8 Copy_u8Channel);
-STD_ReturnType BAR_Close(uint8 Copy_u8Channel);
-STD_ReturnType BAR_IsMoving(uint8 Copy_u8Channel, uint8 *Copy_pu8Status);
+STD_ReturnType I2C_Init(void);
+STD_ReturnType I2C_Start(void);
+STD_ReturnType I2C_Stop(void);
+STD_ReturnType I2C_Write(uint8 Copy_u8Data);
+STD_ReturnType I2C_ReadAck(uint8 *Copy_pu8Data);
+STD_ReturnType I2C_ReadNack(uint8 *Copy_pu8Data);
 # 2 "main.c" 2
-# 1 "MCAL/pwm/pwm_interface.h" 1
-
-
-
-# 1 "LIB/STD_TYPES.h" 1
-# 5 "MCAL/pwm/pwm_interface.h" 2
-# 1 "APP/config.h" 1
-# 6 "MCAL/pwm/pwm_interface.h" 2
-# 22 "MCAL/pwm/pwm_interface.h"
-STD_ReturnType PWM_Init(void);
+# 1 "MCAL/usart/usart_interface.h" 1
 
 
 
 
 
+STD_ReturnType USART_Init(void);
 
+STD_ReturnType USART_SendByte(uint8 Copy_u8Data);
 
-STD_ReturnType PWM_SetPulse(uint8 Copy_u8Channel, uint16 Copy_u16PulseUs);
+STD_ReturnType USART_ReceiveByte(uint8 *Copy_pu8Data);
+
+STD_ReturnType USART_SendString(const uint8 *Copy_pu8String);
 # 3 "main.c" 2
-# 1 "C:/avr-gcc/avr/include/util/delay.h" 1 3
-# 49 "C:/avr-gcc/avr/include/util/delay.h" 3
+# 1 "C:/avr-gcc/avr/include/avr/interrupt.h" 1 3
+# 38 "C:/avr-gcc/avr/include/avr/interrupt.h" 3
+# 1 "C:/avr-gcc/avr/include/avr/io.h" 1 3
+# 99 "C:/avr-gcc/avr/include/avr/io.h" 3
+# 1 "C:/avr-gcc/avr/include/avr/sfr_defs.h" 1 3
+# 126 "C:/avr-gcc/avr/include/avr/sfr_defs.h" 3
+# 1 "C:/avr-gcc/avr/include/inttypes.h" 1 3
+# 37 "C:/avr-gcc/avr/include/inttypes.h" 3
 # 1 "C:/avr-gcc/lib/gcc/avr/15.2.0/include/stdint.h" 1 3 4
 # 9 "C:/avr-gcc/lib/gcc/avr/15.2.0/include/stdint.h" 3 4
 #pragma GCC diagnostic push
@@ -166,10 +169,7 @@ typedef int64_t intmax_t;
 typedef uint64_t uintmax_t;
 # 12 "C:/avr-gcc/lib/gcc/avr/15.2.0/include/stdint.h" 2 3 4
 #pragma GCC diagnostic pop
-# 50 "C:/avr-gcc/avr/include/util/delay.h" 2 3
-# 1 "C:/avr-gcc/avr/include/util/delay_basic.h" 1 3
-# 37 "C:/avr-gcc/avr/include/util/delay_basic.h" 3
-# 1 "C:/avr-gcc/avr/include/inttypes.h" 1 3
+# 38 "C:/avr-gcc/avr/include/inttypes.h" 2 3
 # 77 "C:/avr-gcc/avr/include/inttypes.h" 3
 typedef int32_t int_farptr_t;
 
@@ -178,104 +178,114 @@ typedef int32_t int_farptr_t;
 
 
 typedef uint32_t uint_farptr_t;
-# 38 "C:/avr-gcc/avr/include/util/delay_basic.h" 2 3
+# 127 "C:/avr-gcc/avr/include/avr/sfr_defs.h" 2 3
+# 100 "C:/avr-gcc/avr/include/avr/io.h" 2 3
+# 230 "C:/avr-gcc/avr/include/avr/io.h" 3
+# 1 "C:/avr-gcc/avr/include/avr/iom32.h" 1 3
+# 720 "C:/avr-gcc/avr/include/avr/iom32.h" 3
+       
+# 721 "C:/avr-gcc/avr/include/avr/iom32.h" 3
+
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+# 231 "C:/avr-gcc/avr/include/avr/io.h" 2 3
+# 785 "C:/avr-gcc/avr/include/avr/io.h" 3
+# 1 "C:/avr-gcc/avr/include/avr/portpins.h" 1 3
+# 786 "C:/avr-gcc/avr/include/avr/io.h" 2 3
+
+# 1 "C:/avr-gcc/avr/include/avr/common.h" 1 3
+# 788 "C:/avr-gcc/avr/include/avr/io.h" 2 3
+
+# 1 "C:/avr-gcc/avr/include/avr/version.h" 1 3
+# 790 "C:/avr-gcc/avr/include/avr/io.h" 2 3
 
 
-static __inline__ void _delay_loop_1(uint8_t __count) __attribute__((__always_inline__));
-static __inline__ void _delay_loop_2(uint16_t __count) __attribute__((__always_inline__));
-# 80 "C:/avr-gcc/avr/include/util/delay_basic.h" 3
-void
-_delay_loop_1(uint8_t __count)
+
+
+
+
+# 1 "C:/avr-gcc/avr/include/avr/fuse.h" 1 3
+# 248 "C:/avr-gcc/avr/include/avr/fuse.h" 3
+typedef struct
 {
- __asm__ volatile (
-  "1: dec %0" "\n\t"
-  "brne 1b"
-  : "=r" (__count)
-  : "0" (__count)
- );
-}
-# 102 "C:/avr-gcc/avr/include/util/delay_basic.h" 3
-void
-_delay_loop_2(uint16_t __count)
-{
-# 113 "C:/avr-gcc/avr/include/util/delay_basic.h" 3
- __asm__ volatile (
-  "1: sbiw %0,1" "\n\t"
-  "brne 1b"
-  : "+w" (__count)
- );
-
-}
-# 51 "C:/avr-gcc/avr/include/util/delay.h" 2 3
-# 151 "C:/avr-gcc/avr/include/util/delay.h" 3
-static __inline__ __attribute__((__always_inline__)) void _delay_ms(double __ms);
-
-void
-_delay_ms(double __ms)
-{
- double __tmp ;
+    unsigned char low;
+    unsigned char high;
+} __fuse_t;
+# 797 "C:/avr-gcc/avr/include/avr/io.h" 2 3
 
 
- uint32_t __ticks_dc;
- extern void __builtin_avr_delay_cycles(uint32_t);
- __tmp = ((
-# 161 "C:/avr-gcc/avr/include/util/delay.h"
-          8000000UL
-# 161 "C:/avr-gcc/avr/include/util/delay.h" 3
-               ) / 1e3) * __ms;
-# 171 "C:/avr-gcc/avr/include/util/delay.h" 3
-  __ticks_dc = (uint32_t)(__builtin_ceil(__builtin_fabs(__tmp)));
-
-
- __builtin_avr_delay_cycles(__ticks_dc);
-# 197 "C:/avr-gcc/avr/include/util/delay.h" 3
-}
-# 234 "C:/avr-gcc/avr/include/util/delay.h" 3
-static __inline__ __attribute__((__always_inline__)) void _delay_us(double __us);
-
-void
-_delay_us(double __us)
-{
- double __tmp ;
-
-
- uint32_t __ticks_dc;
- extern void __builtin_avr_delay_cycles(uint32_t);
- __tmp = ((
-# 244 "C:/avr-gcc/avr/include/util/delay.h"
-          8000000UL
-# 244 "C:/avr-gcc/avr/include/util/delay.h" 3
-               ) / 1e6) * __us;
-# 254 "C:/avr-gcc/avr/include/util/delay.h" 3
-  __ticks_dc = (uint32_t)(__builtin_ceil(__builtin_fabs(__tmp)));
-
-
- __builtin_avr_delay_cycles(__ticks_dc);
-# 281 "C:/avr-gcc/avr/include/util/delay.h" 3
-}
+# 1 "C:/avr-gcc/avr/include/avr/lock.h" 1 3
+# 800 "C:/avr-gcc/avr/include/avr/io.h" 2 3
+# 39 "C:/avr-gcc/avr/include/avr/interrupt.h" 2 3
 # 4 "main.c" 2
 
 
 # 5 "main.c"
 int main(void)
 {
-    PWM_Init();
-    BAR_Init(0u);
-    BAR_Init(1u);
+    uint8 result;
+
+    USART_Init();
+    
+# 10 "main.c" 3
+   __asm__ __volatile__ ("sei" ::: "memory")
+# 10 "main.c"
+        ;
+
+    USART_SendString((const uint8 *)"I2C TEST START\r\n");
+
+    if (I2C_Init() != 0u)
+    {
+        USART_SendString((const uint8 *)"I2C INIT FAILED\r\n");
+    }
+
+    result = I2C_Start();
+
+    if (result == 0u)
+    {
+        USART_SendString((const uint8 *)"I2C START OK\r\n");
+
+        result = I2C_Write(0x40u);
+
+        if (result == 0u)
+        {
+            USART_SendString((const uint8 *)"I2C DEVICE ACK\r\n");
+        }
+        else
+        {
+            USART_SendString((const uint8 *)"I2C DEVICE NACK\r\n");
+        }
+
+        I2C_Stop();
+    }
+    else
+    {
+        USART_SendString((const uint8 *)"I2C START FAILED\r\n");
+    }
 
     while (1)
     {
-        BAR_Open(0u);
-        _delay_ms(2000);
-
-        BAR_Close(0u);
-        _delay_ms(2000);
-
-        BAR_Open(1u);
-        _delay_ms(2000);
-
-        BAR_Close(1u);
-        _delay_ms(2000);
     }
 
     return 0;

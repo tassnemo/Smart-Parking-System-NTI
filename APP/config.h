@@ -108,6 +108,12 @@
 #define SHIFTREG_RCLK_PIN           4u
 
 /* =========================
+ * I2C / TWI
+ * ========================= */
+#define I2C_SCL_FREQUENCY           100000UL
+#define I2C_TIMEOUT                 65535u
+
+/* =========================
  * Buttons
  * ========================= */
 #define BTN_EXIT_PIN                2u
