@@ -57,7 +57,7 @@
 | `display.h/c` | DISPLAY_Task | scheduler.h never lists specific tasks by design. It's generic — it only knows about a function pointer type (SCHED_TaskFunc) and a registration call (SCHED_RegisterTask). It doesn't hardcode DISPLAY_Task, LOT_Run, or anything else by name. That's intentional and correct | Sept 16 | Tasneem | x |
 | `loopsense.c/h` |  | to do the actual logic and specifc reading| Sept 16 | Tasneem | x |
 | `light.c/h` |  | for the lighting module reading | Sept 16 | Tasneem | x |
-| `main.c` | Init sequence, `sei()`, super-loop calling `SCHED_Tick()` | — | — |  |  |
+| `main.c` | Init sequence, `sei()`, super-loop calling `SCHED_Tick()` | — | — | Tasneem | x |
 
 
 

@@ -1,7 +1,7 @@
 #include "light.h"
 #include "config.h"
 #include "adc_interface.h"
-#include "console.h"
+#include "APP/console/console.h"
 
 static uint8 g_u8LampsOn = 0u;
 
@@ -25,7 +25,7 @@ STD_ReturnType LIGHT_Run(void)
         return E_NOK;
     }
 
-    Local_u8Threshold = CONSOLE_GetLightThreshold();
+    Local_u8Threshold = CONSOLE_GetLightThresh();
 
     /* ON threshold */
     Local_u16OnThreshold =

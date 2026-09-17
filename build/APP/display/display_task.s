@@ -44,7 +44,8 @@ DISPLAY_Task:
 	std Y+18,r24
 	call LOT_GetOccupied
 	std Y+20,r24
-	ldi r22,0
+	call LIGHT_GetState
+	mov r22,r24
 	ldd r24,Y+19
 	call LED_Update
 	ldd r24,Y+18

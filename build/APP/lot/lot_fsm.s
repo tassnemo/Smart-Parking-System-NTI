@@ -19,6 +19,7 @@ LOT_Init:
 	ldi r24,lo8(6)
 	sts g_u8FreeSlots,r24
 	sts g_u8OccupiedSlots,__zero_reg__
+	sts g_u8PeakOccupancy,__zero_reg__
 /* epilogue start */
 	ret
 	.size	LOT_Init, .-LOT_Init
@@ -34,7 +35,7 @@ LOT_Run:
 	cp r24, __zero_reg__
 	breq .L3
 	ldi r24,lo8(4)
-.L6:
+.L7:
 	sts g_LotState,r24
 	sts g_LotState+1,__zero_reg__
 .L2:
@@ -62,6 +63,11 @@ LOT_Run:
 	ldi r25,lo8(6)
 	sub r25,r24
 	sts g_u8FreeSlots,r25
+	lds r25,g_u8PeakOccupancy
+	cp r25,r24
+	brsh .L5
+	sts g_u8PeakOccupancy,r24
+.L5:
 	lds r18,g_LotState
 	lds r19,g_LotState+1
 	subi r18,3
@@ -70,12 +76,12 @@ LOT_Run:
 	cpc r19,__zero_reg__
 	brlo .L2
 	cpi r24,lo8(6)
-	brne .L5
+	brne .L6
 	ldi r24,lo8(2)
-	rjmp .L6
-.L5:
+	rjmp .L7
+.L6:
 	ldi r24,lo8(1)
-	rjmp .L6
+	rjmp .L7
 	.size	LOT_Run, .-LOT_Run
 	.section	.text.LOT_GetMap,"ax",@progbits
 .global	LOT_GetMap
@@ -137,14 +143,14 @@ LOT_CanAuthoriseEntry:
 	lds r24,g_LotState
 	lds r25,g_LotState+1
 	sbiw r24,1
-	brne .L14
+	brne .L15
 	ldi r24,lo8(1)
 	lds r25,g_u8FreeSlots
 	cpse r25,__zero_reg__
-	rjmp .L12
-.L14:
+	rjmp .L13
+.L15:
 	ldi r24,0
-.L12:
+.L13:
 /* epilogue start */
 	ret
 	.size	LOT_CanAuthoriseEntry, .-LOT_CanAuthoriseEntry
@@ -157,22 +163,22 @@ LOT_SetMaintenance:
 /* stack size = 0 */
 .L__stack_usage = 0
 	cpse r24,__zero_reg__
-	rjmp .L18
+	rjmp .L19
 	lds r24,g_u8FreeSlots
 	cpse r24,__zero_reg__
-	rjmp .L19
+	rjmp .L20
 	ldi r24,lo8(2)
-.L16:
+.L17:
 	sts g_LotState,r24
 	sts g_LotState+1,__zero_reg__
 /* epilogue start */
 	ret
-.L19:
+.L20:
 	ldi r24,lo8(1)
-	rjmp .L16
-.L18:
+	rjmp .L17
+.L19:
 	ldi r24,lo8(3)
-	rjmp .L16
+	rjmp .L17
 	.size	LOT_SetMaintenance, .-LOT_SetMaintenance
 	.section	.text.LOT_SetFault,"ax",@progbits
 .global	LOT_SetFault
@@ -183,23 +189,40 @@ LOT_SetFault:
 /* stack size = 0 */
 .L__stack_usage = 0
 	cpse r24,__zero_reg__
-	rjmp .L23
+	rjmp .L24
 	lds r24,g_u8FreeSlots
 	cpse r24,__zero_reg__
-	rjmp .L24
+	rjmp .L25
 	ldi r24,lo8(2)
-.L21:
+.L22:
 	sts g_LotState,r24
 	sts g_LotState+1,__zero_reg__
 /* epilogue start */
 	ret
-.L24:
+.L25:
 	ldi r24,lo8(1)
-	rjmp .L21
-.L23:
+	rjmp .L22
+.L24:
 	ldi r24,lo8(4)
-	rjmp .L21
+	rjmp .L22
 	.size	LOT_SetFault, .-LOT_SetFault
+	.section	.text.LOT_GetPeakOccupancy,"ax",@progbits
+.global	LOT_GetPeakOccupancy
+	.type	LOT_GetPeakOccupancy, @function
+LOT_GetPeakOccupancy:
+/* prologue: function */
+/* frame size = 0 */
+/* stack size = 0 */
+.L__stack_usage = 0
+	lds r24,g_u8PeakOccupancy
+/* epilogue start */
+	ret
+	.size	LOT_GetPeakOccupancy, .-LOT_GetPeakOccupancy
+	.section	.bss.g_u8PeakOccupancy,"aw",@nobits
+	.type	g_u8PeakOccupancy, @object
+	.size	g_u8PeakOccupancy, 1
+g_u8PeakOccupancy:
+	.zero	1
 	.section	.bss.g_u8OccupiedSlots,"aw",@nobits
 	.type	g_u8OccupiedSlots, @object
 	.size	g_u8OccupiedSlots, 1

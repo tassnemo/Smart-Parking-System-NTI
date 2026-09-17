@@ -61,6 +61,8 @@ uint8 TKT_GetOpenCount(void);
 
 uint16 TKT_GetNextId(void);
 uint16 TKT_GetTotalEntries(void);
+void TKT_PrintOpenTickets(void);
+void TKT_ClearStats(void);
 # 2 "APP/ticketing/ticketing.c" 2
 # 1 "LIB/softrtc.h" 1
 
@@ -89,13 +91,7 @@ STD_ReturnType USART_ReceiveByte(uint8 *Copy_pu8Data);
 
 STD_ReturnType USART_SendString(const uint8 *Copy_pu8String);
 # 4 "APP/ticketing/ticketing.c" 2
-
-
-
-
-
-
-
+# 12 "APP/ticketing/ticketing.c"
 extern uint8 LOT_GetFree(void);
 extern uint8 SLOT_GetMap(void);
 
@@ -304,4 +300,75 @@ static void TKT_PrintEntryFrame(const Ticket_t *Copy_pTkt, uint8 Copy_u8Free)
     (void)USART_SendString((const uint8 *)"\r\nFREE  : ");
     (void)USART_SendByte((uint8)('0' + Copy_u8Free));
     (void)USART_SendString((const uint8 *)"\r\n======================\r\n");
+}
+# 240 "APP/ticketing/ticketing.c"
+static void TKT_AppendUint32(char *Copy_pcBuf, uint8 *Copy_pu8Pos, uint32 Copy_u32Value)
+{
+    char Local_acTmp[10];
+    uint8 Local_u8Count = 0u;
+    uint8 Local_u8i;
+
+    if (Copy_u32Value == 0u)
+    {
+        Copy_pcBuf[*Copy_pu8Pos] = '0';
+        (*Copy_pu8Pos)++;
+        return;
+    }
+
+    while (Copy_u32Value > 0u)
+    {
+        Local_acTmp[Local_u8Count] = (char)('0' + (Copy_u32Value % 10u));
+        Local_u8Count++;
+        Copy_u32Value /= 10u;
+    }
+
+    for (Local_u8i = Local_u8Count; Local_u8i > 0u; Local_u8i--)
+    {
+        Copy_pcBuf[*Copy_pu8Pos] = Local_acTmp[Local_u8i - 1u];
+        (*Copy_pu8Pos)++;
+    }
+}
+
+
+void TKT_PrintOpenTickets(void)
+{
+    char Local_acLine[24];
+    uint8 Local_u8Pos;
+    uint8 Local_u8i;
+
+    for (Local_u8i = 0u; Local_u8i < 6u; Local_u8i++)
+    {
+        if (g_atTickets[Local_u8i].active == 0u)
+        {
+            continue;
+        }
+
+        Local_u8Pos = 0u;
+        Local_acLine[Local_u8Pos++] = 'T';
+        Local_acLine[Local_u8Pos++] = 'K';
+        Local_acLine[Local_u8Pos++] = 'T';
+        Local_acLine[Local_u8Pos++] = ',';
+
+        TKT_AppendUint32(Local_acLine, &Local_u8Pos, (uint32)g_atTickets[Local_u8i].id);
+        Local_acLine[Local_u8Pos++] = ',';
+
+        TKT_AppendUint32(Local_acLine, &Local_u8Pos, g_atTickets[Local_u8i].entrySec);
+        Local_acLine[Local_u8Pos++] = ',';
+
+        TKT_AppendUint32(Local_acLine, &Local_u8Pos, (uint32)g_atTickets[Local_u8i].slotHint);
+
+        Local_acLine[Local_u8Pos++] = '\r';
+        Local_acLine[Local_u8Pos++] = '\n';
+        Local_acLine[Local_u8Pos] = '\0';
+
+        (void)USART_SendString((const uint8 *)Local_acLine);
+    }
+}
+
+
+
+
+void TKT_ClearStats(void)
+{
+    g_u16TotalEntries = 0u;
 }

@@ -107,6 +107,7 @@ uint8 LOT_CanAuthoriseEntry(void);
 
 void LOT_SetMaintenance(uint8 Copy_u8Enabled);
 void LOT_SetFault(uint8 Copy_u8Enabled);
+uint8 LOT_GetPeakOccupancy(void);
 # 5 "APP/telemetry/telemetry.c" 2
 # 1 "./MCAL/usart/usart_interface.h" 1
 
@@ -122,110 +123,8 @@ STD_ReturnType USART_ReceiveByte(uint8 *Copy_pu8Data);
 
 STD_ReturnType USART_SendString(const uint8 *Copy_pu8String);
 # 6 "APP/telemetry/telemetry.c" 2
-# 1 "C:/avr-gcc/avr/include/string.h" 1 3
-# 46 "C:/avr-gcc/avr/include/string.h" 3
-# 1 "C:/avr-gcc/lib/gcc/avr/15.2.0/include/stddef.h" 1 3 4
-# 229 "C:/avr-gcc/lib/gcc/avr/15.2.0/include/stddef.h" 3 4
-
-# 229 "C:/avr-gcc/lib/gcc/avr/15.2.0/include/stddef.h" 3 4
-typedef unsigned int size_t;
-# 47 "C:/avr-gcc/avr/include/string.h" 2 3
-# 125 "C:/avr-gcc/avr/include/string.h" 3
-extern int ffs(int __val) __attribute__((__const__));
 
 
-
-
-
-extern int ffsl(long __val) __attribute__((__const__));
-
-
-
-
-
-__extension__ extern int ffsll(long long __val) __attribute__((__const__));
-# 150 "C:/avr-gcc/avr/include/string.h" 3
-extern void *memccpy(void *, const void *, int, size_t);
-# 162 "C:/avr-gcc/avr/include/string.h" 3
-extern void *memchr(const void *, int, size_t) __attribute__((__pure__));
-# 180 "C:/avr-gcc/avr/include/string.h" 3
-extern int memcmp(const void *, const void *, size_t) __attribute__((__pure__));
-# 191 "C:/avr-gcc/avr/include/string.h" 3
-extern void *memcpy(void *, const void *, size_t);
-# 203 "C:/avr-gcc/avr/include/string.h" 3
-extern void *memmem(const void *, size_t, const void *, size_t) __attribute__((__pure__));
-# 213 "C:/avr-gcc/avr/include/string.h" 3
-extern void *memmove(void *, const void *, size_t);
-# 225 "C:/avr-gcc/avr/include/string.h" 3
-extern void *memrchr(const void *, int, size_t) __attribute__((__pure__));
-# 235 "C:/avr-gcc/avr/include/string.h" 3
-extern void *memset(void *, int, size_t);
-# 248 "C:/avr-gcc/avr/include/string.h" 3
-extern char *strcat(char *, const char *);
-# 260 "C:/avr-gcc/avr/include/string.h" 3
-extern char *strchr(const char *, int) __attribute__((__pure__));
-# 272 "C:/avr-gcc/avr/include/string.h" 3
-extern char *strchrnul(const char *, int) __attribute__((__pure__));
-# 285 "C:/avr-gcc/avr/include/string.h" 3
-extern int strcmp(const char *, const char *) __attribute__((__pure__));
-# 303 "C:/avr-gcc/avr/include/string.h" 3
-extern char *strcpy(char *, const char *);
-# 318 "C:/avr-gcc/avr/include/string.h" 3
-extern int strcasecmp(const char *, const char *) __attribute__((__pure__));
-# 331 "C:/avr-gcc/avr/include/string.h" 3
-extern char *strcasestr(const char *, const char *) __attribute__((__pure__));
-# 342 "C:/avr-gcc/avr/include/string.h" 3
-extern size_t strcspn(const char *__s, const char *__reject) __attribute__((__pure__));
-# 362 "C:/avr-gcc/avr/include/string.h" 3
-extern char *strdup(const char *s1);
-# 378 "C:/avr-gcc/avr/include/string.h" 3
-extern char *strndup(const char *s, size_t n);
-# 391 "C:/avr-gcc/avr/include/string.h" 3
-extern size_t strlcat(char *, const char *, size_t);
-# 402 "C:/avr-gcc/avr/include/string.h" 3
-extern size_t strlcpy(char *, const char *, size_t);
-# 413 "C:/avr-gcc/avr/include/string.h" 3
-extern size_t strlen(const char *) __attribute__((__pure__));
-# 425 "C:/avr-gcc/avr/include/string.h" 3
-extern char *strlwr(char *);
-# 436 "C:/avr-gcc/avr/include/string.h" 3
-extern char *strncat(char *, const char *, size_t);
-# 448 "C:/avr-gcc/avr/include/string.h" 3
-extern int strncmp(const char *, const char *, size_t) __attribute__((__pure__));
-# 463 "C:/avr-gcc/avr/include/string.h" 3
-extern char *strncpy(char *, const char *, size_t);
-# 478 "C:/avr-gcc/avr/include/string.h" 3
-extern int strncasecmp(const char *, const char *, size_t) __attribute__((__pure__));
-# 492 "C:/avr-gcc/avr/include/string.h" 3
-extern size_t strnlen(const char *, size_t) __attribute__((__pure__));
-# 505 "C:/avr-gcc/avr/include/string.h" 3
-extern char *strpbrk(const char *__s, const char *__accept) __attribute__((__pure__));
-# 519 "C:/avr-gcc/avr/include/string.h" 3
-extern char *strrchr(const char *, int) __attribute__((__pure__));
-# 529 "C:/avr-gcc/avr/include/string.h" 3
-extern char *strrev(char *);
-# 547 "C:/avr-gcc/avr/include/string.h" 3
-extern char *strsep(char **, const char *);
-# 558 "C:/avr-gcc/avr/include/string.h" 3
-extern size_t strspn(const char *__s, const char *__accept) __attribute__((__pure__));
-# 571 "C:/avr-gcc/avr/include/string.h" 3
-extern char *strstr(const char *, const char *) __attribute__((__pure__));
-# 590 "C:/avr-gcc/avr/include/string.h" 3
-extern char *strtok(char *, const char *);
-# 607 "C:/avr-gcc/avr/include/string.h" 3
-extern char *strtok_r(char *, const char *, char **);
-# 620 "C:/avr-gcc/avr/include/string.h" 3
-extern char *strupr(char *);
-
-
-
-extern int strcoll(const char *s1, const char *s2);
-extern char *strerror(int errnum);
-extern size_t strxfrm(char *dest, const char *src, size_t n);
-# 7 "APP/telemetry/telemetry.c" 2
-# 15 "APP/telemetry/telemetry.c"
-
-# 15 "APP/telemetry/telemetry.c"
 extern uint8 SLOT_GetMap(void);
 extern uint16 TKT_GetTotalEntries(void);
 extern uint16 BIL_GetTotalExits(void);
@@ -240,14 +139,39 @@ static const char *const TELEM_LaneStateNames[] =
 };
 
 
+
 static const char *const TELEM_ModeNames[] =
 {
     "INIT", "OPER", "FULL", "MAINT", "FAULT"
 };
 
+
 static uint8 TELEM_AppendUint(char *buf, uint8 pos, uint32 value);
 static uint8 TELEM_AppendHexByte(char *buf, uint8 pos, uint8 value);
 static uint8 TELEM_AppendStr(char *buf, uint8 pos, const char *str);
+
+
+static const char *TELEM_LaneStateName(LaneState_t state)
+{
+    uint8 Local_u8Idx = (uint8)state;
+
+    if (Local_u8Idx >= (uint8)(sizeof(TELEM_LaneStateNames) / sizeof(TELEM_LaneStateNames[0])))
+    {
+        return "?";
+    }
+    return TELEM_LaneStateNames[Local_u8Idx];
+}
+
+static const char *TELEM_ModeName(LotState_t state)
+{
+    uint8 Local_u8Idx = (uint8)state;
+
+    if (Local_u8Idx >= (uint8)(sizeof(TELEM_ModeNames) / sizeof(TELEM_ModeNames[0])))
+    {
+        return "?";
+    }
+    return TELEM_ModeNames[Local_u8Idx];
+}
 
 STD_ReturnType TELEM_BuildFrame(char *Copy_pu8Buf)
 {
@@ -256,11 +180,7 @@ STD_ReturnType TELEM_BuildFrame(char *Copy_pu8Buf)
     uint8 Local_u8ChecksumEnd;
     uint8 Local_u8Checksum;
 
-    if (Copy_pu8Buf == 
-# 45 "APP/telemetry/telemetry.c" 3 4
-                      ((void *)0)
-# 45 "APP/telemetry/telemetry.c"
-                          )
+    if (Copy_pu8Buf == ((void *)0))
     {
         return 1u;
     }
@@ -277,11 +197,11 @@ STD_ReturnType TELEM_BuildFrame(char *Copy_pu8Buf)
 
     Local_u8Pos = TELEM_AppendStr(Copy_pu8Buf, Local_u8Pos, ",IN=");
     Local_u8Pos = TELEM_AppendStr(Copy_pu8Buf, Local_u8Pos,
-                                   TELEM_LaneStateNames[LANE_GetState(&g_entryLane)]);
+                                  TELEM_LaneStateName(LANE_GetState(&g_entryLane)));
 
     Local_u8Pos = TELEM_AppendStr(Copy_pu8Buf, Local_u8Pos, ",OUT=");
     Local_u8Pos = TELEM_AppendStr(Copy_pu8Buf, Local_u8Pos,
-                                   TELEM_LaneStateNames[LANE_GetState(&g_exitLane)]);
+                                  TELEM_LaneStateName(LANE_GetState(&g_exitLane)));
 
     Local_u8Pos = TELEM_AppendStr(Copy_pu8Buf, Local_u8Pos, ",T=");
     Local_u8Pos = TELEM_AppendUint(Copy_pu8Buf, Local_u8Pos, TKT_GetTotalEntries());
@@ -293,7 +213,8 @@ STD_ReturnType TELEM_BuildFrame(char *Copy_pu8Buf)
     Local_u8Pos = TELEM_AppendUint(Copy_pu8Buf, Local_u8Pos, BIL_GetTotalRevenue());
 
     Local_u8Pos = TELEM_AppendStr(Copy_pu8Buf, Local_u8Pos, ",MODE=");
-    Local_u8Pos = TELEM_AppendStr(Copy_pu8Buf, Local_u8Pos, TELEM_ModeNames[(uint8)LOT_GetState()]);
+    Local_u8Pos = TELEM_AppendStr(Copy_pu8Buf, Local_u8Pos,
+                                  TELEM_ModeName(LOT_GetState()));
 
     Local_u8Pos = TELEM_AppendStr(Copy_pu8Buf, Local_u8Pos, ",UP=");
     Local_u8Pos = TELEM_AppendUint(Copy_pu8Buf, Local_u8Pos, RTC_Seconds());
@@ -307,6 +228,8 @@ STD_ReturnType TELEM_BuildFrame(char *Copy_pu8Buf)
     Local_u8Pos = TELEM_AppendHexByte(Copy_pu8Buf, Local_u8Pos, Local_u8Checksum);
     Local_u8Pos = TELEM_AppendStr(Copy_pu8Buf, Local_u8Pos, "\r\n");
 
+
+
     Copy_pu8Buf[Local_u8Pos] = '\0';
 
     return 0u;
@@ -314,21 +237,24 @@ STD_ReturnType TELEM_BuildFrame(char *Copy_pu8Buf)
 
 STD_ReturnType TELEM_Send(void)
 {
-    char Local_acFrame[64u];
+    char Local_acFrame[112u];
 
     if (TELEM_BuildFrame(Local_acFrame) != 0u)
     {
         return 1u;
     }
 
-return USART_SendString((const uint8 *)Local_acFrame);
+    return USART_SendString((const uint8 *)Local_acFrame);
 }
+
+
+
 
 
 
 static uint8 TELEM_AppendStr(char *buf, uint8 pos, const char *str)
 {
-    while (*str != '\0')
+    while ((*str != '\0') && (pos < (uint8)(112u - 1u)))
     {
         buf[pos] = *str;
         pos++;
@@ -345,11 +271,15 @@ static uint8 TELEM_AppendUint(char *buf, uint8 pos, uint32 value)
 
     if (value == 0u)
     {
-        buf[pos] = '0';
-        return (uint8)(pos + 1u);
+        if (pos < (uint8)(112u - 1u))
+        {
+            buf[pos] = '0';
+            pos++;
+        }
+        return pos;
     }
 
-    while (value > 0u)
+    while ((value > 0u) && (Local_u8Count < (uint8)sizeof(Local_acDigits)))
     {
         Local_acDigits[Local_u8Count] = (char)('0' + (value % 10u));
         value /= 10u;
@@ -358,6 +288,10 @@ static uint8 TELEM_AppendUint(char *buf, uint8 pos, uint32 value)
 
     for (Local_u8i = Local_u8Count; Local_u8i > 0u; Local_u8i--)
     {
+        if (pos >= (uint8)(112u - 1u))
+        {
+            break;
+        }
         buf[pos] = Local_acDigits[Local_u8i - 1u];
         pos++;
     }
@@ -369,8 +303,11 @@ static uint8 TELEM_AppendHexByte(char *buf, uint8 pos, uint8 value)
 {
     static const char Local_acHex[] = "0123456789ABCDEF";
 
-    buf[pos] = Local_acHex[(value >> 4u) & 0x0Fu];
-    buf[pos + 1u] = Local_acHex[value & 0x0Fu];
-
-    return (uint8)(pos + 2u);
+    if (pos < (uint8)(112u - 2u))
+    {
+        buf[pos] = Local_acHex[(value >> 4u) & 0x0Fu];
+        buf[pos + 1u] = Local_acHex[value & 0x0Fu];
+        pos = (uint8)(pos + 2u);
+    }
+    return pos;
 }

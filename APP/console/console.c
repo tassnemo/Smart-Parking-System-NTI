@@ -453,7 +453,7 @@ STD_ReturnType CONSOLE_ParseLine(const char *Copy_pcLine)
     }
 
     Local_u8Len = (uint8)strlen(Copy_pcLine);
-    if (Local_u8Len > CONSOLE_MAX_LINE_LEN)
+    if (Local_u8Len > CONSOLE_MAX_LINE)
     {
         CONSOLE_SendLine("ERR LONG");
         return E_OK;

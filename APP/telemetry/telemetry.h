@@ -12,7 +12,7 @@
  * the same XOR logic isn't duplicated against ParkCfg_t's checksum.
  */
 
-#define TELEM_FRAME_MAX_LEN  64u   /* generous headroom over the example frame */
+#define TELEM_FRAME_MAX_LEN  112u   /* generous headroom over the example frame */
 
 /*
  * Description : Build the full frame (including $, checksum, * and \r\n)

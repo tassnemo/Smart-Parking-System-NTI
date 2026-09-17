@@ -61,6 +61,7 @@ uint8 LOT_CanAuthoriseEntry(void);
 
 void LOT_SetMaintenance(uint8 Copy_u8Enabled);
 void LOT_SetFault(uint8 Copy_u8Enabled);
+uint8 LOT_GetPeakOccupancy(void);
 # 4 "APP/display/display_task.c" 2
 # 1 "./HAL/slotleds/slotleds.h" 1
 # 18 "./HAL/slotleds/slotleds.h"
@@ -103,10 +104,16 @@ void LCD_InvalidateShadow(void);
 
 STD_ReturnType LCD_DisplayOn(uint8 Copy_u8On);
 # 7 "APP/display/display_task.c" 2
+# 1 "./APP/light/light.h" 1
 
 
 
 
+
+STD_ReturnType LIGHT_Init(void);
+STD_ReturnType LIGHT_Run(void);
+uint8 LIGHT_GetState(void);
+# 8 "APP/display/display_task.c" 2
 
 
 
@@ -130,7 +137,7 @@ void DISPLAY_Task(void)
     uint8 Local_u8Occupied = LOT_GetOccupied();
 
 
-    (void)LED_Update(Local_u8Map, 0u);
+    LED_Update(Local_u8Map, LIGHT_GetState());
 
 
     (void)SEG_Show(Local_u8Free);

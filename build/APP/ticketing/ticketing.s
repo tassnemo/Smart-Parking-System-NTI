@@ -5,6 +5,123 @@ __SREG__ = 0x3f
 __tmp_reg__ = 0
 __zero_reg__ = 1
 	.text
+	.section	.text.TKT_AppendUint32,"ax",@progbits
+	.type	TKT_AppendUint32, @function
+TKT_AppendUint32:
+	push r7
+	push r8
+	push r9
+	push r10
+	push r11
+	push r12
+	push r13
+	push r14
+	push r15
+	push r16
+	push r17
+	push r28
+	push r29
+	in r28,__SP_L__
+	in r29,__SP_H__
+	sbiw r28,10
+	in __tmp_reg__,__SREG__
+	cli
+	out __SP_H__,r29
+	out __SREG__,__tmp_reg__
+	out __SP_L__,r28
+/* prologue: function */
+/* frame size = 10 */
+/* stack size = 23 */
+.L__stack_usage = 23
+	movw r10,r24
+	movw r16,r22
+	movw r12,r18
+	movw r14,r20
+	cp r12,__zero_reg__
+	cpc r13,__zero_reg__
+	cpc r14,__zero_reg__
+	cpc r15,__zero_reg__
+	brne .L6
+	movw r26,r22
+	ld r24,X
+	movw r30,r10
+	add r30,r24
+	adc r31,__zero_reg__
+	ldi r24,lo8(48)
+	st Z,r24
+	ld r24,X
+	subi r24,lo8(-(1))
+	st X,r24
+.L1:
+/* epilogue start */
+	adiw r28,10
+	in __tmp_reg__,__SREG__
+	cli
+	out __SP_H__,r29
+	out __SREG__,__tmp_reg__
+	out __SP_L__,r28
+	pop r29
+	pop r28
+	pop r17
+	pop r16
+	pop r15
+	pop r14
+	pop r13
+	pop r12
+	pop r11
+	pop r10
+	pop r9
+	pop r8
+	pop r7
+	ret
+.L6:
+	mov r7,__zero_reg__
+	movw r8,r28
+	ldi r27,-1
+	sub r8,r27
+	sbc r9,r27
+.L2:
+	movw r22,r12
+	movw r24,r14
+	ldi r18,lo8(10)
+	ldi r19,0
+	ldi r20,0
+	ldi r21,0
+	call __udivmodsi4
+	movw r30,r8
+	add r30,r7
+	adc r31,__zero_reg__
+	subi r22,lo8(-(48))
+	st Z,r22
+	inc r7
+	movw r24,r12
+	movw r26,r14
+	movw r12,r18
+	movw r14,r20
+	sbiw r24,10
+	cpc r26,__zero_reg__
+	cpc r27,__zero_reg__
+	brsh .L2
+	movw r30,r8
+	add r30,r7
+	adc r31,__zero_reg__
+.L4:
+	cp r8,r30
+	cpc r9,r31
+	breq .L1
+	movw r26,r16
+	ld r24,X
+	movw r26,r10
+	add r26,r24
+	adc r27,__zero_reg__
+	ld r24,-Z
+	st X,r24
+	movw r26,r16
+	ld r24,X
+	subi r24,lo8(-(1))
+	st X,r24
+	rjmp .L4
+	.size	TKT_AppendUint32, .-TKT_AppendUint32
 	.section	.text.TKT_Init,"ax",@progbits
 .global	TKT_Init
 	.type	TKT_Init, @function
@@ -15,7 +132,7 @@ TKT_Init:
 .L__stack_usage = 0
 	ldi r30,lo8(g_atTickets)
 	ldi r31,hi8(g_atTickets)
-.L2:
+.L9:
 	st Z,__zero_reg__
 	std Z+1,__zero_reg__
 	std Z+2,__zero_reg__
@@ -28,7 +145,7 @@ TKT_Init:
 	ldi r24,hi8(g_atTickets+48)
 	cpi r30,lo8(g_atTickets+48)
 	cpc r31,r24
-	brne .L2
+	brne .L9
 	ldi r24,lo8(1)
 	sts g_u16NextId,r24
 	sts g_u16NextId+1,__zero_reg__
@@ -75,16 +192,16 @@ TKT_OnEntryAuthorized:
 	ldi r30,lo8(g_atTickets)
 	ldi r31,hi8(g_atTickets)
 	ldi r16,0
-.L6:
+.L13:
 	ldd r15,Z+7
 	cp r15, __zero_reg__
 	brne .+2
-	rjmp .L5
+	rjmp .L12
 	subi r16,lo8(-(1))
 	adiw r30,8
 	cpi r16,lo8(6)
-	brne .L6
-.L4:
+	brne .L13
+.L11:
 /* epilogue start */
 	adiw r28,17
 	in __tmp_reg__,__SREG__
@@ -99,13 +216,13 @@ TKT_OnEntryAuthorized:
 	pop r15
 	pop r14
 	ret
-.L14:
+.L21:
 	subi r18,-1
 	sbci r19,-1
-.L8:
+.L15:
 	cpi r18,6
 	cpc r19,__zero_reg__
-	breq .L9
+	breq .L16
 	mov r20,r22
 	mov r0,r18
 	rjmp 2f
@@ -115,12 +232,12 @@ TKT_OnEntryAuthorized:
 	dec r0
 	brpl 1b
 	and r20,r24
-	brne .L14
-.L13:
+	brne .L21
+.L20:
 	clr r15
 	inc r15
 	add r15,r18
-.L9:
+.L16:
 	movw r30,r16
 	subi r30,lo8(-(g_atTickets))
 	sbci r31,hi8(-(g_atTickets))
@@ -133,9 +250,9 @@ TKT_OnEntryAuthorized:
 	ldi r18,39
 	cpc r25,r18
 	brlo .+2
-	rjmp .L15
+	rjmp .L22
 	adiw r24,1
-.L11:
+.L18:
 	sts g_u16NextId,r24
 	sts g_u16NextId+1,r25
 	lds r24,g_u16TotalEntries
@@ -196,7 +313,7 @@ TKT_OnEntryAuthorized:
 	movw r20,r14
 	call RTC_Format
 	cp r24, __zero_reg__
-	breq .L12
+	breq .L19
 	ldi r24,lo8(45)
 	std Y+1,r24
 	std Y+2,r24
@@ -209,7 +326,7 @@ TKT_OnEntryAuthorized:
 	std Y+8,r24
 	std Y+9,r24
 	std Y+10,__zero_reg__
-.L12:
+.L19:
 	ldi r24,lo8(.LC0)
 	ldi r25,hi8(.LC0)
 	call USART_SendString
@@ -242,12 +359,12 @@ TKT_OnEntryAuthorized:
 	ldi r24,lo8(.LC5)
 	ldi r25,hi8(.LC5)
 	call USART_SendString
-	rjmp .L4
-.L15:
+	rjmp .L11
+.L22:
 	ldi r24,lo8(1)
 	ldi r25,0
-	rjmp .L11
-.L5:
+	rjmp .L18
+.L12:
 	ldi r18,lo8(8)
 	mul r16,r18
 	movw r16,r0
@@ -274,11 +391,11 @@ TKT_OnEntryAuthorized:
 	mov r18,r24
 	andi r18,1<<0
 	sbrs r24,0
-	rjmp .L13
+	rjmp .L20
 	ldi r18,lo8(1)
 	ldi r19,0
 	movw r22,r18
-	rjmp .L8
+	rjmp .L15
 	.size	TKT_OnEntryAuthorized, .-TKT_OnEntryAuthorized
 	.section	.text.TKT_CloseOldest,"ax",@progbits
 .global	TKT_CloseOldest
@@ -301,11 +418,11 @@ TKT_CloseOldest:
 	movw r18,r24
 	or r24,r25
 	brne .+2
-	rjmp .L30
+	rjmp .L37
 	cp r22,__zero_reg__
 	cpc r23,__zero_reg__
 	brne .+2
-	rjmp .L30
+	rjmp .L37
 	ldi r26,lo8(g_atTickets)
 	ldi r27,hi8(g_atTickets)
 	ldi r24,lo8(-1)
@@ -314,12 +431,12 @@ TKT_CloseOldest:
 	movw r12,r14
 	ldi r30,lo8(6)
 	ldi r25,0
-.L26:
+.L33:
 	adiw r26,7
 	ld r24,X
 	sbiw r26,7
 	cp r24, __zero_reg__
-	breq .L25
+	breq .L32
 	adiw r26,2
 	ld r8,X+
 	ld r9,X+
@@ -330,17 +447,17 @@ TKT_CloseOldest:
 	cpc r9,r13
 	cpc r10,r14
 	cpc r11,r15
-	brsh .L25
+	brsh .L32
 	movw r12,r8
 	movw r14,r10
 	mov r30,r25
-.L25:
+.L32:
 	subi r25,lo8(-(1))
 	adiw r26,8
 	cpi r25,lo8(6)
-	brne .L26
+	brne .L33
 	cpi r30,lo8(6)
-	brsh .L30
+	brsh .L37
 	ldi r24,lo8(8)
 	mul r30,r24
 	movw r30,r0
@@ -363,7 +480,7 @@ TKT_CloseOldest:
 	std Y+3,r27
 	std Z+7,__zero_reg__
 	ldi r24,0
-.L23:
+.L30:
 /* epilogue start */
 	pop r29
 	pop r28
@@ -376,9 +493,9 @@ TKT_CloseOldest:
 	pop r9
 	pop r8
 	ret
-.L30:
+.L37:
 	ldi r24,lo8(1)
-	rjmp .L23
+	rjmp .L30
 	.size	TKT_CloseOldest, .-TKT_CloseOldest
 	.section	.text.TKT_Find,"ax",@progbits
 .global	TKT_Find
@@ -392,15 +509,15 @@ TKT_Find:
 	ldi r31,hi8(g_atTickets)
 	ldi r18,0
 	ldi r19,0
-.L38:
+.L45:
 	ldd r20,Z+7
 	cp r20, __zero_reg__
-	breq .L36
+	breq .L43
 	ld r20,Z
 	ldd r21,Z+1
 	cp r20,r24
 	cpc r21,r25
-	brne .L36
+	brne .L43
 	movw r24,r18
 	ldi r18,3
 	1:
@@ -411,13 +528,13 @@ TKT_Find:
 	subi r24,lo8(-(g_atTickets))
 	sbci r25,hi8(-(g_atTickets))
 	ret
-.L36:
+.L43:
 	subi r18,-1
 	sbci r19,-1
 	adiw r30,8
 	cpi r18,6
 	cpc r19,__zero_reg__
-	brne .L38
+	brne .L45
 	ldi r24,0
 	ldi r25,0
 /* epilogue start */
@@ -434,16 +551,16 @@ TKT_GetOpenCount:
 	ldi r30,lo8(g_atTickets)
 	ldi r31,hi8(g_atTickets)
 	ldi r24,0
-.L45:
+.L52:
 	ldd r25,Z+7
 	cpse r25,__zero_reg__
 	subi r24,lo8(-(1))
-.L44:
+.L51:
 	adiw r30,8
 	ldi r25,hi8(g_atTickets+48)
 	cpi r30,lo8(g_atTickets+48)
 	cpc r31,r25
-	brne .L45
+	brne .L52
 /* epilogue start */
 	ret
 	.size	TKT_GetOpenCount, .-TKT_GetOpenCount
@@ -473,6 +590,158 @@ TKT_GetTotalEntries:
 /* epilogue start */
 	ret
 	.size	TKT_GetTotalEntries, .-TKT_GetTotalEntries
+	.section	.text.TKT_PrintOpenTickets,"ax",@progbits
+.global	TKT_PrintOpenTickets
+	.type	TKT_PrintOpenTickets, @function
+TKT_PrintOpenTickets:
+	push r14
+	push r15
+	push r16
+	push r17
+	push r28
+	push r29
+	in r28,__SP_L__
+	in r29,__SP_H__
+	sbiw r28,25
+	in __tmp_reg__,__SREG__
+	cli
+	out __SP_H__,r29
+	out __SREG__,__tmp_reg__
+	out __SP_L__,r28
+/* prologue: function */
+/* frame size = 25 */
+/* stack size = 31 */
+.L__stack_usage = 31
+	ldi r16,lo8(g_atTickets)
+	ldi r17,hi8(g_atTickets)
+	ldi r25,lo8(84)
+	mov r14,r25
+	ldi r25,lo8(44)
+	mov r15,r25
+.L61:
+	movw r30,r16
+	ldd r24,Z+7
+	cp r24, __zero_reg__
+	brne .+2
+	rjmp .L60
+	std Y+1,r14
+	ldi r31,lo8(75)
+	std Y+2,r31
+	std Y+3,r14
+	ldi r24,lo8(4)
+	std Y+25,r24
+	std Y+4,r15
+	movw r30,r16
+	ld r18,Z
+	ldd r19,Z+1
+	ldi r20,0
+	ldi r21,0
+	movw r22,r28
+	subi r22,-25
+	sbci r23,-1
+	movw r24,r28
+	adiw r24,1
+	call TKT_AppendUint32
+	ldd r24,Y+25
+	ldi r25,lo8(1)
+	add r25,r24
+	std Y+25,r25
+	movw r30,r28
+	adiw r30,1
+	add r30,r24
+	adc r31,__zero_reg__
+	st Z,r15
+	movw r30,r16
+	ldd r18,Z+2
+	ldd r19,Z+3
+	ldd r20,Z+4
+	ldd r21,Z+5
+	movw r22,r28
+	subi r22,-25
+	sbci r23,-1
+	movw r24,r28
+	adiw r24,1
+	call TKT_AppendUint32
+	ldd r24,Y+25
+	ldi r25,lo8(1)
+	add r25,r24
+	std Y+25,r25
+	movw r30,r28
+	adiw r30,1
+	add r30,r24
+	adc r31,__zero_reg__
+	st Z,r15
+	movw r30,r16
+	ldd r18,Z+6
+	ldi r19,0
+	ldi r20,0
+	ldi r21,0
+	movw r22,r28
+	subi r22,-25
+	sbci r23,-1
+	movw r24,r28
+	adiw r24,1
+	call TKT_AppendUint32
+	ldd r24,Y+25
+	movw r30,r28
+	adiw r30,1
+	add r30,r24
+	adc r31,__zero_reg__
+	ldi r25,lo8(13)
+	st Z,r25
+	ldi r25,lo8(1)
+	add r25,r24
+	movw r30,r28
+	adiw r30,1
+	add r30,r25
+	adc r31,__zero_reg__
+	ldi r25,lo8(10)
+	st Z,r25
+	subi r24,lo8(-(2))
+	movw r30,r28
+	adiw r30,1
+	add r30,r24
+	adc r31,__zero_reg__
+	st Z,__zero_reg__
+	movw r24,r28
+	adiw r24,1
+	call USART_SendString
+.L60:
+	subi r16,-8
+	sbci r17,-1
+	ldi r30,hi8(g_atTickets+48)
+	cpi r16,lo8(g_atTickets+48)
+	cpc r17,r30
+	breq .+2
+	rjmp .L61
+/* epilogue start */
+	adiw r28,25
+	in __tmp_reg__,__SREG__
+	cli
+	out __SP_H__,r29
+	out __SREG__,__tmp_reg__
+	out __SP_L__,r28
+	pop r29
+	pop r28
+	pop r17
+	pop r16
+	pop r15
+	pop r14
+	ret
+	.size	TKT_PrintOpenTickets, .-TKT_PrintOpenTickets
+	.section	.text.TKT_ClearStats,"ax",@progbits
+.global	TKT_ClearStats
+	.type	TKT_ClearStats, @function
+TKT_ClearStats:
+/* prologue: function */
+/* frame size = 0 */
+/* stack size = 0 */
+.L__stack_usage = 0
+	sts g_u16TotalEntries,__zero_reg__
+	sts g_u16TotalEntries+1,__zero_reg__
+/* epilogue start */
+	ret
+	.size	TKT_ClearStats, .-TKT_ClearStats
 	.section	.bss.g_u16TotalEntries,"aw",@nobits
 	.type	g_u16TotalEntries, @object
 	.size	g_u16TotalEntries, 2
