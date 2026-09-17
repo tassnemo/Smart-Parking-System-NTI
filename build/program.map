@@ -3,7 +3,7 @@ Archive member included to satisfy reference by file (symbol)
 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodqi4.o)
                               build/LIB/softrtc.o (__udivmodqi4)
 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodhi4.o)
-                              build/HAL/buzzer/buzzer.o (__udivmodhi4)
+                              build/APP/ticketing/ticketing.o (__udivmodhi4)
 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodsi4.o)
                               build/LIB/softrtc.o (__udivmodsi4)
 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_exit.o)
@@ -57,6 +57,14 @@ Discarded input sections
  .bss.g_u32UptimeSec
                 0x00000000        0x4 build/LIB/softrtc.o
  .comment       0x00000000       0x13 build/LIB/softrtc.o
+ .text          0x00000000        0x0 build/APP/billing/billing.o
+ .data          0x00000000        0x0 build/APP/billing/billing.o
+ .bss           0x00000000        0x0 build/APP/billing/billing.o
+ .comment       0x00000000       0x13 build/APP/billing/billing.o
+ .text          0x00000000        0x0 build/APP/console/console.o
+ .data          0x00000000        0x0 build/APP/console/console.o
+ .bss           0x00000000        0x0 build/APP/console/console.o
+ .comment       0x00000000       0x13 build/APP/console/console.o
  .text          0x00000000        0x0 build/APP/display/display_task.o
  .data          0x00000000        0x0 build/APP/display/display_task.o
  .bss           0x00000000        0x0 build/APP/display/display_task.o
@@ -73,7 +81,7 @@ Discarded input sections
  .text.LANE_Init
                 0x00000000       0x1c build/APP/lane/lane_fsm.o
  .text.LANE_Run
-                0x00000000      0x12e build/APP/lane/lane_fsm.o
+                0x00000000      0x140 build/APP/lane/lane_fsm.o
  .jumptables.gcc.LANE_Run
                 0x00000000       0x12 build/APP/lane/lane_fsm.o
  .text.LANE_RequestOpen
@@ -131,6 +139,36 @@ Discarded input sections
                 0x00000000        0x1 build/APP/scheduler/scheduler.o
  .bss.g_tasks   0x00000000       0x54 build/APP/scheduler/scheduler.o
  .comment       0x00000000       0x13 build/APP/scheduler/scheduler.o
+ .text          0x00000000        0x0 build/APP/telemetry/telemetry.o
+ .data          0x00000000        0x0 build/APP/telemetry/telemetry.o
+ .bss           0x00000000        0x0 build/APP/telemetry/telemetry.o
+ .comment       0x00000000       0x13 build/APP/telemetry/telemetry.o
+ .text          0x00000000        0x0 build/APP/ticketing/ticketing.o
+ .data          0x00000000        0x0 build/APP/ticketing/ticketing.o
+ .bss           0x00000000        0x0 build/APP/ticketing/ticketing.o
+ .text.TKT_Init
+                0x00000000       0x32 build/APP/ticketing/ticketing.o
+ .rodata.TKT_OnEntryAuthorized.str1.1
+                0x00000000       0x66 build/APP/ticketing/ticketing.o
+ .text.TKT_OnEntryAuthorized
+                0x00000000      0x1dc build/APP/ticketing/ticketing.o
+ .text.TKT_CloseOldest
+                0x00000000       0xac build/APP/ticketing/ticketing.o
+ .text.TKT_Find
+                0x00000000       0x3c build/APP/ticketing/ticketing.o
+ .text.TKT_GetOpenCount
+                0x00000000       0x18 build/APP/ticketing/ticketing.o
+ .text.TKT_GetNextId
+                0x00000000        0xa build/APP/ticketing/ticketing.o
+ .text.TKT_GetTotalEntries
+                0x00000000        0xa build/APP/ticketing/ticketing.o
+ .bss.g_u16TotalEntries
+                0x00000000        0x2 build/APP/ticketing/ticketing.o
+ .bss.g_u16NextId
+                0x00000000        0x2 build/APP/ticketing/ticketing.o
+ .bss.g_atTickets
+                0x00000000       0x30 build/APP/ticketing/ticketing.o
+ .comment       0x00000000       0x13 build/APP/ticketing/ticketing.o
  .text          0x00000000        0x0 build/HAL/7seg/7seg.o
  .data          0x00000000        0x0 build/HAL/7seg/7seg.o
  .bss           0x00000000        0x0 build/HAL/7seg/7seg.o
@@ -266,19 +304,12 @@ Discarded input sections
  .text          0x00000000        0x0 build/MCAL/dio/dio.o
  .data          0x00000000        0x0 build/MCAL/dio/dio.o
  .bss           0x00000000        0x0 build/MCAL/dio/dio.o
- .text.DIO_Init
-                0x00000000       0xf8 build/MCAL/dio/dio.o
- .text.DIO_WritePin
-                0x00000000       0xa8 build/MCAL/dio/dio.o
- .text.DIO_ReadPin
-                0x00000000       0x3e build/MCAL/dio/dio.o
  .text.DIO_WritePort
                 0x00000000       0x24 build/MCAL/dio/dio.o
  .text.DIO_ReadPort
                 0x00000000       0x2c build/MCAL/dio/dio.o
  .text.DIO_TogglePin
                 0x00000000       0x60 build/MCAL/dio/dio.o
- .comment       0x00000000       0x13 build/MCAL/dio/dio.o
  .text          0x00000000        0x0 build/MCAL/exti/exti.o
  .data          0x00000000        0x0 build/MCAL/exti/exti.o
  .bss           0x00000000        0x0 build/MCAL/exti/exti.o
@@ -298,9 +329,9 @@ Discarded input sections
  .data          0x00000000        0x0 build/MCAL/i2c/i2c.o
  .bss           0x00000000        0x0 build/MCAL/i2c/i2c.o
  .text.I2C_ReadAck
-                0x00000000       0x2c build/MCAL/i2c/i2c.o
+                0x00000000       0x36 build/MCAL/i2c/i2c.o
  .text.I2C_ReadNack
-                0x00000000       0x2c build/MCAL/i2c/i2c.o
+                0x00000000       0x36 build/MCAL/i2c/i2c.o
  .text          0x00000000        0x0 build/MCAL/pwm/pwm.o
  .data          0x00000000        0x0 build/MCAL/pwm/pwm.o
  .bss           0x00000000        0x0 build/MCAL/pwm/pwm.o
@@ -517,10 +548,14 @@ LOAD build/main.o
 LOAD build/LIB/checksum.o
 LOAD build/LIB/ring_buffer.o
 LOAD build/LIB/softrtc.o
+LOAD build/APP/billing/billing.o
+LOAD build/APP/console/console.o
 LOAD build/APP/display/display_task.o
 LOAD build/APP/lane/lane_fsm.o
 LOAD build/APP/lot/lot_fsm.o
 LOAD build/APP/scheduler/scheduler.o
+LOAD build/APP/telemetry/telemetry.o
+LOAD build/APP/ticketing/ticketing.o
 LOAD build/HAL/7seg/7seg.o
 LOAD build/HAL/barrier/barrier.o
 LOAD build/HAL/buttons/buttons.o
@@ -644,7 +679,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x70a
+.text           0x00000000      0x974
  *(.vectors)
  .vectors       0x00000000       0x54 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/../../../../avr/lib/avr5/crtatmega32.o
                 0x00000000                __vector_default
@@ -743,45 +778,64 @@ END GROUP
                 0x000002b4       0x46 build/HAL/lcd/lcd_i2c.o
                 0x000002b4                LCD_WriteChar
  .text.LCD_WriteString
-                0x000002fa       0x64 build/HAL/lcd/lcd_i2c.o
+                0x000002fa       0x3c build/HAL/lcd/lcd_i2c.o
                 0x000002fa                LCD_WriteString
  .text.LCD_Paint
-                0x0000035e      0x18e build/HAL/lcd/lcd_i2c.o
-                0x0000035e                LCD_Paint
+                0x00000336      0x15e build/HAL/lcd/lcd_i2c.o
+                0x00000336                LCD_Paint
+ .text.DIO_Init
+                0x00000494       0xf8 build/MCAL/dio/dio.o
+                0x00000494                DIO_Init
+ .text.DIO_WritePin
+                0x0000058c       0xa8 build/MCAL/dio/dio.o
+                0x0000058c                DIO_WritePin
+ .text.DIO_ReadPin
+                0x00000634       0x3e build/MCAL/dio/dio.o
+                0x00000634                DIO_ReadPin
  .text.__vector_1
-                0x000004ec       0x52 build/MCAL/exti/exti.o
-                0x000004ec                __vector_1
+                0x00000672       0x52 build/MCAL/exti/exti.o
+                0x00000672                __vector_1
  .text.__vector_2
-                0x0000053e       0x52 build/MCAL/exti/exti.o
-                0x0000053e                __vector_2
+                0x000006c4       0x52 build/MCAL/exti/exti.o
+                0x000006c4                __vector_2
  .text.__vector_3
-                0x00000590       0x52 build/MCAL/exti/exti.o
-                0x00000590                __vector_3
- .text.I2C_WaitForInterrupt
-                0x000005e2       0x20 build/MCAL/i2c/i2c.o
+                0x00000716       0x52 build/MCAL/exti/exti.o
+                0x00000716                __vector_3
+ .text.I2C_SclRelease
+                0x00000768        0xa build/MCAL/i2c/i2c.o
+ .text.I2C_SdaRelease
+                0x00000772        0xa build/MCAL/i2c/i2c.o
+ .text.I2C_SdaLow
+                0x0000077c       0x14 build/MCAL/i2c/i2c.o
+ .text.I2C_SclLow
+                0x00000790       0x14 build/MCAL/i2c/i2c.o
+ .text.I2C_ReadBit
+                0x000007a4       0x4e build/MCAL/i2c/i2c.o
+ .text.I2C_WriteBit.isra.0
+                0x000007f2       0x30 build/MCAL/i2c/i2c.o
  .text.I2C_Init
-                0x00000602       0x14 build/MCAL/i2c/i2c.o
-                0x00000602                I2C_Init
+                0x00000822       0x14 build/MCAL/i2c/i2c.o
+                0x00000822                I2C_Init
  .text.I2C_Start
-                0x00000616       0x22 build/MCAL/i2c/i2c.o
-                0x00000616                I2C_Start
+                0x00000836       0x2c build/MCAL/i2c/i2c.o
+                0x00000836                I2C_Start
  .text.I2C_Stop
-                0x00000638        0x8 build/MCAL/i2c/i2c.o
-                0x00000638                I2C_Stop
+                0x00000862       0x2e build/MCAL/i2c/i2c.o
+                0x00000862                I2C_Stop
  .text.I2C_Write
-                0x00000640       0x26 build/MCAL/i2c/i2c.o
-                0x00000640                I2C_Write
+                0x00000890       0x40 build/MCAL/i2c/i2c.o
+                0x00000890                I2C_Write
  .text.__vector_10
-                0x00000666       0x52 build/MCAL/timer/timer.o
-                0x00000666                __vector_10
+                0x000008d0       0x52 build/MCAL/timer/timer.o
+                0x000008d0                __vector_10
  .text.__vector_13
-                0x000006b8       0x4e build/MCAL/usart/usart.o
-                0x000006b8                __vector_13
-                0x00000706                        . = ALIGN (0x2)
+                0x00000922       0x4e build/MCAL/usart/usart.o
+                0x00000922                __vector_13
+                0x00000970                        . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00000706        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_exit.o)
-                0x00000706                _exit
-                0x00000706                exit
+ .fini9         0x00000970        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_exit.o)
+                0x00000970                _exit
+                0x00000970                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -800,18 +854,18 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00000706        0x4 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_exit.o)
+ .fini0         0x00000970        0x4 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_exit.o)
  *(.fini0)
  *(.hightext)
  *(.hightext*)
  *(.progmemx)
  *(.progmemx.*)
-                0x0000070a                        . = ALIGN (0x2)
+                0x00000974                        . = ALIGN (0x2)
  *(.jumptables)
  *(.jumptables*)
-                0x0000070a                        _etext = .
+                0x00000974                        _etext = .
 
-.data           0x00800060       0x4e load address 0x0000070a
+.data           0x00800060       0x4e load address 0x00000974
                 0x00800060                        PROVIDE (__data_start = .)
  *(.data)
  *(.data*)
@@ -841,8 +895,8 @@ END GROUP
                 0x008000d7        0xa build/MCAL/usart/usart.o
  *(COMMON)
                 0x008000e1                        PROVIDE (__bss_end = .)
-                0x0000070a                        __data_load_start = LOADADDR (.data)
-                0x00000758                        __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00000974                        __data_load_start = LOADADDR (.data)
+                0x000009c2                        __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x008000e1        0x0
                 [!provide]                        PROVIDE (__noinit_start = .)
@@ -894,6 +948,8 @@ END GROUP
  .comment       0x00000012        0x0 build/LIB/ring_buffer.o
                                  0x13 (size before relaxing)
  .comment       0x00000012        0x0 build/HAL/lcd/lcd_i2c.o
+                                 0x13 (size before relaxing)
+ .comment       0x00000012        0x0 build/MCAL/dio/dio.o
                                  0x13 (size before relaxing)
  .comment       0x00000012        0x0 build/MCAL/exti/exti.o
                                  0x13 (size before relaxing)

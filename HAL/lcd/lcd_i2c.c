@@ -6,14 +6,6 @@
 
 /* ----------------------------------------------------------------------------
  * MCAL adaptation layer.
- * These are the only five things this driver needs from the TWI driver.  If
- * your i2c_interface.h uses different names, change them HERE and nowhere else.
- * Expected semantics:
- *   I2C_Init()                 master, 100 kHz, returns E_OK
- *   I2C_Start()                START (or repeated START)
- *   I2C_WriteAddress(a, rw)    send (a << 1) | rw, check ACK
- *   I2C_WriteByte(b)           send one data byte, check ACK
- *   I2C_Stop()                 STOP
  * --------------------------------------------------------------------------*/
 #define LCD_I2C_INIT()          I2C_Init()
 #define LCD_I2C_START()         I2C_Start()
@@ -104,6 +96,17 @@ STD_ReturnType LCD_WriteChar(uint8 Copy_u8Char)
     return LCD_I2C_STOP();
 }
 
+/* ----------------------------------------------------------------------------
+ * IMPORTANT: this AiP31068 component does NOT support multiple data bytes
+ * bursted inside one START..STOP transaction - only the first byte of a
+ * burst actually lands (confirmed: LCD_WriteChar, called once per byte in
+ * separate transactions, is 100% reliable; a single-transaction multi-byte
+ * write corrupts after byte 1). So every character - here and in
+ * LCD_SendRun() below - gets its own full START/address/control/byte/STOP
+ * cycle via LCD_WriteChar(). The controller's own internal DDRAM address
+ * counter auto-increments and persists across STOP, so we do not need to
+ * re-send LCD_SetCursor() between characters of the same run.
+ * --------------------------------------------------------------------------*/
 STD_ReturnType LCD_WriteString(const char *Copy_pcText)
 {
     uint8 Local_u8Index = 0u;
@@ -113,21 +116,16 @@ STD_ReturnType LCD_WriteString(const char *Copy_pcText)
         return E_NOK;
     }
 
-    if (LCD_I2C_START() != E_OK)                        { return E_NOK; }
-    if (LCD_I2C_ADDR_W(LCD_I2C_ADDRESS) != E_OK)        { return E_NOK; }
-    if (LCD_I2C_BYTE(LCD_CTRL_DATA) != E_OK)            { return E_NOK; }
-
     while ((Copy_pcText[Local_u8Index] != '\0') && (Local_u8Index < LCD_COLS))
     {
-        if (LCD_I2C_BYTE((uint8)Copy_pcText[Local_u8Index]) != E_OK)
+        if (LCD_WriteChar((uint8)Copy_pcText[Local_u8Index]) != E_OK)
         {
-            (void)LCD_I2C_STOP();
             return E_NOK;
         }
         Local_u8Index++;
     }
 
-    return LCD_I2C_STOP();
+    return E_OK;
 }
 
 STD_ReturnType LCD_Paint(uint8 Copy_u8Row, const char *Copy_pcText)
@@ -245,20 +243,17 @@ static STD_ReturnType LCD_SendRun(uint8 Copy_u8Row,
         return E_NOK;
     }
 
-    if (LCD_I2C_START() != E_OK)                        { return E_NOK; }
-    if (LCD_I2C_ADDR_W(LCD_I2C_ADDRESS) != E_OK)        { return E_NOK; }
-    if (LCD_I2C_BYTE(LCD_CTRL_DATA) != E_OK)            { return E_NOK; }
-
+    /* One full transaction per character - see the note above LCD_WriteString.
+     * DDRAM address auto-increments internally between these transactions. */
     for (Local_u8Index = 0u; Local_u8Index < Copy_u8Len; Local_u8Index++)
     {
-        if (LCD_I2C_BYTE(Copy_pu8Data[Local_u8Index]) != E_OK)
+        if (LCD_WriteChar(Copy_pu8Data[Local_u8Index]) != E_OK)
         {
-            (void)LCD_I2C_STOP();
             return E_NOK;
         }
     }
 
-    return LCD_I2C_STOP();
+    return E_OK;
 }
 
 static uint8 LCD_RowAddress(uint8 Copy_u8Row)

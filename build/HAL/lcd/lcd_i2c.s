@@ -216,52 +216,37 @@ LCD_WriteString:
 /* frame size = 0 */
 /* stack size = 4 */
 .L__stack_usage = 4
-	movw r28,r24
-	or r24,r25
-	breq .L25
-	call I2C_Start
-	cpse r24,__zero_reg__
-	rjmp .L25
-	ldi r24,lo8(124)
-	call I2C_Write
-	cpse r24,__zero_reg__
-	rjmp .L25
-	ldi r24,lo8(64)
-	call I2C_Write
-	movw r16,r28
-	subi r16,-17
-	sbci r17,-1
-	cp r24, __zero_reg__
-	breq .L24
-.L25:
+	sbiw r24,0
+	brne .L21
+.L24:
 	ldi r24,lo8(1)
+.L20:
 /* epilogue start */
 	pop r29
 	pop r28
 	pop r17
 	pop r16
 	ret
-.L24:
+.L21:
+	movw r28,r24
+	movw r16,r24
+	subi r16,-17
+	sbci r17,-1
+.L23:
 	ld r24,Y
-	cpse r24,__zero_reg__
-	rjmp .L26
-.L28:
-/* epilogue start */
-	pop r29
-	pop r28
-	pop r17
-	pop r16
-	jmp I2C_Stop
-.L26:
+	cp r24, __zero_reg__
+	breq .L20
 	adiw r28,1
 	cp r28,r16
 	cpc r29,r17
-	breq .L28
-	call I2C_Write
+	brne .L25
+	ldi r24,0
+	rjmp .L20
+.L25:
+	call LCD_WriteChar
 	cp r24, __zero_reg__
-	breq .L24
-	call I2C_Stop
-	rjmp .L25
+	breq .L23
+	rjmp .L24
 	.size	LCD_WriteString, .-LCD_WriteString
 	.section	.text.LCD_Paint,"ax",@progbits
 .global	LCD_Paint
@@ -298,99 +283,10 @@ LCD_Paint:
 	mov r9,r24
 	ldi r24,lo8(2)
 	cp r9,r24
-	brlo .+2
-	rjmp .L33
-	cp r22,__zero_reg__
-	cpc r23,__zero_reg__
-	brne .+2
-	rjmp .L33
-	movw r12,r28
-	ldi r30,-1
-	sub r12,r30
-	sbc r13,r30
-	movw r30,r22
-	movw r18,r22
-	subi r18,-16
-	sbci r19,-1
-	movw r26,r12
-	ldi r25,0
-	movw r10,r12
-.L36:
-	cpse r25,__zero_reg__
-	rjmp .L65
-	ld r24,Z
-	cp r24, __zero_reg__
-	brne .+2
-	rjmp .L49
-.L35:
-	st X+,r24
-	adiw r30,1
-	cp r30,r18
-	cpc r31,r19
-	brne .L36
-	mov r16,r9
-	ldi r17,0
-	neg r17
-	neg r16
-	sbc r17,__zero_reg__
-	andi r16,lo8(16)
-	ldi r17,0
-	subi r16,lo8(-(LCD_au8Shadow))
-	sbci r17,hi8(-(LCD_au8Shadow))
-	ldi r25,lo8(16)
-	mov r14,r25
-	mov r8,__zero_reg__
-	std Y+17,r16
-	std Y+18,r17
-	clr r5
-	bst r9,0
-	bld r5,6
-	bst r9,1
-	bld r5,7
-.L44:
-	ldi r31,lo8(16)
-	cp r8,r31
-	breq .L37
-	lds r24,LCD_u8ShadowValid
-	cp r24, __zero_reg__
-	breq .L38
-	movw r30,r12
-	ld r25,Z
-	movw r30,r16
-	ld r24,Z
-	cp r25,r24
-	breq .L37
-.L38:
-	ldi r31,lo8(16)
-	cpse r14,r31
-	rjmp .L39
-	mov r14,r8
-.L39:
-	inc r8
-	ldi r24,-1
-	sub r12,r24
-	sbc r13,r24
-	subi r16,-1
-	sbci r17,-1
-	ldi r30,lo8(17)
-	cpse r8,r30
-	rjmp .L44
-	ldi r24,lo8(16)
-	movw r30,r10
-	ldd r26,Y+17
-	ldd r27,Y+18
-	0:
-	ld r0,Z+
-	st X+,r0
-	dec r24
-	brne 0b
-	ldi r31,lo8(1)
-	cp r9,r31
-	brne .+2
-	rjmp .L45
-.L47:
-	ldi r24,0
-.L31:
+	brlo .L28
+.L30:
+	ldi r24,lo8(1)
+.L27:
 /* epilogue start */
 	adiw r28,18
 	in __tmp_reg__,__SREG__
@@ -415,70 +311,140 @@ LCD_Paint:
 	pop r5
 	pop r4
 	ret
-.L49:
+.L28:
+	cp r22,__zero_reg__
+	cpc r23,__zero_reg__
+	breq .L30
+	movw r10,r28
+	ldi r30,-1
+	sub r10,r30
+	sbc r11,r30
+	movw r30,r22
+	movw r18,r22
+	subi r18,-16
+	sbci r19,-1
+	movw r26,r10
+	ldi r25,0
+	movw r12,r10
+.L32:
+	cpse r25,__zero_reg__
+	rjmp .L60
+	ld r24,Z
+	cp r24, __zero_reg__
+	breq .L44
+.L31:
+	st X+,r24
+	adiw r30,1
+	cp r30,r18
+	cpc r31,r19
+	brne .L32
+	mov r16,r9
+	ldi r17,0
+	neg r17
+	neg r16
+	sbc r17,__zero_reg__
+	andi r16,lo8(16)
+	ldi r17,0
+	subi r16,lo8(-(LCD_au8Shadow))
+	sbci r17,hi8(-(LCD_au8Shadow))
+	ldi r25,lo8(16)
+	mov r14,r25
+	mov r8,__zero_reg__
+	std Y+17,r16
+	std Y+18,r17
+	clr r5
+	bst r9,0
+	bld r5,6
+	bst r9,1
+	bld r5,7
+.L40:
+	ldi r31,lo8(16)
+	cp r8,r31
+	breq .L33
+	lds r24,LCD_u8ShadowValid
+	cp r24, __zero_reg__
+	breq .L34
+	movw r30,r10
+	ld r25,Z
+	movw r30,r16
+	ld r24,Z
+	cp r25,r24
+	breq .L33
+.L34:
+	ldi r31,lo8(16)
+	cpse r14,r31
+	rjmp .L36
+	mov r14,r8
+	rjmp .L36
+.L44:
 	ldi r25,lo8(1)
-.L65:
+.L60:
 	ldi r24,lo8(32)
-	rjmp .L35
-.L37:
+	rjmp .L31
+.L33:
 	ldi r24,lo8(16)
 	cpse r14,r24
-	rjmp .L40
-.L41:
+	rjmp .L37
+.L38:
 	ldi r24,lo8(16)
 	mov r14,r24
-	rjmp .L39
-.L40:
+.L36:
+	inc r8
+	ldi r24,-1
+	sub r10,r24
+	sbc r11,r24
+	subi r16,-1
+	sbci r17,-1
+	ldi r30,lo8(17)
+	cpse r8,r30
+	rjmp .L40
+	ldi r24,lo8(16)
+	movw r30,r12
+	ldd r26,Y+17
+	ldd r27,Y+18
+	0:
+	ld r0,Z+
+	st X+,r0
+	dec r24
+	brne 0b
+	ldi r31,lo8(1)
+	cp r9,r31
+	breq .L41
+.L42:
+	ldi r24,0
+	rjmp .L27
+.L37:
 	mov r4,r8
 	sub r4,r14
 	cp r8,r14
-	breq .L41
+	breq .L38
 	mov r24,r5
 	or r24,r14
 	ori r24,lo8(-128)
 	call LCD_SendCommand
 	cpse r24,__zero_reg__
-	rjmp .L33
-	call I2C_Start
-	cpse r24,__zero_reg__
-	rjmp .L33
-	ldi r24,lo8(124)
-	call I2C_Write
-	cpse r24,__zero_reg__
-	rjmp .L33
-	ldi r24,lo8(64)
-	call I2C_Write
-	cpse r24,__zero_reg__
-	rjmp .L33
-	add r14,r10
-	mov r15,r11
+	rjmp .L30
+	add r14,r12
+	mov r15,r13
 	adc r15,__zero_reg__
 	movw r6,r14
-.L43:
+.L39:
 	movw r30,r6
 	ld r24,Z
-	call I2C_Write
-	cp r24, __zero_reg__
-	breq .L42
-	call I2C_Stop
-.L33:
-	ldi r24,lo8(1)
-	rjmp .L31
-.L42:
+	call LCD_WriteChar
+	cpse r24,__zero_reg__
+	rjmp .L30
 	ldi r31,-1
 	sub r6,r31
 	sbc r7,r31
 	mov r24,r6
 	sub r24,r14
 	cp r24,r4
-	brlo .L43
-	call I2C_Stop
-	cp r24, __zero_reg__
-	breq .L41
-	rjmp .L33
-.L45:
+	brlo .L39
+	rjmp .L38
+.L41:
 	sts LCD_u8ShadowValid,r9
-	rjmp .L47
+	rjmp .L42
 	.size	LCD_Paint, .-LCD_Paint
 	.section	.text.LCD_InvalidateShadow,"ax",@progbits
 .global	LCD_InvalidateShadow
@@ -501,13 +467,13 @@ LCD_DisplayOn:
 /* stack size = 0 */
 .L__stack_usage = 0
 	cp r24, __zero_reg__
-	breq .L69
+	breq .L64
 	ldi r24,lo8(12)
-.L68:
+.L63:
 	jmp LCD_SendCommand
-.L69:
+.L64:
 	ldi r24,lo8(8)
-	rjmp .L68
+	rjmp .L63
 	.size	LCD_DisplayOn, .-LCD_DisplayOn
 	.section	.bss.LCD_u8ShadowValid,"aw",@nobits
 	.type	LCD_u8ShadowValid, @object

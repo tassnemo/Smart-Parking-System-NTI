@@ -115,21 +115,23 @@ void LANE_Run(Lane_t *ln)
             break;
 
 
-      case LN_GATE_OPEN:
-         if (ln->loopActive)
-        {
-          ln->timerTicks = PASS_TIMEOUT_TICKS;
-          ln->state = LN_VEHICLE_PASSING;
-        }
-       else
-       {
-          /* loop already clear -- close now, don't wait for the hold */
-          BAR_Close(ln->servoCh);
-          ln->timerTicks = GATE_TRAVEL_TICKS;
-          ln->state = LN_GATE_CLOSING;
-       }
-        break;
-
+     case LN_GATE_OPEN:
+    if (ln->loopActive)
+    {
+        ln->timerTicks = PASS_TIMEOUT_TICKS;
+        ln->state = LN_VEHICLE_PASSING;
+    }
+    else if (--ln->timerTicks == 0u)
+    {
+        BAR_Close(ln->servoCh);
+        ln->timerTicks = GATE_TRAVEL_TICKS;
+        ln->state = LN_GATE_CLOSING;
+    }
+    else
+    {
+        /* still holding open, waiting out the 5 s hold */
+    }
+    break;
 
         case LN_VEHICLE_PASSING:
 

@@ -1,122 +1,207 @@
 #include "i2c_interface.h"
-#include "i2c_private.h"
+#include "dio_interface.h"
 #include "config.h"
+#include <util/delay.h>
 
-static STD_ReturnType I2C_WaitForInterrupt(void)
+/* ============================================================================
+ * Software (bit-banged) I2C/TWI on PC0 = SCL, PC1 = SDA.
+ *
+ * WHY THIS EXISTS: the hardware TWI driver (register-level, TWCR/TWDR/TWSR)
+ * was verified correct against the ATmega32 datasheet - correct register
+ * addresses, correct bit positions, correct TWBR math for 100 kHz @ 8 MHz,
+ * correct TWINT wait logic. Wiring and pull-ups were independently verified
+ * with a plain-GPIO toggle test (PC0/PC1 visibly switched high/low). But a
+ * Logic Analyzer capture on SDA/SCL during a real LCD transaction showed a
+ * completely flat line - the hardware TWI peripheral is not being driven
+ * onto the physical pins by this SimulIDE build's ATmega32 model.
+ *
+ * This file implements the exact same six-function API
+ * (I2C_Init/Start/Stop/Write/ReadAck/ReadNack) using timed DIO_WritePin /
+ * DIO_Init calls instead, so lcd_i2c.c, config.h and everything above this
+ * layer needs ZERO changes.
+ *
+ * Open-drain emulation: I2C lines are only ever pulled LOW by an active
+ * output, or "released" (switched to input + internal pull-up) so the
+ * external 4.7k resistor pulls the line back HIGH. Neither line is ever
+ * actively driven high - this matches real I2C electrical behaviour and
+ * means a stuck slave holding the bus low can never cause a drive fight.
+ *
+ * Timing: ~100 kHz bit rate via short _delay_us() calls. These are NOT the
+ * kind of blocking delay NFR-02 forbids (that rule targets >10 ms holds in
+ * the super-loop) - a full byte transfer here costs on the order of tens of
+ * microseconds, negligible against the 10 ms scheduler tick.
+ * ==========================================================================*/
+
+#define I2C_SCL_PORT    DIO_PORTC
+#define I2C_SCL_PIN     DIO_PIN0
+#define I2C_SDA_PORT    DIO_PORTC
+#define I2C_SDA_PIN     DIO_PIN1
+
+#define I2C_DELAY()          _delay_us(20)  /* ~25 kHz half-bit - generous
+                                              * margin against bit-bang jitter
+                                              * accumulating over long (16-byte)
+                                              * transfers; still microseconds
+                                              * against a 10 ms scheduler tick */
+#define I2C_BUS_FREE_DELAY() _delay_us(60)  /* settling time after STOP so the
+                                              * AiP31068 finishes executing the
+                                              * last command/write before the
+                                              * next START arrives */
+
+static void I2C_SclLow(void)
 {
-	uint16 Local_u16Timeout = I2C_TIMEOUT;
+    DIO_Init(I2C_SCL_PORT, I2C_SCL_PIN, DIO_OUTPUT);
+    DIO_WritePin(I2C_SCL_PORT, I2C_SCL_PIN, DIO_LOW);
+}
 
-	while (((I2C_TWCR & (uint8)(1u << I2C_TWINT)) == 0u) &&
-		   (Local_u16Timeout > 0u))
-	{
-		Local_u16Timeout--;
-	}
+static void I2C_SclRelease(void)
+{
+    /* input + internal pull-up: lets the external 4.7k pull the line high */
+    DIO_Init(I2C_SCL_PORT, I2C_SCL_PIN, DIO_INPUT_PULLUP);
+}
 
-	return (Local_u16Timeout == 0u) ? E_NOK : E_OK;
+static void I2C_SdaLow(void)
+{
+    DIO_Init(I2C_SDA_PORT, I2C_SDA_PIN, DIO_OUTPUT);
+    DIO_WritePin(I2C_SDA_PORT, I2C_SDA_PIN, DIO_LOW);
+}
+
+static void I2C_SdaRelease(void)
+{
+    DIO_Init(I2C_SDA_PORT, I2C_SDA_PIN, DIO_INPUT_PULLUP);
+}
+
+static uint8 I2C_SdaRead(void)
+{
+    uint8 Local_u8Val = 0u;
+    DIO_ReadPin(I2C_SDA_PORT, I2C_SDA_PIN, &Local_u8Val);
+    return Local_u8Val;
+}
+
+static STD_ReturnType I2C_WriteBit(uint8 Copy_u8Bit)
+{
+    if (Copy_u8Bit != 0u) { I2C_SdaRelease(); } else { I2C_SdaLow(); }
+    I2C_DELAY();
+
+    I2C_SclRelease();             /* clock rises - slave samples SDA now */
+    I2C_DELAY();
+
+    I2C_SclLow();                 /* clock falls - safe to change SDA next */
+    I2C_DELAY();
+
+    return E_OK;
+}
+
+static uint8 I2C_ReadBit(void)
+{
+    uint8 Local_u8Bit;
+
+    I2C_SdaRelease();              /* let the slave (or pull-up) drive SDA */
+    I2C_DELAY();
+
+    I2C_SclRelease();              /* clock rises - data is valid now */
+    I2C_DELAY();
+    Local_u8Bit = I2C_SdaRead();
+
+    I2C_SclLow();
+    I2C_DELAY();
+
+    return Local_u8Bit;
 }
 
 STD_ReturnType I2C_Init(void)
 {
-	uint32 Local_u32Twbr;
-
-	/* Prescaler = 1: SCL = F_CPU / (16 + 2 * TWBR). */
-	I2C_TWSR &= (uint8)~((1u << I2C_TWPS0) | (1u << I2C_TWPS1));
-	Local_u32Twbr = (F_CPU / I2C_SCL_FREQUENCY - 16UL) / 2UL;
-	if (Local_u32Twbr > 255UL)
-	{
-		return E_NOK;
-	}
-
-	I2C_TWBR = (uint8)Local_u32Twbr;
-	I2C_TWAR = 0u;
-	I2C_TWCR = (uint8)(1u << I2C_TWEN);
-
-	return E_OK;
+    I2C_SclRelease();
+    I2C_SdaRelease();
+    I2C_DELAY();
+    return E_OK;
 }
 
 STD_ReturnType I2C_Start(void)
 {
-	I2C_TWCR = (uint8)((1u << I2C_TWINT) |
-					   (1u << I2C_TWSTA) |
-					   (1u << I2C_TWEN));
+    /* Idle: both lines high. START = SDA falls while SCL is still high. */
+    I2C_SdaRelease();
+    I2C_SclRelease();
+    I2C_DELAY();
 
-	if (I2C_WaitForInterrupt() != E_OK)
-	{
-		return E_NOK;
-	}
+    I2C_SdaLow();
+    I2C_DELAY();
 
-	return (((I2C_TWSR & I2C_TWS_MASK) == I2C_STATUS_START) ||
-			((I2C_TWSR & I2C_TWS_MASK) == I2C_STATUS_REP_START))
-		   ? E_OK
-		   : E_NOK;
+    I2C_SclLow();                  /* park SCL low, ready to clock data */
+    I2C_DELAY();
+
+    return E_OK;
 }
 
 STD_ReturnType I2C_Stop(void)
 {
-	I2C_TWCR = (uint8)((1u << I2C_TWINT) |
-					   (1u << I2C_TWSTO) |
-					   (1u << I2C_TWEN));
+    /* STOP = SDA rises while SCL is high. */
+    I2C_SdaLow();
+    I2C_DELAY();
 
-	return E_OK;
+    I2C_SclRelease();
+    I2C_DELAY();
+
+    I2C_SdaRelease();
+    I2C_DELAY();
+    I2C_BUS_FREE_DELAY();
+
+    return E_OK;
 }
 
 STD_ReturnType I2C_Write(uint8 Copy_u8Data)
 {
-	uint8 Local_u8Status;
+    sint8  Local_s8Index;
+    uint8 Local_u8Ack;
 
-	I2C_TWDR = Copy_u8Data;
-	I2C_TWCR = (uint8)((1u << I2C_TWINT) |
-					   (1u << I2C_TWEN));
+    for (Local_s8Index = 7; Local_s8Index >= 0; Local_s8Index--)
+    {
+        I2C_WriteBit((uint8)((Copy_u8Data >> Local_s8Index) & 0x01u));
+    }
 
-	if (I2C_WaitForInterrupt() != E_OK)
-	{
-		return E_NOK;
-	}
+    /* 9th clock: slave pulls SDA low to ACK */
+    Local_u8Ack = I2C_ReadBit();
 
-	Local_u8Status = I2C_TWSR & I2C_TWS_MASK;
-	    return ((Local_u8Status == I2C_STATUS_MT_SLA_ACK) ||
-		    (Local_u8Status == I2C_STATUS_MT_DATA_ACK))
-		   ? E_OK
-		   : E_NOK;
+    return (Local_u8Ack == 0u) ? E_OK : E_NOK;
 }
 
 STD_ReturnType I2C_ReadAck(uint8 *Copy_pu8Data)
 {
-	if (Copy_pu8Data == NULL)
-	{
-		return E_NOK;
-	}
+    uint8 Local_u8Index;
+    uint8 Local_u8Data = 0u;
 
-	I2C_TWCR = (uint8)((1u << I2C_TWINT) |
-					   (1u << I2C_TWEA) |
-					   (1u << I2C_TWEN));
+    if (Copy_pu8Data == NULL)
+    {
+        return E_NOK;
+    }
 
-	if (I2C_WaitForInterrupt() != E_OK ||
-		(I2C_TWSR & I2C_TWS_MASK) != I2C_STATUS_MR_DATA_ACK)
-	{
-		return E_NOK;
-	}
+    for (Local_u8Index = 0u; Local_u8Index < 8u; Local_u8Index++)
+    {
+        Local_u8Data = (uint8)((Local_u8Data << 1) | I2C_ReadBit());
+    }
 
-	*Copy_pu8Data = I2C_TWDR;
-	return E_OK;
+    I2C_WriteBit(0u);   /* master ACKs: tells the slave "send another byte" */
+
+    *Copy_pu8Data = Local_u8Data;
+    return E_OK;
 }
 
 STD_ReturnType I2C_ReadNack(uint8 *Copy_pu8Data)
 {
-	if (Copy_pu8Data == NULL)
-	{
-		return E_NOK;
-	}
+    uint8 Local_u8Index;
+    uint8 Local_u8Data = 0u;
 
-	I2C_TWCR = (uint8)((1u << I2C_TWINT) |
-					   (1u << I2C_TWEN));
+    if (Copy_pu8Data == NULL)
+    {
+        return E_NOK;
+    }
 
-	if (I2C_WaitForInterrupt() != E_OK ||
-		(I2C_TWSR & I2C_TWS_MASK) != I2C_STATUS_MR_DATA_NACK)
-	{
-		return E_NOK;
-	}
+    for (Local_u8Index = 0u; Local_u8Index < 8u; Local_u8Index++)
+    {
+        Local_u8Data = (uint8)((Local_u8Data << 1) | I2C_ReadBit());
+    }
 
-	*Copy_pu8Data = I2C_TWDR;
-	return E_OK;
+    I2C_WriteBit(1u);   /* master NACKs: tells the slave "that's the last byte" */
+
+    *Copy_pu8Data = Local_u8Data;
+    return E_OK;
 }

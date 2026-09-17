@@ -189,21 +189,23 @@ void LANE_Run(Lane_t *ln)
             break;
 
 
-      case LN_GATE_OPEN:
-         if (ln->loopActive)
-        {
-          ln->timerTicks = 2000u;
-          ln->state = LN_VEHICLE_PASSING;
-        }
-       else
-       {
+     case LN_GATE_OPEN:
+    if (ln->loopActive)
+    {
+        ln->timerTicks = 2000u;
+        ln->state = LN_VEHICLE_PASSING;
+    }
+    else if (--ln->timerTicks == 0u)
+    {
+        BAR_Close(ln->servoCh);
+        ln->timerTicks = 100u;
+        ln->state = LN_GATE_CLOSING;
+    }
+    else
+    {
 
-          BAR_Close(ln->servoCh);
-          ln->timerTicks = 100u;
-          ln->state = LN_GATE_CLOSING;
-       }
-        break;
-
+    }
+    break;
 
         case LN_VEHICLE_PASSING:
 

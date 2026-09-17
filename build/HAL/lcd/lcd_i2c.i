@@ -263,9 +263,9 @@ _delay_us(double __us)
 # 281 "C:/avr-gcc/avr/include/util/delay.h" 3
 }
 # 6 "HAL/lcd/lcd_i2c.c" 2
-# 34 "HAL/lcd/lcd_i2c.c"
+# 26 "HAL/lcd/lcd_i2c.c"
 
-# 34 "HAL/lcd/lcd_i2c.c"
+# 26 "HAL/lcd/lcd_i2c.c"
 static uint8 LCD_au8Shadow[2u][16u];
 static uint8 LCD_u8ShadowValid = 0u;
 
@@ -338,7 +338,7 @@ STD_ReturnType LCD_WriteChar(uint8 Copy_u8Char)
 
     return I2C_Stop();
 }
-
+# 110 "HAL/lcd/lcd_i2c.c"
 STD_ReturnType LCD_WriteString(const char *Copy_pcText)
 {
     uint8 Local_u8Index = 0u;
@@ -348,21 +348,16 @@ STD_ReturnType LCD_WriteString(const char *Copy_pcText)
         return 1u;
     }
 
-    if (I2C_Start() != 0u) { return 1u; }
-    if (I2C_Write((uint8)(((0x3Eu) << 1) | 0x00u)) != 0u) { return 1u; }
-    if (I2C_Write(0x40u) != 0u) { return 1u; }
-
     while ((Copy_pcText[Local_u8Index] != '\0') && (Local_u8Index < 16u))
     {
-        if (I2C_Write((uint8)Copy_pcText[Local_u8Index]) != 0u)
+        if (LCD_WriteChar((uint8)Copy_pcText[Local_u8Index]) != 0u)
         {
-            (void)I2C_Stop();
             return 1u;
         }
         Local_u8Index++;
     }
 
-    return I2C_Stop();
+    return 0u;
 }
 
 STD_ReturnType LCD_Paint(uint8 Copy_u8Row, const char *Copy_pcText)
@@ -480,20 +475,17 @@ static STD_ReturnType LCD_SendRun(uint8 Copy_u8Row,
         return 1u;
     }
 
-    if (I2C_Start() != 0u) { return 1u; }
-    if (I2C_Write((uint8)(((0x3Eu) << 1) | 0x00u)) != 0u) { return 1u; }
-    if (I2C_Write(0x40u) != 0u) { return 1u; }
+
 
     for (Local_u8Index = 0u; Local_u8Index < Copy_u8Len; Local_u8Index++)
     {
-        if (I2C_Write(Copy_pu8Data[Local_u8Index]) != 0u)
+        if (LCD_WriteChar(Copy_pu8Data[Local_u8Index]) != 0u)
         {
-            (void)I2C_Stop();
             return 1u;
         }
     }
 
-    return I2C_Stop();
+    return 0u;
 }
 
 static uint8 LCD_RowAddress(uint8 Copy_u8Row)

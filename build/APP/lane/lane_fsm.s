@@ -150,12 +150,29 @@ LANE_Run:
 .L9:
 	ldd r24,Y+4
 	cp r24, __zero_reg__
-	breq .L29
+	breq .L21
 	ldi r24,lo8(-48)
 	ldi r25,lo8(7)
 	std Y+2,r24
 	std Y+3,r25
 	ldi r24,lo8(5)
+	rjmp .L27
+.L21:
+	ldd r24,Y+2
+	ldd r25,Y+3
+	sbiw r24,1
+	std Y+2,r24
+	std Y+3,r25
+	or r24,r25
+	breq .+2
+	rjmp .L2
+.L29:
+	ldd r24,Y+5
+	call BAR_Close
+	ldi r24,lo8(100)
+	std Y+2,r24
+	std Y+3,__zero_reg__
+	ldi r24,lo8(6)
 	rjmp .L27
 .L8:
 	ldd r24,Y+4
@@ -166,14 +183,7 @@ LANE_Run:
 	adiw r24,1
 	std Y+7,r24
 	std Y+8,r25
-.L29:
-	ldd r24,Y+5
-	call BAR_Close
-	ldi r24,lo8(100)
-	std Y+2,r24
-	std Y+3,__zero_reg__
-	ldi r24,lo8(6)
-	rjmp .L27
+	rjmp .L29
 .L22:
 	ldd r24,Y+2
 	ldd r25,Y+3
