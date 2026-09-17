@@ -114,6 +114,43 @@ STD_ReturnType LIGHT_Init(void);
 STD_ReturnType LIGHT_Run(void);
 uint8 LIGHT_GetState(void);
 # 8 "APP/display/display_task.c" 2
+# 1 "./APP/lane/lane_fsm.h" 1
+
+
+
+# 1 "APP/../LIB/STD_TYPES.h" 1
+# 5 "./APP/lane/lane_fsm.h" 2
+
+typedef enum {
+    LN_IDLE = 0,
+    LN_VEHICLE_WAIT,
+    LN_AUTHORISING,
+    LN_GATE_OPENING,
+    LN_GATE_OPEN,
+    LN_VEHICLE_PASSING,
+    LN_GATE_CLOSING,
+    LN_REJECTED,
+    LN_TIMEOUT
+} LaneState_t;
+
+typedef struct {
+    LaneState_t state;
+    uint16 timerTicks;
+    uint8 loopActive;
+    uint8 servoCh;
+    uint8 isEntry;
+    uint16 passCount;
+    uint8 faultFlag;
+} Lane_t;
+
+extern Lane_t g_entryLane;
+extern Lane_t g_exitLane;
+
+void LANE_Init(Lane_t *ln, uint8 servoCh, uint8 isEntry);
+void LANE_Run(Lane_t *ln);
+void LANE_RequestOpen(Lane_t *ln, uint8 Copy_u8LoopActive);
+LaneState_t LANE_GetState(const Lane_t *ln);
+# 9 "APP/display/display_task.c" 2
 
 
 
@@ -176,9 +213,38 @@ static void DISPLAY_PaintLine1(uint8 Copy_u8Free, uint8 Copy_u8Occupied)
 
 
 
+extern Lane_t g_entryLane;
+extern Lane_t g_exitLane;
 
+static const char *LANE_Name(uint8 state)
+{
+    switch (state)
+    {
+        case LN_IDLE: return "IDLE";
+        case LN_VEHICLE_WAIT: return "WAIT";
+        case LN_AUTHORISING: return "AUTH";
+        case LN_GATE_OPENING: return "OPEN";
+        case LN_GATE_OPEN: return "OPEN";
+        case LN_VEHICLE_PASSING: return "PASS";
+        case LN_GATE_CLOSING: return "CLOS";
+        case LN_REJECTED: return "REJ ";
+        case LN_TIMEOUT: return "TIME";
+        default: return "?   ";
+    }
+}
 
 static void DISPLAY_PaintLine2(void)
 {
-    (void)LCD_Paint(1u, "IN:---  OUT:---");
+    char line[16u + 1u];
+    const char *in = LANE_Name((uint8)g_entryLane.state);
+    const char *out = LANE_Name((uint8)g_exitLane.state);
+
+    line[0] = 'I'; line[1] = 'N'; line[2] = ':';
+    line[3] = in[0]; line[4] = in[1]; line[5] = in[2]; line[6] = in[3];
+    line[7] = ' ';
+    line[8] = 'O'; line[9] = 'U'; line[10] = 'T'; line[11] = ':';
+    line[12] = out[0]; line[13] = out[1]; line[14] = out[2]; line[15] = out[3];
+    line[16] = '\0';
+
+    (void)LCD_Paint(1u, line);
 }

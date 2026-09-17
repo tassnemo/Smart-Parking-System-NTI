@@ -24,9 +24,9 @@ PWM_Init:
 	out 0x27,r24
 	ldi r24,lo8(31)
 	out 0x26,r24
-	ldi r25,lo8(3)
+	ldi r25,lo8(5)
 	out 0x2b,r25
-	ldi r24,lo8(-24)
+	ldi r24,lo8(-36)
 	out 0x2a,r24
 	out 0x29,r25
 	out 0x28,r24
@@ -43,10 +43,10 @@ PWM_SetPulse:
 /* stack size = 0 */
 .L__stack_usage = 0
 	movw r18,r22
-	subi r18,-24
-	sbci r19,3
-	cpi r18,-23
-	sbci r19,3
+	subi r18,-36
+	sbci r19,5
+	cpi r18,-11
+	sbci r19,1
 	brsh .L7
 	cpi r24,lo8(1)
 	brsh .L4

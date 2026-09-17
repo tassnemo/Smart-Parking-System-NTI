@@ -5,6 +5,7 @@
 #include "HAL/7seg/7seg.h"
 #include "HAL/lcd/lcd_i2c.h"
 #include "APP/light/light.h"
+#include "APP/lane/lane_fsm.h"   
 
 
 
@@ -64,12 +65,41 @@ static void DISPLAY_PaintLine1(uint8 Copy_u8Free, uint8 Copy_u8Occupied)
     (void)LCD_Paint(0u, Local_acLine);
 }
 
-/* "IN:---  OUT:---" - PLACEHOLDER. §19/FR-03 want the live lane phase here
- * (e.g. "IN:OPEN  OUT:IDLE"), but that needs LANE_GetStateName() from
- * lane_fsm.c, which doesn't exist in this project yet. Replace this whole
- * function once lane_fsm.c exposes per-lane state - do not ship this dashed
- * placeholder in the final build, TC-36/demo will show it as static text. */
+
+
+
+extern Lane_t g_entryLane;
+extern Lane_t g_exitLane;
+
+static const char *LANE_Name(uint8 state)
+{
+    switch (state)
+    {
+        case LN_IDLE:            return "IDLE";
+        case LN_VEHICLE_WAIT:    return "WAIT";
+        case LN_AUTHORISING:     return "AUTH";
+        case LN_GATE_OPENING:    return "OPEN";
+        case LN_GATE_OPEN:       return "OPEN";
+        case LN_VEHICLE_PASSING: return "PASS";
+        case LN_GATE_CLOSING:    return "CLOS";
+        case LN_REJECTED:        return "REJ ";
+        case LN_TIMEOUT:         return "TIME";
+        default:                 return "?   ";
+    }
+}
+
 static void DISPLAY_PaintLine2(void)
 {
-    (void)LCD_Paint(1u, "IN:---  OUT:---");
+    char line[LCD_COLS + 1u];
+    const char *in  = LANE_Name((uint8)g_entryLane.state);
+    const char *out = LANE_Name((uint8)g_exitLane.state);
+
+    line[0]  = 'I'; line[1]  = 'N';  line[2]  = ':';
+    line[3]  = in[0]; line[4]  = in[1]; line[5]  = in[2]; line[6]  = in[3];
+    line[7]  = ' ';
+    line[8]  = 'O'; line[9]  = 'U';  line[10] = 'T'; line[11] = ':';
+    line[12] = out[0]; line[13] = out[1]; line[14] = out[2]; line[15] = out[3];
+    line[16] = '\0';
+
+    (void)LCD_Paint(1u, line);
 }
