@@ -25,10 +25,12 @@ STD_ReturnType SPI_Transfer(uint8 Copy_u8Data, uint8 *Copy_pu8Received)
 
 	SPI_SPDR = Copy_u8Data;
 
-	while ((SPI_SPSR & (uint8)(1u << SPI_SPIF)) == 0u)
-	{
-		/* Wait for the byte transfer to complete. */
-	}
+
+   while ((SPI_SPSR & (1u << SPI_SPIF)) == 0u)
+    {
+        /* block until the 8 bits have actually finished shifting out */
+    }
+
 
 	*Copy_pu8Received = SPI_SPDR;
 

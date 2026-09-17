@@ -5,6 +5,65 @@ __SREG__ = 0x3f
 __tmp_reg__ = 0
 __zero_reg__ = 1
 	.text
+	.section	.text.SR_Delay,"ax",@progbits
+	.type	SR_Delay, @function
+SR_Delay:
+	push r28
+	push r29
+	rcall .
+	rcall .
+	in r28,__SP_L__
+	in r29,__SP_H__
+/* prologue: function */
+/* frame size = 4 */
+/* stack size = 6 */
+.L__stack_usage = 6
+	std Y+1,__zero_reg__
+	std Y+2,__zero_reg__
+	std Y+3,__zero_reg__
+	std Y+4,__zero_reg__
+.L2:
+	ldd r24,Y+1
+	ldd r25,Y+2
+	ldd r26,Y+3
+	ldd r27,Y+4
+	cpi r25,53
+	sbci r26,12
+	cpc r27,__zero_reg__
+	brlo .L3
+/* epilogue start */
+	pop __tmp_reg__
+	pop __tmp_reg__
+	pop __tmp_reg__
+	pop __tmp_reg__
+	pop r29
+	pop r28
+	ret
+.L3:
+	ldd r24,Y+1
+	ldd r25,Y+2
+	ldd r26,Y+3
+	ldd r27,Y+4
+	adiw r24,1
+	adc r26,__zero_reg__
+	adc r27,__zero_reg__
+	std Y+1,r24
+	std Y+2,r25
+	std Y+3,r26
+	std Y+4,r27
+	rjmp .L2
+	.size	SR_Delay, .-SR_Delay
+	.section	.rodata.main.str1.1,"aMS",@progbits,1
+.LC0:
+	.string	"FREE:6  OCC:0"
+.LC1:
+	.string	"IN:IDLE OUT:IDLE"
+.LC2:
+	.string	"FREE:3  OCC:3"
+.LC3:
+	.string	"IN:OPEN OUT:IDLE"
+.LC4:
+	.string	"RAW LINE 1 TEST"
 	.section	.text.startup.main,"ax",@progbits
 .global	main
 	.type	main, @function
@@ -13,99 +72,53 @@ main:
 /* frame size = 0 */
 /* stack size = 0 */
 .L__stack_usage = 0
-	call SR_Init
-	ldi r16,lo8(1)
-	ldi r17,0
-	cpse r24,__zero_reg__
-.L3:
-	rjmp .L3
-.L2:
-	ldi r28,0
-	ldi r29,0
-.L4:
-	movw r24,r16
-	mov r0,r28
-	rjmp 2f
-	1:
-	lsl r24
-	rol r25
-	2:
-	dec r0
-	brpl 1b
-	call SR_Write
-	ldi r24,lo8(479999)
-	ldi r25,hi8(479999)
-	ldi r18,hlo8(479999)
-1:	subi r24,1
-	sbci r25,0
-	sbci r18,0
-	brne 1b
-	rjmp .
-	nop
-	adiw r28,1
-	cpi r28,16
-	cpc r29,__zero_reg__
-	brne .L4
+	call LCD_Init
+	ldi r22,lo8(.LC0)
+	ldi r23,hi8(.LC0)
 	ldi r24,0
-	ldi r25,0
-	call SR_Write
-	ldi r24,lo8(799999)
-	ldi r25,hi8(799999)
-	ldi r18,hlo8(799999)
-1:	subi r24,1
-	sbci r25,0
-	sbci r18,0
-	brne 1b
-	rjmp .
-	nop
-	ldi r24,lo8(85)
-	ldi r25,lo8(5)
-	call SR_Write
-	ldi r24,lo8(1119999)
-	ldi r25,hi8(1119999)
-	ldi r18,hlo8(1119999)
-1:	subi r24,1
-	sbci r25,0
-	sbci r18,0
-	brne 1b
-	rjmp .
-	nop
-	ldi r24,lo8(-86)
-	ldi r25,lo8(10)
-	call SR_Write
-	ldi r24,lo8(1119999)
-	ldi r25,hi8(1119999)
-	ldi r18,hlo8(1119999)
-1:	subi r24,1
-	sbci r25,0
-	sbci r18,0
-	brne 1b
-	rjmp .
-	nop
+	call LCD_Paint
+	ldi r22,lo8(.LC1)
+	ldi r23,hi8(.LC1)
+	ldi r24,lo8(1)
+	call LCD_Paint
+	call SR_Delay
+	ldi r22,lo8(.LC2)
+	ldi r23,hi8(.LC2)
 	ldi r24,0
-	ldi r25,lo8(16)
-	call SR_Write
-	ldi r24,lo8(1119999)
-	ldi r25,hi8(1119999)
-	ldi r18,hlo8(1119999)
-1:	subi r24,1
-	sbci r25,0
-	sbci r18,0
-	brne 1b
-	rjmp .
-	nop
+	call LCD_Paint
+	ldi r22,lo8(.LC3)
+	ldi r23,hi8(.LC3)
+	ldi r24,lo8(1)
+	call LCD_Paint
+	call SR_Delay
+	call LCD_Clear
+	call SR_Delay
+	ldi r22,lo8(.LC2)
+	ldi r23,hi8(.LC2)
 	ldi r24,0
-	ldi r25,0
-	call SR_Write
-	ldi r24,lo8(1119999)
-	ldi r25,hi8(1119999)
-	ldi r18,hlo8(1119999)
-1:	subi r24,1
-	sbci r25,0
-	sbci r18,0
-	brne 1b
-	rjmp .
-	nop
-	rjmp .L2
+	call LCD_Paint
+	ldi r22,lo8(.LC3)
+	ldi r23,hi8(.LC3)
+	ldi r24,lo8(1)
+	call LCD_Paint
+	call SR_Delay
+	ldi r22,0
+	ldi r24,0
+	call LCD_SetCursor
+	ldi r24,lo8(.LC4)
+	ldi r25,hi8(.LC4)
+	call LCD_WriteString
+	ldi r22,0
+	ldi r24,lo8(1)
+	call LCD_SetCursor
+	ldi r24,lo8(88)
+	call LCD_WriteChar
+	ldi r24,lo8(89)
+	call LCD_WriteChar
+	ldi r24,lo8(90)
+	call LCD_WriteChar
+.L5:
+	rjmp .L5
 	.size	main, .-main
 	.ident	"GCC: (GNU) 15.2.0"
+.global __do_copy_data

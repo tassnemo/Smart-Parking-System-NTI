@@ -137,12 +137,7 @@
  * PB5 MOSI = "data", PB7 SCK = "clock", PB4 = "strobe" (4094 STR, active HIGH)
  * PB6 MISO is unused (master, no slave output).
  *
- * 4094 vs 595:
- *   - STR is a LEVEL-sensitive transparent latch: idle LOW, pulse HIGH to
- *     publish, then back LOW.  Same waveform as RCLK, different semantics.
- *   - OE is ACTIVE HIGH and MUST be wired to VCC.  Tied to GND the outputs
- *     are high-Z and nothing ever lights up.   <-- see CIRCUIT_AUDIT A-1
- *   - Cascade is U1.QS' -> U2.D ("overflow" net).
+ * 4095 : MUST TIE OE TO GND 
  * ========================= */
 #define SHIFTREG_RCLK_PORT          1u      /* PORTB */
 #define SHIFTREG_RCLK_PIN           4u      /* "strobe" */
@@ -187,7 +182,7 @@
 #define SEG7_C_PIN                  2u
 #define SEG7_D_PIN                  3u
 #define SEG7_BLANK_CODE             0x0Fu
-#define SEG7_MAX_DIGIT              9u
+#define SEG7_MAX_DIGIT              6u
 
 /* =========================
  * I2C / TWI  ->  AiP31068 LCD      [DEV-3] brief says PCF8574 + HD44780

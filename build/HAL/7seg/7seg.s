@@ -19,7 +19,7 @@ SEG_Show:
 /* stack size = 5 */
 .L__stack_usage = 5
 	mov r28,r24
-	cpi r24,lo8(10)
+	cpi r24,lo8(7)
 	brlo .L2
 	ldi r28,lo8(15)
 .L2:

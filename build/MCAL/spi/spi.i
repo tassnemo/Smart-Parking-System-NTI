@@ -55,10 +55,12 @@ STD_ReturnType SPI_Transfer(uint8 Copy_u8Data, uint8 *Copy_pu8Received)
 
  (*(volatile uint8 *)0x2F) = Copy_u8Data;
 
- while (((*(volatile uint8 *)0x2E) & (uint8)(1u << 7u)) == 0u)
- {
 
- }
+   while (((*(volatile uint8 *)0x2E) & (1u << 7u)) == 0u)
+    {
+
+    }
+
 
  *Copy_pu8Received = (*(volatile uint8 *)0x2F);
 

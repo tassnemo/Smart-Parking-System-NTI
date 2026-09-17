@@ -1,4 +1,4 @@
-build/main.s: main.c APP/config.h LIB/STD_TYPES.h HAL/shiftreg/shiftreg.h
-APP/config.h:
+build/main.s: main.c HAL/lcd/lcd_i2c.h LIB/STD_TYPES.h APP/config.h
+HAL/lcd/lcd_i2c.h:
 LIB/STD_TYPES.h:
-HAL/shiftreg/shiftreg.h:
+APP/config.h:

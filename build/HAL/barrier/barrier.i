@@ -80,7 +80,7 @@ STD_ReturnType BAR_Open(uint8 Copy_u8Channel)
 
 STD_ReturnType BAR_Close(uint8 Copy_u8Channel)
 {
-    return PWM_SetPulse(Copy_u8Channel, 1000u);
+    return PWM_SetPulse(Copy_u8Channel, 1500u);
 }
 
 STD_ReturnType BAR_IsMoving(uint8 Copy_u8Channel, uint8 *Copy_pu8Status)

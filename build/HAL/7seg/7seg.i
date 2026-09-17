@@ -77,7 +77,7 @@ STD_ReturnType SEG_Init(void)
 
 STD_ReturnType SEG_Show(uint8 Copy_u8Value)
 {
-    uint8 Local_u8Code = (Copy_u8Value > 9u)
+    uint8 Local_u8Code = (Copy_u8Value > 6u)
                        ? 0x0Fu
                        : Copy_u8Value;
 
