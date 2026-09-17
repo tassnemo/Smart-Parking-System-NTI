@@ -22,6 +22,8 @@
 
 ---
 
+![alt text](<■ SimulIDE_2.0.0--260501 - New Circuit 9_17_2026 5_40_42 PM.png>)
+
 ## 2. Description
 
 ### In one sentence
@@ -1029,5 +1031,3 @@ Maximum **+20**; final score capped at 100.
 ---
 
 
-
-![alt text](<■ SimulIDE_2.0.0--260501 - New Circuit 9_17_2026 5_40_42 PM.png>)
