@@ -4,12 +4,9 @@
 #include "HAL/slotleds/slotleds.h"
 #include "HAL/7seg/7seg.h"
 #include "HAL/lcd/lcd_i2c.h"
+#include "APP/light/light.h"
 
-/* Lot lamp: driven by ambient-light hysteresis, FR-12. That task/module isn't
- * written yet in this project, so the lamp is held OFF here rather than
- * guessing a value. Replace this with a real LIGHT_LampsOn() call once the
- * light-sensor task exists - do not leave it hardcoded in the final build. */
-#define DISPLAY_LAMPS_ON_PLACEHOLDER   0u
+
 
 static void DISPLAY_PaintLine1(uint8 Copy_u8Free, uint8 Copy_u8Occupied);
 static void DISPLAY_PaintLine2(void);
@@ -31,7 +28,7 @@ void DISPLAY_Task(void)
     uint8 Local_u8Occupied = LOT_GetOccupied();
 
     /* --- slot LEDs + lot lamp (4094 chain) --- */
-    (void)LED_Update(Local_u8Map, DISPLAY_LAMPS_ON_PLACEHOLDER);
+    LED_Update(Local_u8Map, LIGHT_GetState());
 
     /* --- free-slot digit (4511 decoder) --- */
     (void)SEG_Show(Local_u8Free);

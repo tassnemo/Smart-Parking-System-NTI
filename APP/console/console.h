@@ -18,7 +18,7 @@
  * RX ring buffer (on \r or \n), from a task around 20ms per Task_Console.
  */
 
-#define CONSOLE_MAX_LINE_LEN  24u   /* FR-18: >24 chars -> ERR LONG */
+#define CONSOLE_MAX_LINE 24u   /* FR-18: >24 chars -> ERR LONG */
 
 STD_ReturnType CONSOLE_Init(void);
 STD_ReturnType CONSOLE_ParseLine(const char *Copy_pcLine);

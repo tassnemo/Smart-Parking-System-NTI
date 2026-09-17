@@ -98,6 +98,7 @@
 #define LIGHT_THRESHOLD_DEFAULT     30u     /* percent */
 #define LIGHT_HYSTERESIS_PERCENT    10u
 #define LIGHT_PCT_TO_RAW(p)         ((uint16)(((uint32)(p) * 1023u) / 100u))
+#define LIGHT_ADC_CHANNEL ADC_CHANNEL_2
 
 /* =========================
  * Tariff
