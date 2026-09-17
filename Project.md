@@ -25,12 +25,12 @@
 |---|---|---|---|---|---|
 | `slots.c/h` | `SLOT_Poll()`, `SLOT_GetMap()`, `SLOT_CountFree()` | Owns `popcount6()` from §10.6, reads the 6 switches and keeps track of which spots are occupied. | Sept 14 | Tasneem | x |
 | `barrier.c/h` | `BAR_Open(ch)`, `BAR_Close(ch)`, `BAR_IsMoving(ch)` | Thin wrapper over `pwm.c` so `lane_fsm` never touches `OCR1x` directly — "open the gate," "close the gate," using the PWM driver underneath. | Sept 14 | Tasneem | x |
-| `seg7.c/h` | `SEG_Show(n)` | Decide and document: direct-segment drive vs BCD-to-decoder wiring — shows a number (0–6) on the single-digit display. | Sept 15 | Tasneem ? | x |
-| `shiftreg.c/h` | `SR_Write(byte)` | Shifts 8 bits over SPI then pulses `RCLK`; caller is responsible for the FR-16 rate limit — a helper chip (74HC595) that lets you control that digit display using only 3 wires instead of 8. This module knows how to talk to it. | Sept 15 | Tasneem ? | x |
-| `lcd_i2c.c/h` | `LCD_Init`, `LCD_SetCursor`, `LCD_Print`, `LCD_UpdateIfChanged(line, text)` | FR-03 requires "no visible flicker; only changed characters rewritten" — needs a shadow buffer of each line's current contents to diff against. Writes text to the LCD screen. | Sept 15 | Tasneem ?| x |
+| `seg7.c/h` | `SEG_Show(n)` | Decide and document: direct-segment drive vs BCD-to-decoder wiring — shows a number (0–6) on the single-digit display. | Sept 15 | Haneen | x |
+| `shiftreg.c/h` | `SR_Write(byte)` | Shifts 8 bits over SPI then pulses `RCLK`; caller is responsible for the FR-16 rate limit — a helper chip (74HC595) that lets you control that digit display using only 3 wires instead of 8. This module knows how to talk to it. | Sept 15 | Haneen | x |
+| `lcd_i2c.c/h` | `LCD_Init`, `LCD_SetCursor`, `LCD_Print`, `LCD_UpdateIfChanged(line, text)` | FR-03 requires "no visible flicker; only changed characters rewritten" — needs a shadow buffer of each line's current contents to diff against. Writes text to the LCD screen. | Sept 15 | Haneen | x |
 | `buttons.c/h` | `BTN_Debounce()`, polled from the 10 ms task | Keeps the EXTI ISR itself tiny per NFR-09 — cleans up button presses because real buttons "bounce" electrically and can register as multiple presses; this filters that out. | Sept 14 | Tasneem | x |
 | `buzzer.c/h` | `BUZ_On()`, `BUZ_Off()`, `BUZ_Beep(times, ms)` | Makes the beep sound for rejected cars or errors. | Sept 14 | Tasneem | x |
-| `slotleds.c/h` | | for the led patterns | Sept 16 | Tasneem | x |
+| `slotleds.c/h` | | for the led patterns | Sept 16 | Haneen | x |
 
 
 ## LIB
@@ -55,7 +55,7 @@
 | `config.c/h` | `CFG_LoadDefaults`, `CFG_Validate`, `CFG_MarkDirty`, `CFG_MaybeWrite` | Owns FR-16's rate-limited republish and FR-17's boot validation/fallback — holds all your adjustable settings (price per hour, grace period, etc.) and their default values. | Sept 16 | Tasneem | x |
 | `scheduler.c/h` | `SCHED_Init`, `SCHED_Tick()`, task table `{period, offset, lastRun, fn}` | Implements the dispatch table implied by §19 and the "scheduler (10 ms)" bar in §9.1 — the "traffic cop" that decides, every 10 ms, which pieces of code get to run. Some things (like checking the gates) run every tick; others (like updating the display) only need to run every 250 ms, since redrawing a screen 100 times a second is wasteful. | Core built Sept 14, entries added Sept 15/16 | Tasneem | x |
 | `display.h/c` | DISPLAY_Task | scheduler.h never lists specific tasks by design. It's generic — it only knows about a function pointer type (SCHED_TaskFunc) and a registration call (SCHED_RegisterTask). It doesn't hardcode DISPLAY_Task, LOT_Run, or anything else by name. That's intentional and correct | Sept 16 | Tasneem | x |
-| `loopsense.c/h` |  | to do the actual logic and specifc reading| Sept 16 | Tasneem | x |
+| `loopsense.c/h` |  | to do the actual logic and specifc reading| Sept 16 | Haneen | x |
 | `light.c/h` |  | for the lighting module reading | Sept 16 | Tasneem | x |
 | `main.c` | Init sequence, `sei()`, super-loop calling `SCHED_Tick()` | — | — | Tasneem | x |
 
