@@ -13,7 +13,7 @@ C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_tablejump2.o)
 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_copy_data.o)
                               build/main.o (__do_copy_data)
 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_clear_bss.o)
-                              build/LIB/softrtc.o (__do_clear_bss)
+                              build/main.o (__do_clear_bss)
 
 Discarded input sections
 
@@ -31,8 +31,6 @@ Discarded input sections
  .text          0x00000000        0x0 build/LIB/ring_buffer.o
  .data          0x00000000        0x0 build/LIB/ring_buffer.o
  .bss           0x00000000        0x0 build/LIB/ring_buffer.o
- .text.RingBuffer_Init
-                0x00000000       0x2e build/LIB/ring_buffer.o
  .text.RingBuffer_Pop
                 0x00000000       0x5a build/LIB/ring_buffer.o
  .text.RingBuffer_IsEmpty
@@ -46,17 +44,6 @@ Discarded input sections
  .text          0x00000000        0x0 build/LIB/softrtc.o
  .data          0x00000000        0x0 build/LIB/softrtc.o
  .bss           0x00000000        0x0 build/LIB/softrtc.o
- .text.RTC_Tick10ms
-                0x00000000       0x3c build/LIB/softrtc.o
- .text.RTC_Seconds
-                0x00000000       0x18 build/LIB/softrtc.o
- .text.RTC_Format
-                0x00000000      0x114 build/LIB/softrtc.o
- .bss.g_u8SubTick
-                0x00000000        0x1 build/LIB/softrtc.o
- .bss.g_u32UptimeSec
-                0x00000000        0x4 build/LIB/softrtc.o
- .comment       0x00000000       0x13 build/LIB/softrtc.o
  .text          0x00000000        0x0 build/APP/billing/billing.o
  .data          0x00000000        0x0 build/APP/billing/billing.o
  .bss           0x00000000        0x0 build/APP/billing/billing.o
@@ -68,13 +55,6 @@ Discarded input sections
  .text          0x00000000        0x0 build/APP/display/display_task.o
  .data          0x00000000        0x0 build/APP/display/display_task.o
  .bss           0x00000000        0x0 build/APP/display/display_task.o
- .text.DISPLAY_Init
-                0x00000000        0x4 build/APP/display/display_task.o
- .rodata.DISPLAY_Task.str1.1
-                0x00000000       0x10 build/APP/display/display_task.o
- .text.DISPLAY_Task
-                0x00000000       0x92 build/APP/display/display_task.o
- .comment       0x00000000       0x13 build/APP/display/display_task.o
  .text          0x00000000        0x0 build/APP/lane/lane_fsm.o
  .data          0x00000000        0x0 build/APP/lane/lane_fsm.o
  .bss           0x00000000        0x0 build/APP/lane/lane_fsm.o
@@ -96,15 +76,6 @@ Discarded input sections
  .text          0x00000000        0x0 build/APP/lot/lot_fsm.o
  .data          0x00000000        0x0 build/APP/lot/lot_fsm.o
  .bss           0x00000000        0x0 build/APP/lot/lot_fsm.o
- .text.LOT_Init
-                0x00000000       0x18 build/APP/lot/lot_fsm.o
- .text.LOT_Run  0x00000000       0x64 build/APP/lot/lot_fsm.o
- .text.LOT_GetMap
-                0x00000000        0x6 build/APP/lot/lot_fsm.o
- .text.LOT_GetFree
-                0x00000000        0x6 build/APP/lot/lot_fsm.o
- .text.LOT_GetOccupied
-                0x00000000        0x6 build/APP/lot/lot_fsm.o
  .text.LOT_GetState
                 0x00000000        0xa build/APP/lot/lot_fsm.o
  .text.LOT_CanAuthoriseEntry
@@ -113,32 +84,11 @@ Discarded input sections
                 0x00000000       0x20 build/APP/lot/lot_fsm.o
  .text.LOT_SetFault
                 0x00000000       0x20 build/APP/lot/lot_fsm.o
- .bss.g_u8OccupiedSlots
-                0x00000000        0x1 build/APP/lot/lot_fsm.o
- .data.g_u8FreeSlots
-                0x00000000        0x1 build/APP/lot/lot_fsm.o
- .bss.g_u8SlotMap
-                0x00000000        0x1 build/APP/lot/lot_fsm.o
- .bss.g_LotState
-                0x00000000        0x2 build/APP/lot/lot_fsm.o
- .comment       0x00000000       0x13 build/APP/lot/lot_fsm.o
  .text          0x00000000        0x0 build/APP/scheduler/scheduler.o
  .data          0x00000000        0x0 build/APP/scheduler/scheduler.o
  .bss           0x00000000        0x0 build/APP/scheduler/scheduler.o
- .text.SCHED_Init
-                0x00000000       0x34 build/APP/scheduler/scheduler.o
- .text.SCHED_RegisterTask
-                0x00000000       0x3e build/APP/scheduler/scheduler.o
- .text.SCHED_Tick
-                0x00000000       0x8a build/APP/scheduler/scheduler.o
  .text.SCHED_GetTickCount
                 0x00000000       0x12 build/APP/scheduler/scheduler.o
- .bss.g_tickCount
-                0x00000000        0x4 build/APP/scheduler/scheduler.o
- .bss.g_taskCount
-                0x00000000        0x1 build/APP/scheduler/scheduler.o
- .bss.g_tasks   0x00000000       0x54 build/APP/scheduler/scheduler.o
- .comment       0x00000000       0x13 build/APP/scheduler/scheduler.o
  .text          0x00000000        0x0 build/APP/telemetry/telemetry.o
  .data          0x00000000        0x0 build/APP/telemetry/telemetry.o
  .bss           0x00000000        0x0 build/APP/telemetry/telemetry.o
@@ -146,12 +96,6 @@ Discarded input sections
  .text          0x00000000        0x0 build/APP/ticketing/ticketing.o
  .data          0x00000000        0x0 build/APP/ticketing/ticketing.o
  .bss           0x00000000        0x0 build/APP/ticketing/ticketing.o
- .text.TKT_Init
-                0x00000000       0x32 build/APP/ticketing/ticketing.o
- .rodata.TKT_OnEntryAuthorized.str1.1
-                0x00000000       0x66 build/APP/ticketing/ticketing.o
- .text.TKT_OnEntryAuthorized
-                0x00000000      0x1dc build/APP/ticketing/ticketing.o
  .text.TKT_CloseOldest
                 0x00000000       0xac build/APP/ticketing/ticketing.o
  .text.TKT_Find
@@ -162,31 +106,11 @@ Discarded input sections
                 0x00000000        0xa build/APP/ticketing/ticketing.o
  .text.TKT_GetTotalEntries
                 0x00000000        0xa build/APP/ticketing/ticketing.o
- .bss.g_u16TotalEntries
-                0x00000000        0x2 build/APP/ticketing/ticketing.o
- .bss.g_u16NextId
-                0x00000000        0x2 build/APP/ticketing/ticketing.o
- .bss.g_atTickets
-                0x00000000       0x30 build/APP/ticketing/ticketing.o
- .comment       0x00000000       0x13 build/APP/ticketing/ticketing.o
  .text          0x00000000        0x0 build/HAL/7seg/7seg.o
  .data          0x00000000        0x0 build/HAL/7seg/7seg.o
  .bss           0x00000000        0x0 build/HAL/7seg/7seg.o
- .text.SEG_Show
-                0x00000000       0x80 build/HAL/7seg/7seg.o
- .text.SEG_Blank
-                0x00000000        0x6 build/HAL/7seg/7seg.o
- .text.SEG_Init
-                0x00000000       0x34 build/HAL/7seg/7seg.o
  .text.SEG_GetShadow
                 0x00000000        0x6 build/HAL/7seg/7seg.o
- .bss.SEG_u8Primed
-                0x00000000        0x1 build/HAL/7seg/7seg.o
- .data.SEG_u8Shadow
-                0x00000000        0x1 build/HAL/7seg/7seg.o
- .rodata.SEG_au8Pins
-                0x00000000        0x4 build/HAL/7seg/7seg.o
- .comment       0x00000000       0x13 build/HAL/7seg/7seg.o
  .text          0x00000000        0x0 build/HAL/barrier/barrier.o
  .data          0x00000000        0x0 build/HAL/barrier/barrier.o
  .bss           0x00000000        0x0 build/HAL/barrier/barrier.o
@@ -240,6 +164,12 @@ Discarded input sections
  .text          0x00000000        0x0 build/HAL/lcd/lcd_i2c.o
  .data          0x00000000        0x0 build/HAL/lcd/lcd_i2c.o
  .bss           0x00000000        0x0 build/HAL/lcd/lcd_i2c.o
+ .text.LCD_Clear
+                0x00000000       0x14 build/HAL/lcd/lcd_i2c.o
+ .text.LCD_SetCursor
+                0x00000000       0x1c build/HAL/lcd/lcd_i2c.o
+ .text.LCD_WriteString
+                0x00000000       0x3c build/HAL/lcd/lcd_i2c.o
  .text.LCD_InvalidateShadow
                 0x00000000        0x6 build/HAL/lcd/lcd_i2c.o
  .text.LCD_DisplayOn
@@ -247,46 +177,18 @@ Discarded input sections
  .text          0x00000000        0x0 build/HAL/shiftreg/shiftreg.o
  .data          0x00000000        0x0 build/HAL/shiftreg/shiftreg.o
  .bss           0x00000000        0x0 build/HAL/shiftreg/shiftreg.o
- .text.SR_Write
-                0x00000000       0x90 build/HAL/shiftreg/shiftreg.o
- .text.SR_Init  0x00000000       0x3a build/HAL/shiftreg/shiftreg.o
  .text.SR_GetShadow
                 0x00000000        0xa build/HAL/shiftreg/shiftreg.o
- .bss.SR_u16Shadow
-                0x00000000        0x2 build/HAL/shiftreg/shiftreg.o
- .comment       0x00000000       0x13 build/HAL/shiftreg/shiftreg.o
  .text          0x00000000        0x0 build/HAL/slotleds/slotleds.o
  .data          0x00000000        0x0 build/HAL/slotleds/slotleds.o
  .bss           0x00000000        0x0 build/HAL/slotleds/slotleds.o
- .text.LED_Init
-                0x00000000       0x1a build/HAL/slotleds/slotleds.o
- .text.LED_Update
-                0x00000000       0x9c build/HAL/slotleds/slotleds.o
  .text.LED_TestPattern
                 0x00000000       0x4c build/HAL/slotleds/slotleds.o
- .bss.LED_u8Primed
-                0x00000000        0x1 build/HAL/slotleds/slotleds.o
- .bss.LED_u16Last
-                0x00000000        0x2 build/HAL/slotleds/slotleds.o
- .comment       0x00000000       0x13 build/HAL/slotleds/slotleds.o
  .text          0x00000000        0x0 build/HAL/slots/slots.o
  .data          0x00000000        0x0 build/HAL/slots/slots.o
  .bss           0x00000000        0x0 build/HAL/slots/slots.o
- .text.SLOT_Init
-                0x00000000       0x2c build/HAL/slots/slots.o
- .text.SLOT_Poll
-                0x00000000       0x5a build/HAL/slots/slots.o
- .text.SLOT_GetMap
-                0x00000000        0x6 build/HAL/slots/slots.o
  .text.SLOT_CountFree
                 0x00000000       0x2c build/HAL/slots/slots.o
- .bss.SLOT_u8SampleCount
-                0x00000000        0x1 build/HAL/slots/slots.o
- .bss.SLOT_u8Candidate
-                0x00000000        0x1 build/HAL/slots/slots.o
- .bss.SLOT_u8PublishedMap
-                0x00000000        0x1 build/HAL/slots/slots.o
- .comment       0x00000000       0x13 build/HAL/slots/slots.o
  .text          0x00000000        0x0 build/MCAL/adc/ADC.o
  .data          0x00000000        0x0 build/MCAL/adc/ADC.o
  .bss           0x00000000        0x0 build/MCAL/adc/ADC.o
@@ -306,8 +208,6 @@ Discarded input sections
  .bss           0x00000000        0x0 build/MCAL/dio/dio.o
  .text.DIO_WritePort
                 0x00000000       0x24 build/MCAL/dio/dio.o
- .text.DIO_ReadPort
-                0x00000000       0x2c build/MCAL/dio/dio.o
  .text.DIO_TogglePin
                 0x00000000       0x60 build/MCAL/dio/dio.o
  .text          0x00000000        0x0 build/MCAL/exti/exti.o
@@ -343,11 +243,6 @@ Discarded input sections
  .text          0x00000000        0x0 build/MCAL/spi/spi.o
  .data          0x00000000        0x0 build/MCAL/spi/spi.o
  .bss           0x00000000        0x0 build/MCAL/spi/spi.o
- .text.SPI_Init
-                0x00000000       0x12 build/MCAL/spi/spi.o
- .text.SPI_Transfer
-                0x00000000       0x1a build/MCAL/spi/spi.o
- .comment       0x00000000       0x13 build/MCAL/spi/spi.o
  .text          0x00000000        0x0 build/MCAL/timer/timer.o
  .data          0x00000000        0x0 build/MCAL/timer/timer.o
  .bss           0x00000000        0x0 build/MCAL/timer/timer.o
@@ -374,23 +269,13 @@ Discarded input sections
  .text          0x00000000        0x0 build/MCAL/usart/usart.o
  .data          0x00000000        0x0 build/MCAL/usart/usart.o
  .bss           0x00000000        0x0 build/MCAL/usart/usart.o
- .text.USART_Init
-                0x00000000       0x2c build/MCAL/usart/usart.o
- .text.USART_SendByte
-                0x00000000        0xa build/MCAL/usart/usart.o
  .text.USART_ReceiveByte
                 0x00000000       0x1e build/MCAL/usart/usart.o
- .text.USART_SendString
-                0x00000000       0x20 build/MCAL/usart/usart.o
- .bss.g_USARTRxStorage
-                0x00000000       0x40 build/MCAL/usart/usart.o
  .text          0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodqi4.o)
  .data          0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodqi4.o)
  .bss           0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodqi4.o)
  .text.libgcc.mul
                 0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodqi4.o)
- .text.libgcc.div
-                0x00000000       0x18 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodqi4.o)
  .text.libgcc   0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodqi4.o)
  .text.libgcc.prologue
                 0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodqi4.o)
@@ -400,21 +285,11 @@ Discarded input sections
                 0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodqi4.o)
  .text.libgcc.fixed
                 0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodqi4.o)
- .debug_line    0x00000000       0x8d C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodqi4.o)
- .debug_line_str
-                0x00000000       0x5c C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodqi4.o)
- .debug_info    0x00000000       0x24 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodqi4.o)
- .debug_abbrev  0x00000000       0x14 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodqi4.o)
- .debug_aranges
-                0x00000000       0x20 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodqi4.o)
- .debug_str     0x00000000       0x68 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodqi4.o)
  .text          0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodhi4.o)
  .data          0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodhi4.o)
  .bss           0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodhi4.o)
  .text.libgcc.mul
                 0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodhi4.o)
- .text.libgcc.div
-                0x00000000       0x28 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodhi4.o)
  .text.libgcc   0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodhi4.o)
  .text.libgcc.prologue
                 0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodhi4.o)
@@ -424,21 +299,11 @@ Discarded input sections
                 0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodhi4.o)
  .text.libgcc.fixed
                 0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodhi4.o)
- .debug_line    0x00000000       0xbd C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodhi4.o)
- .debug_line_str
-                0x00000000       0x5c C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodhi4.o)
- .debug_info    0x00000000       0x24 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodhi4.o)
- .debug_abbrev  0x00000000       0x14 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodhi4.o)
- .debug_aranges
-                0x00000000       0x20 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodhi4.o)
- .debug_str     0x00000000       0x68 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodhi4.o)
  .text          0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodsi4.o)
  .data          0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodsi4.o)
  .bss           0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodsi4.o)
  .text.libgcc.mul
                 0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodsi4.o)
- .text.libgcc.div
-                0x00000000       0x44 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodsi4.o)
  .text.libgcc   0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodsi4.o)
  .text.libgcc.prologue
                 0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodsi4.o)
@@ -448,14 +313,6 @@ Discarded input sections
                 0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodsi4.o)
  .text.libgcc.fixed
                 0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodsi4.o)
- .debug_line    0x00000000      0x111 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodsi4.o)
- .debug_line_str
-                0x00000000       0x5c C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodsi4.o)
- .debug_info    0x00000000       0x24 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodsi4.o)
- .debug_abbrev  0x00000000       0x14 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodsi4.o)
- .debug_aranges
-                0x00000000       0x20 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodsi4.o)
- .debug_str     0x00000000       0x68 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodsi4.o)
  .text          0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_exit.o)
  .data          0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_exit.o)
  .bss           0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_exit.o)
@@ -679,7 +536,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x974
+.text           0x00000000     0x12d2
  *(.vectors)
  .vectors       0x00000000       0x54 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/../../../../avr/lib/avr5/crtatmega32.o
                 0x00000000                __vector_default
@@ -755,87 +612,181 @@ END GROUP
                 0x0000008e                __vector_20
                 0x00000092                        . = ALIGN (0x2)
  *(.text.*)
- .text.SR_Delay
-                0x00000092       0x4a build/main.o
+ .text.TASK_SlotsWrapper
+                0x00000092        0x4 build/main.o
  .text.startup.main
-                0x000000dc       0x80 build/main.o
-                0x000000dc                main
+                0x00000096       0xd4 build/main.o
+                0x00000096                main
+ .text.RingBuffer_Init
+                0x0000016a       0x2e build/LIB/ring_buffer.o
+                0x0000016a                RingBuffer_Init
  .text.RingBuffer_Push
-                0x0000015c       0x56 build/LIB/ring_buffer.o
-                0x0000015c                RingBuffer_Push
+                0x00000198       0x56 build/LIB/ring_buffer.o
+                0x00000198                RingBuffer_Push
+ .text.RTC_Tick10ms
+                0x000001ee       0x3c build/LIB/softrtc.o
+                0x000001ee                RTC_Tick10ms
+ .text.RTC_Seconds
+                0x0000022a       0x18 build/LIB/softrtc.o
+                0x0000022a                RTC_Seconds
+ .text.RTC_Format
+                0x00000242      0x114 build/LIB/softrtc.o
+                0x00000242                RTC_Format
+ .text.DISPLAY_Init
+                0x00000356        0x4 build/APP/display/display_task.o
+                0x00000356                DISPLAY_Init
+ .text.DISPLAY_Task
+                0x0000035a       0x92 build/APP/display/display_task.o
+                0x0000035a                DISPLAY_Task
+ .text.LOT_Init
+                0x000003ec       0x18 build/APP/lot/lot_fsm.o
+                0x000003ec                LOT_Init
+ .text.LOT_Run  0x00000404       0x64 build/APP/lot/lot_fsm.o
+                0x00000404                LOT_Run
+ .text.LOT_GetMap
+                0x00000468        0x6 build/APP/lot/lot_fsm.o
+                0x00000468                LOT_GetMap
+ .text.LOT_GetFree
+                0x0000046e        0x6 build/APP/lot/lot_fsm.o
+                0x0000046e                LOT_GetFree
+ .text.LOT_GetOccupied
+                0x00000474        0x6 build/APP/lot/lot_fsm.o
+                0x00000474                LOT_GetOccupied
+ .text.SCHED_Init
+                0x0000047a       0x34 build/APP/scheduler/scheduler.o
+                0x0000047a                SCHED_Init
+ .text.SCHED_RegisterTask
+                0x000004ae       0x3e build/APP/scheduler/scheduler.o
+                0x000004ae                SCHED_RegisterTask
+ .text.SCHED_Tick
+                0x000004ec       0x8a build/APP/scheduler/scheduler.o
+                0x000004ec                SCHED_Tick
+ .text.TKT_Init
+                0x00000576       0x32 build/APP/ticketing/ticketing.o
+                0x00000576                TKT_Init
+ .text.TKT_OnEntryAuthorized
+                0x000005a8      0x1dc build/APP/ticketing/ticketing.o
+                0x000005a8                TKT_OnEntryAuthorized
+ .text.SEG_Show
+                0x00000784       0x80 build/HAL/7seg/7seg.o
+                0x00000784                SEG_Show
+ .text.SEG_Blank
+                0x00000804        0x6 build/HAL/7seg/7seg.o
+                0x00000804                SEG_Blank
+ .text.SEG_Init
+                0x0000080a       0x34 build/HAL/7seg/7seg.o
+                0x0000080a                SEG_Init
  .text.LCD_SendCommand
-                0x000001b2       0x44 build/HAL/lcd/lcd_i2c.o
+                0x0000083e       0x44 build/HAL/lcd/lcd_i2c.o
  .text.LCD_Init
-                0x000001f6       0x8e build/HAL/lcd/lcd_i2c.o
-                0x000001f6                LCD_Init
- .text.LCD_Clear
-                0x00000284       0x14 build/HAL/lcd/lcd_i2c.o
-                0x00000284                LCD_Clear
- .text.LCD_SetCursor
-                0x00000298       0x1c build/HAL/lcd/lcd_i2c.o
-                0x00000298                LCD_SetCursor
+                0x00000882       0x8e build/HAL/lcd/lcd_i2c.o
+                0x00000882                LCD_Init
  .text.LCD_WriteChar
-                0x000002b4       0x46 build/HAL/lcd/lcd_i2c.o
-                0x000002b4                LCD_WriteChar
- .text.LCD_WriteString
-                0x000002fa       0x3c build/HAL/lcd/lcd_i2c.o
-                0x000002fa                LCD_WriteString
+                0x00000910       0x46 build/HAL/lcd/lcd_i2c.o
+                0x00000910                LCD_WriteChar
  .text.LCD_Paint
-                0x00000336      0x15e build/HAL/lcd/lcd_i2c.o
-                0x00000336                LCD_Paint
+                0x00000956      0x15e build/HAL/lcd/lcd_i2c.o
+                0x00000956                LCD_Paint
+ .text.SR_Write
+                0x00000ab4       0x90 build/HAL/shiftreg/shiftreg.o
+                0x00000ab4                SR_Write
+ .text.SR_Init  0x00000b44       0x3a build/HAL/shiftreg/shiftreg.o
+                0x00000b44                SR_Init
+ .text.LED_Init
+                0x00000b7e       0x1a build/HAL/slotleds/slotleds.o
+                0x00000b7e                LED_Init
+ .text.LED_Update
+                0x00000b98       0x9c build/HAL/slotleds/slotleds.o
+                0x00000b98                LED_Update
+ .text.SLOT_Init
+                0x00000c34       0x2c build/HAL/slots/slots.o
+                0x00000c34                SLOT_Init
+ .text.SLOT_Poll
+                0x00000c60       0x5a build/HAL/slots/slots.o
+                0x00000c60                SLOT_Poll
+ .text.SLOT_GetMap
+                0x00000cba        0x6 build/HAL/slots/slots.o
+                0x00000cba                SLOT_GetMap
  .text.DIO_Init
-                0x00000494       0xf8 build/MCAL/dio/dio.o
-                0x00000494                DIO_Init
+                0x00000cc0       0xf8 build/MCAL/dio/dio.o
+                0x00000cc0                DIO_Init
  .text.DIO_WritePin
-                0x0000058c       0xa8 build/MCAL/dio/dio.o
-                0x0000058c                DIO_WritePin
+                0x00000db8       0xa8 build/MCAL/dio/dio.o
+                0x00000db8                DIO_WritePin
  .text.DIO_ReadPin
-                0x00000634       0x3e build/MCAL/dio/dio.o
-                0x00000634                DIO_ReadPin
+                0x00000e60       0x3e build/MCAL/dio/dio.o
+                0x00000e60                DIO_ReadPin
+ .text.DIO_ReadPort
+                0x00000e9e       0x2c build/MCAL/dio/dio.o
+                0x00000e9e                DIO_ReadPort
  .text.__vector_1
-                0x00000672       0x52 build/MCAL/exti/exti.o
-                0x00000672                __vector_1
+                0x00000eca       0x52 build/MCAL/exti/exti.o
+                0x00000eca                __vector_1
  .text.__vector_2
-                0x000006c4       0x52 build/MCAL/exti/exti.o
-                0x000006c4                __vector_2
+                0x00000f1c       0x52 build/MCAL/exti/exti.o
+                0x00000f1c                __vector_2
  .text.__vector_3
-                0x00000716       0x52 build/MCAL/exti/exti.o
-                0x00000716                __vector_3
+                0x00000f6e       0x52 build/MCAL/exti/exti.o
+                0x00000f6e                __vector_3
  .text.I2C_SclRelease
-                0x00000768        0xa build/MCAL/i2c/i2c.o
+                0x00000fc0        0xa build/MCAL/i2c/i2c.o
  .text.I2C_SdaRelease
-                0x00000772        0xa build/MCAL/i2c/i2c.o
+                0x00000fca        0xa build/MCAL/i2c/i2c.o
  .text.I2C_SdaLow
-                0x0000077c       0x14 build/MCAL/i2c/i2c.o
+                0x00000fd4       0x14 build/MCAL/i2c/i2c.o
  .text.I2C_SclLow
-                0x00000790       0x14 build/MCAL/i2c/i2c.o
+                0x00000fe8       0x14 build/MCAL/i2c/i2c.o
  .text.I2C_ReadBit
-                0x000007a4       0x4e build/MCAL/i2c/i2c.o
+                0x00000ffc       0x4e build/MCAL/i2c/i2c.o
  .text.I2C_WriteBit.isra.0
-                0x000007f2       0x30 build/MCAL/i2c/i2c.o
+                0x0000104a       0x30 build/MCAL/i2c/i2c.o
  .text.I2C_Init
-                0x00000822       0x14 build/MCAL/i2c/i2c.o
-                0x00000822                I2C_Init
+                0x0000107a       0x14 build/MCAL/i2c/i2c.o
+                0x0000107a                I2C_Init
  .text.I2C_Start
-                0x00000836       0x2c build/MCAL/i2c/i2c.o
-                0x00000836                I2C_Start
+                0x0000108e       0x2c build/MCAL/i2c/i2c.o
+                0x0000108e                I2C_Start
  .text.I2C_Stop
-                0x00000862       0x2e build/MCAL/i2c/i2c.o
-                0x00000862                I2C_Stop
+                0x000010ba       0x2e build/MCAL/i2c/i2c.o
+                0x000010ba                I2C_Stop
  .text.I2C_Write
-                0x00000890       0x40 build/MCAL/i2c/i2c.o
-                0x00000890                I2C_Write
+                0x000010e8       0x40 build/MCAL/i2c/i2c.o
+                0x000010e8                I2C_Write
+ .text.SPI_Init
+                0x00001128       0x12 build/MCAL/spi/spi.o
+                0x00001128                SPI_Init
+ .text.SPI_Transfer
+                0x0000113a       0x1a build/MCAL/spi/spi.o
+                0x0000113a                SPI_Transfer
  .text.__vector_10
-                0x000008d0       0x52 build/MCAL/timer/timer.o
-                0x000008d0                __vector_10
+                0x00001154       0x52 build/MCAL/timer/timer.o
+                0x00001154                __vector_10
+ .text.USART_Init
+                0x000011a6       0x2c build/MCAL/usart/usart.o
+                0x000011a6                USART_Init
+ .text.USART_SendByte
+                0x000011d2        0xa build/MCAL/usart/usart.o
+                0x000011d2                USART_SendByte
+ .text.USART_SendString
+                0x000011dc       0x20 build/MCAL/usart/usart.o
+                0x000011dc                USART_SendString
  .text.__vector_13
-                0x00000922       0x4e build/MCAL/usart/usart.o
-                0x00000922                __vector_13
-                0x00000970                        . = ALIGN (0x2)
+                0x000011fc       0x4e build/MCAL/usart/usart.o
+                0x000011fc                __vector_13
+ .text.libgcc.div
+                0x0000124a       0x18 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodqi4.o)
+                0x0000124a                __udivmodqi4
+ .text.libgcc.div
+                0x00001262       0x28 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodhi4.o)
+                0x00001262                __udivmodhi4
+ .text.libgcc.div
+                0x0000128a       0x44 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodsi4.o)
+                0x0000128a                __udivmodsi4
+                0x000012ce                        . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00000970        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_exit.o)
-                0x00000970                _exit
-                0x00000970                exit
+ .fini9         0x000012ce        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_exit.o)
+                0x000012ce                _exit
+                0x000012ce                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -854,55 +805,110 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00000970        0x4 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_exit.o)
+ .fini0         0x000012ce        0x4 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_exit.o)
  *(.fini0)
  *(.hightext)
  *(.hightext*)
  *(.progmemx)
  *(.progmemx.*)
-                0x00000974                        . = ALIGN (0x2)
+                0x000012d2                        . = ALIGN (0x2)
  *(.jumptables)
  *(.jumptables*)
-                0x00000974                        _etext = .
+                0x000012d2                        _etext = .
 
-.data           0x00800060       0x4e load address 0x00000974
+.data           0x00800060       0x8a load address 0x000012d2
                 0x00800060                        PROVIDE (__data_start = .)
  *(.data)
  *(.data*)
+ .data.Local_u8Armed.0
+                0x00800060        0x1 build/main.o
+ .data.g_u8FreeSlots
+                0x00800061        0x1 build/APP/lot/lot_fsm.o
+ .data.SEG_u8Shadow
+                0x00800062        0x1 build/HAL/7seg/7seg.o
  *(.gnu.linkonce.d*)
  *(.rodata)
  *(.rodata*)
  .rodata.main.str1.1
-                0x00800060       0x4e build/main.o
+                0x00800063       0x82 build/main.o
+                                  0xc (size before relaxing)
+ .rodata.DISPLAY_Task.str1.1
+                0x008000e5        0x0 build/APP/display/display_task.o
+                                 0x10 (size before relaxing)
+ .rodata.TKT_OnEntryAuthorized.str1.1
+                0x008000e5        0x0 build/APP/ticketing/ticketing.o
+                                 0x66 (size before relaxing)
+ .rodata.SEG_au8Pins
+                0x008000e5        0x4 build/HAL/7seg/7seg.o
  *(.gnu.linkonce.r*)
-                0x008000ae                        . = ALIGN (0x2)
-                0x008000ae                        _edata = .
-                0x008000ae                        PROVIDE (__data_end = .)
+                0x008000ea                        . = ALIGN (0x2)
+ *fill*         0x008000e9        0x1 
+                0x008000ea                        _edata = .
+                0x008000ea                        PROVIDE (__data_end = .)
 
-.bss            0x008000ae       0x33
-                0x008000ae                        PROVIDE (__bss_start = .)
+.bss            0x008000ea      0x113
+                0x008000ea                        PROVIDE (__bss_start = .)
  *(.bss)
  *(.bss*)
+ .bss.Local_u8LowCount.1
+                0x008000ea        0x1 build/main.o
+ .bss.g_u8SubTick
+                0x008000eb        0x1 build/LIB/softrtc.o
+ .bss.g_u32UptimeSec
+                0x008000ec        0x4 build/LIB/softrtc.o
+ .bss.g_u8OccupiedSlots
+                0x008000f0        0x1 build/APP/lot/lot_fsm.o
+ .bss.g_u8SlotMap
+                0x008000f1        0x1 build/APP/lot/lot_fsm.o
+ .bss.g_LotState
+                0x008000f2        0x2 build/APP/lot/lot_fsm.o
+ .bss.g_tickCount
+                0x008000f4        0x4 build/APP/scheduler/scheduler.o
+ .bss.g_taskCount
+                0x008000f8        0x1 build/APP/scheduler/scheduler.o
+ .bss.g_tasks   0x008000f9       0x54 build/APP/scheduler/scheduler.o
+ .bss.g_u16TotalEntries
+                0x0080014d        0x2 build/APP/ticketing/ticketing.o
+ .bss.g_u16NextId
+                0x0080014f        0x2 build/APP/ticketing/ticketing.o
+ .bss.g_atTickets
+                0x00800151       0x30 build/APP/ticketing/ticketing.o
+ .bss.SEG_u8Primed
+                0x00800181        0x1 build/HAL/7seg/7seg.o
  .bss.LCD_u8ShadowValid
-                0x008000ae        0x1 build/HAL/lcd/lcd_i2c.o
+                0x00800182        0x1 build/HAL/lcd/lcd_i2c.o
  .bss.LCD_au8Shadow
-                0x008000af       0x20 build/HAL/lcd/lcd_i2c.o
+                0x00800183       0x20 build/HAL/lcd/lcd_i2c.o
+ .bss.SR_u16Shadow
+                0x008001a3        0x2 build/HAL/shiftreg/shiftreg.o
+ .bss.LED_u8Primed
+                0x008001a5        0x1 build/HAL/slotleds/slotleds.o
+ .bss.LED_u16Last
+                0x008001a6        0x2 build/HAL/slotleds/slotleds.o
+ .bss.SLOT_u8SampleCount
+                0x008001a8        0x1 build/HAL/slots/slots.o
+ .bss.SLOT_u8Candidate
+                0x008001a9        0x1 build/HAL/slots/slots.o
+ .bss.SLOT_u8PublishedMap
+                0x008001aa        0x1 build/HAL/slots/slots.o
  .bss.g_EXTICallback
-                0x008000cf        0x6 build/MCAL/exti/exti.o
+                0x008001ab        0x6 build/MCAL/exti/exti.o
  .bss.g_TMR0Callback
-                0x008000d5        0x2 build/MCAL/timer/timer.o
+                0x008001b1        0x2 build/MCAL/timer/timer.o
  .bss.g_USARTRxBuffer
-                0x008000d7        0xa build/MCAL/usart/usart.o
+                0x008001b3        0xa build/MCAL/usart/usart.o
+ .bss.g_USARTRxStorage
+                0x008001bd       0x40 build/MCAL/usart/usart.o
  *(COMMON)
-                0x008000e1                        PROVIDE (__bss_end = .)
-                0x00000974                        __data_load_start = LOADADDR (.data)
-                0x000009c2                        __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x008001fd                        PROVIDE (__bss_end = .)
+                0x000012d2                        __data_load_start = LOADADDR (.data)
+                0x0000135c                        __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x008000e1        0x0
+.noinit         0x008001fd        0x0
                 [!provide]                        PROVIDE (__noinit_start = .)
  *(.noinit .noinit.* .gnu.linkonce.n.*)
                 [!provide]                        PROVIDE (__noinit_end = .)
-                0x008000e1                        _end = .
+                0x008001fd                        _end = .
                 [!provide]                        PROVIDE (__heap_start = .)
                 0x00000000                        __flmap_init_label = DEFINED (__flmap_noinit_start)?__flmap_noinit_start:0x0
                 0x00000000                        __flmap = DEFINED (__flmap)?__flmap:0x0
@@ -947,13 +953,33 @@ END GROUP
                                  0x13 (size before relaxing)
  .comment       0x00000012        0x0 build/LIB/ring_buffer.o
                                  0x13 (size before relaxing)
+ .comment       0x00000012        0x0 build/LIB/softrtc.o
+                                 0x13 (size before relaxing)
+ .comment       0x00000012        0x0 build/APP/display/display_task.o
+                                 0x13 (size before relaxing)
+ .comment       0x00000012        0x0 build/APP/lot/lot_fsm.o
+                                 0x13 (size before relaxing)
+ .comment       0x00000012        0x0 build/APP/scheduler/scheduler.o
+                                 0x13 (size before relaxing)
+ .comment       0x00000012        0x0 build/APP/ticketing/ticketing.o
+                                 0x13 (size before relaxing)
+ .comment       0x00000012        0x0 build/HAL/7seg/7seg.o
+                                 0x13 (size before relaxing)
  .comment       0x00000012        0x0 build/HAL/lcd/lcd_i2c.o
+                                 0x13 (size before relaxing)
+ .comment       0x00000012        0x0 build/HAL/shiftreg/shiftreg.o
+                                 0x13 (size before relaxing)
+ .comment       0x00000012        0x0 build/HAL/slotleds/slotleds.o
+                                 0x13 (size before relaxing)
+ .comment       0x00000012        0x0 build/HAL/slots/slots.o
                                  0x13 (size before relaxing)
  .comment       0x00000012        0x0 build/MCAL/dio/dio.o
                                  0x13 (size before relaxing)
  .comment       0x00000012        0x0 build/MCAL/exti/exti.o
                                  0x13 (size before relaxing)
  .comment       0x00000012        0x0 build/MCAL/i2c/i2c.o
+                                 0x13 (size before relaxing)
+ .comment       0x00000012        0x0 build/MCAL/spi/spi.o
                                  0x13 (size before relaxing)
  .comment       0x00000012        0x0 build/MCAL/timer/timer.o
                                  0x13 (size before relaxing)
@@ -983,38 +1009,53 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000       0x60
+.debug_aranges  0x00000000       0xc0
  *(.debug_aranges)
  .debug_aranges
-                0x00000000       0x20 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_exit.o)
+                0x00000000       0x20 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodqi4.o)
  .debug_aranges
-                0x00000020       0x20 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_copy_data.o)
+                0x00000020       0x20 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodhi4.o)
  .debug_aranges
-                0x00000040       0x20 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_clear_bss.o)
+                0x00000040       0x20 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodsi4.o)
+ .debug_aranges
+                0x00000060       0x20 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_exit.o)
+ .debug_aranges
+                0x00000080       0x20 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_copy_data.o)
+ .debug_aranges
+                0x000000a0       0x20 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_clear_bss.o)
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000      0x552
+.debug_info     0x00000000      0x5be
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0x4e6 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/../../../../avr/lib/avr5/crtatmega32.o
- .debug_info    0x000004e6       0x24 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_exit.o)
- .debug_info    0x0000050a       0x24 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_copy_data.o)
- .debug_info    0x0000052e       0x24 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_clear_bss.o)
+ .debug_info    0x000004e6       0x24 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodqi4.o)
+ .debug_info    0x0000050a       0x24 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodhi4.o)
+ .debug_info    0x0000052e       0x24 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodsi4.o)
+ .debug_info    0x00000552       0x24 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_exit.o)
+ .debug_info    0x00000576       0x24 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_copy_data.o)
+ .debug_info    0x0000059a       0x24 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_clear_bss.o)
 
-.debug_abbrev   0x00000000      0x4df
+.debug_abbrev   0x00000000      0x51b
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x4a3 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/../../../../avr/lib/avr5/crtatmega32.o
- .debug_abbrev  0x000004a3       0x14 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_exit.o)
- .debug_abbrev  0x000004b7       0x14 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_copy_data.o)
- .debug_abbrev  0x000004cb       0x14 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_clear_bss.o)
+ .debug_abbrev  0x000004a3       0x14 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodqi4.o)
+ .debug_abbrev  0x000004b7       0x14 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodhi4.o)
+ .debug_abbrev  0x000004cb       0x14 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodsi4.o)
+ .debug_abbrev  0x000004df       0x14 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_exit.o)
+ .debug_abbrev  0x000004f3       0x14 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_copy_data.o)
+ .debug_abbrev  0x00000507       0x14 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_clear_bss.o)
 
-.debug_line     0x00000000      0x16a
+.debug_line     0x00000000      0x3c5
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000       0x1d C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/../../../../avr/lib/avr5/crtatmega32.o
- .debug_line    0x0000001d       0x51 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_exit.o)
- .debug_line    0x0000006e       0x87 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_copy_data.o)
- .debug_line    0x000000f5       0x75 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_clear_bss.o)
+ .debug_line    0x0000001d       0x8d C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodqi4.o)
+ .debug_line    0x000000aa       0xbd C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodhi4.o)
+ .debug_line    0x00000167      0x111 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodsi4.o)
+ .debug_line    0x00000278       0x51 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_exit.o)
+ .debug_line    0x000002c9       0x87 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_copy_data.o)
+ .debug_line    0x00000350       0x75 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_clear_bss.o)
 
 .debug_frame
  *(.debug_frame)
@@ -1022,7 +1063,13 @@ END GROUP
 .debug_str      0x00000000      0x1fe
  *(.debug_str)
  .debug_str     0x00000000      0x196 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/../../../../avr/lib/avr5/crtatmega32.o
- .debug_str     0x00000196       0x68 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_exit.o)
+ .debug_str     0x00000196       0x68 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodqi4.o)
+ .debug_str     0x000001fe        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodhi4.o)
+                                 0x68 (size before relaxing)
+ .debug_str     0x000001fe        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodsi4.o)
+                                 0x68 (size before relaxing)
+ .debug_str     0x000001fe        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_exit.o)
+                                 0x68 (size before relaxing)
  .debug_str     0x000001fe        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_copy_data.o)
                                  0x68 (size before relaxing)
  .debug_str     0x000001fe        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_clear_bss.o)
@@ -1059,7 +1106,16 @@ END GROUP
                 0x00000000       0x5c
  *(.debug_line_str)
  .debug_line_str
-                0x00000000       0x5c C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_exit.o)
+                0x00000000       0x5c C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodqi4.o)
+ .debug_line_str
+                0x0000005c        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodhi4.o)
+                                 0x5c (size before relaxing)
+ .debug_line_str
+                0x0000005c        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodsi4.o)
+                                 0x5c (size before relaxing)
+ .debug_line_str
+                0x0000005c        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_exit.o)
+                                 0x5c (size before relaxing)
  .debug_line_str
                 0x0000005c        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_copy_data.o)
                                  0x5c (size before relaxing)
