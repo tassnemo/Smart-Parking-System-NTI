@@ -38,5 +38,7 @@ uint8 TKT_GetOpenCount(void);
 /* For STATUS/COUNTS? telemetry (§18.1, §18.2). */
 uint16 TKT_GetNextId(void);
 uint16 TKT_GetTotalEntries(void);
+void TKT_PrintOpenTickets(void);
+void TKT_ClearStats(void);
 
 #endif /* TICKETING_H */

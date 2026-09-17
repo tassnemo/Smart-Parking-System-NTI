@@ -1,5 +1,5 @@
 #include "billing.h"
-#include "ticketing.h"
+#include "APP/ticketing/ticketing.h"
 #include "softrtc.h"
 #include "usart_interface.h"
 #include "config.h"
@@ -68,13 +68,16 @@ void BIL_OnExitAuthorized(void)
     /* §11.4: any part of an hour counts as a full hour - integer ceiling,
      * no floating point (NFR-06). */
     Local_u16Hours = (uint16)((Local_u16ChargeableMin + 59u) / 60u);
+   uint32 Local_u32Fee;
 
-    Local_u16Fee = (uint16)(Local_u16Hours * TARIFF_DEFAULT);
+  Local_u32Fee = (uint32)Local_u16Hours * (uint32)TARIFF_DEFAULT;
 
-    if (Local_u16Fee > DAILY_CAP)
-    {
-        Local_u16Fee = DAILY_CAP;
-    }
+if (Local_u32Fee > DAILY_CAP)
+{
+    Local_u32Fee = DAILY_CAP;
+}
+
+Local_u16Fee = (uint16)Local_u32Fee;
 
     /* FR-10: totalRevenue saturates at 65535, does not wrap. */
     Local_u32Sum = (uint32)g_u16TotalRevenue + (uint32)Local_u16Fee;

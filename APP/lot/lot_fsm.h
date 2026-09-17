@@ -25,5 +25,6 @@ uint8 LOT_CanAuthoriseEntry(void);
 
 void LOT_SetMaintenance(uint8 Copy_u8Enabled);
 void LOT_SetFault(uint8 Copy_u8Enabled);
+uint8 LOT_GetPeakOccupancy(void);   
 
 #endif

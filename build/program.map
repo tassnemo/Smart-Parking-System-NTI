@@ -1,9 +1,11 @@
 Archive member included to satisfy reference by file (symbol)
 
+C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_umulhisi3.o)
+                              build/APP/billing/billing.o (__umulhisi3)
 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodqi4.o)
                               build/LIB/softrtc.o (__udivmodqi4)
 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodhi4.o)
-                              build/APP/ticketing/ticketing.o (__udivmodhi4)
+                              build/APP/billing/billing.o (__udivmodhi4)
 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodsi4.o)
                               build/LIB/softrtc.o (__udivmodsi4)
 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_exit.o)
@@ -22,12 +24,6 @@ Discarded input sections
  .text          0x00000000        0x0 build/main.o
  .data          0x00000000        0x0 build/main.o
  .bss           0x00000000        0x0 build/main.o
- .text          0x00000000        0x0 build/LIB/checksum.o
- .data          0x00000000        0x0 build/LIB/checksum.o
- .bss           0x00000000        0x0 build/LIB/checksum.o
- .text.XOR_Checksum
-                0x00000000       0x20 build/LIB/checksum.o
- .comment       0x00000000       0x13 build/LIB/checksum.o
  .text          0x00000000        0x0 build/LIB/ring_buffer.o
  .data          0x00000000        0x0 build/LIB/ring_buffer.o
  .bss           0x00000000        0x0 build/LIB/ring_buffer.o
@@ -47,6 +43,22 @@ Discarded input sections
  .text          0x00000000        0x0 build/APP/billing/billing.o
  .data          0x00000000        0x0 build/APP/billing/billing.o
  .bss           0x00000000        0x0 build/APP/billing/billing.o
+ .text.BIL_FormatUint16
+                0x00000000       0x88 build/APP/billing/billing.o
+ .rodata.BIL_OnExitAuthorized.str1.1
+                0x00000000       0x7e build/APP/billing/billing.o
+ .text.BIL_OnExitAuthorized
+                0x00000000      0x258 build/APP/billing/billing.o
+ .text.BIL_GetTotalRevenue
+                0x00000000        0xa build/APP/billing/billing.o
+ .text.BIL_GetTotalExits
+                0x00000000        0xa build/APP/billing/billing.o
+ .text.BIL_ClearStats
+                0x00000000       0x12 build/APP/billing/billing.o
+ .bss.g_u16TotalExits
+                0x00000000        0x2 build/APP/billing/billing.o
+ .bss.g_u16TotalRevenue
+                0x00000000        0x2 build/APP/billing/billing.o
  .comment       0x00000000       0x13 build/APP/billing/billing.o
  .text          0x00000000        0x0 build/APP/console/console.o
  .data          0x00000000        0x0 build/APP/console/console.o
@@ -73,6 +85,14 @@ Discarded input sections
  .bss.g_entryLane
                 0x00000000        0xa build/APP/lane/lane_fsm.o
  .comment       0x00000000       0x13 build/APP/lane/lane_fsm.o
+ .text          0x00000000        0x0 build/APP/loopsense/loopsense.o
+ .data          0x00000000        0x0 build/APP/loopsense/loopsense.o
+ .bss           0x00000000        0x0 build/APP/loopsense/loopsense.o
+ .text.LOOPSENSE_Init
+                0x00000000       0x1e build/APP/loopsense/loopsense.o
+ .text.LOOPSENSE_Run
+                0x00000000       0x84 build/APP/loopsense/loopsense.o
+ .comment       0x00000000       0x13 build/APP/loopsense/loopsense.o
  .text          0x00000000        0x0 build/APP/lot/lot_fsm.o
  .data          0x00000000        0x0 build/APP/lot/lot_fsm.o
  .bss           0x00000000        0x0 build/APP/lot/lot_fsm.o
@@ -92,6 +112,26 @@ Discarded input sections
  .text          0x00000000        0x0 build/APP/telemetry/telemetry.o
  .data          0x00000000        0x0 build/APP/telemetry/telemetry.o
  .bss           0x00000000        0x0 build/APP/telemetry/telemetry.o
+ .text.TELEM_AppendStr
+                0x00000000       0x1e build/APP/telemetry/telemetry.o
+ .text.TELEM_AppendUint
+                0x00000000       0xc6 build/APP/telemetry/telemetry.o
+ .rodata.TELEM_BuildFrame.part.0.str1.1
+                0x00000000       0x3b build/APP/telemetry/telemetry.o
+ .text.TELEM_BuildFrame.part.0
+                0x00000000      0x1e8 build/APP/telemetry/telemetry.o
+ .text.TELEM_BuildFrame
+                0x00000000        0xc build/APP/telemetry/telemetry.o
+ .text.TELEM_Send
+                0x00000000       0x3a build/APP/telemetry/telemetry.o
+ .rodata.Local_acHex.0
+                0x00000000       0x11 build/APP/telemetry/telemetry.o
+ .rodata.str1.1
+                0x00000000       0x53 build/APP/telemetry/telemetry.o
+ .rodata.TELEM_ModeNames
+                0x00000000        0xa build/APP/telemetry/telemetry.o
+ .rodata.TELEM_LaneStateNames
+                0x00000000       0x12 build/APP/telemetry/telemetry.o
  .comment       0x00000000       0x13 build/APP/telemetry/telemetry.o
  .text          0x00000000        0x0 build/APP/ticketing/ticketing.o
  .data          0x00000000        0x0 build/APP/ticketing/ticketing.o
@@ -189,6 +229,12 @@ Discarded input sections
  .bss           0x00000000        0x0 build/HAL/slots/slots.o
  .text.SLOT_CountFree
                 0x00000000       0x2c build/HAL/slots/slots.o
+ .text          0x00000000        0x0 build/LIB/checksum/checksum.o
+ .data          0x00000000        0x0 build/LIB/checksum/checksum.o
+ .bss           0x00000000        0x0 build/LIB/checksum/checksum.o
+ .text.XOR_Checksum
+                0x00000000       0x20 build/LIB/checksum/checksum.o
+ .comment       0x00000000       0x13 build/LIB/checksum/checksum.o
  .text          0x00000000        0x0 build/MCAL/adc/ADC.o
  .data          0x00000000        0x0 build/MCAL/adc/ADC.o
  .bss           0x00000000        0x0 build/MCAL/adc/ADC.o
@@ -271,6 +317,30 @@ Discarded input sections
  .bss           0x00000000        0x0 build/MCAL/usart/usart.o
  .text.USART_ReceiveByte
                 0x00000000       0x1e build/MCAL/usart/usart.o
+ .text          0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_umulhisi3.o)
+ .data          0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_umulhisi3.o)
+ .bss           0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_umulhisi3.o)
+ .text.libgcc.mul
+                0x00000000       0x1e C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_umulhisi3.o)
+ .text.libgcc.div
+                0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_umulhisi3.o)
+ .text.libgcc   0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_umulhisi3.o)
+ .text.libgcc.prologue
+                0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_umulhisi3.o)
+ .text.libgcc.builtins
+                0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_umulhisi3.o)
+ .text.libgcc.fmul
+                0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_umulhisi3.o)
+ .text.libgcc.fixed
+                0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_umulhisi3.o)
+ .debug_line    0x00000000       0x9f C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_umulhisi3.o)
+ .debug_line_str
+                0x00000000       0x5c C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_umulhisi3.o)
+ .debug_info    0x00000000       0x24 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_umulhisi3.o)
+ .debug_abbrev  0x00000000       0x14 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_umulhisi3.o)
+ .debug_aranges
+                0x00000000       0x20 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_umulhisi3.o)
+ .debug_str     0x00000000       0x68 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_umulhisi3.o)
  .text          0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodqi4.o)
  .data          0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodqi4.o)
  .bss           0x00000000        0x0 C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/avr5\libgcc.a(_udivmodqi4.o)
@@ -402,13 +472,13 @@ Linker script and memory map
 
 LOAD C:/avr-gcc/bin/../lib/gcc/avr/15.2.0/../../../../avr/lib/avr5/crtatmega32.o
 LOAD build/main.o
-LOAD build/LIB/checksum.o
 LOAD build/LIB/ring_buffer.o
 LOAD build/LIB/softrtc.o
 LOAD build/APP/billing/billing.o
 LOAD build/APP/console/console.o
 LOAD build/APP/display/display_task.o
 LOAD build/APP/lane/lane_fsm.o
+LOAD build/APP/loopsense/loopsense.o
 LOAD build/APP/lot/lot_fsm.o
 LOAD build/APP/scheduler/scheduler.o
 LOAD build/APP/telemetry/telemetry.o
@@ -421,6 +491,7 @@ LOAD build/HAL/lcd/lcd_i2c.o
 LOAD build/HAL/shiftreg/shiftreg.o
 LOAD build/HAL/slotleds/slotleds.o
 LOAD build/HAL/slots/slots.o
+LOAD build/LIB/checksum/checksum.o
 LOAD build/MCAL/adc/ADC.o
 LOAD build/MCAL/dio/dio.o
 LOAD build/MCAL/exti/exti.o

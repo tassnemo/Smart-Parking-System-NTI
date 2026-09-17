@@ -2,6 +2,7 @@
 #include "softrtc.h"
 #include "usart_interface.h"
 
+
 /* ----------------------------------------------------------------------------
  * Cross-module reads. Declared extern here rather than pulled in via a full
  * header, to avoid ticketing.c depending on lot_fsm.h's whole interface for
@@ -216,4 +217,93 @@ static void TKT_PrintEntryFrame(const Ticket_t *Copy_pTkt, uint8 Copy_u8Free)
     (void)USART_SendString((const uint8 *)"\r\nFREE  : ");
     (void)USART_SendByte((uint8)('0' + Copy_u8Free));
     (void)USART_SendString((const uint8 *)"\r\n======================\r\n");
+}
+
+/* =============================================================
+ * ADD THESE TWO FUNCTIONS TO YOUR EXISTING ticketing.c
+ *
+ * Assumes your file already has:
+ *   - a static array of Ticket_t, e.g. "static Ticket_t g_tickets[TICKET_MAX];"
+ *     (rename g_tickets below if yours is named differently)
+ *   - a static uint16 total-entries counter that TKT_GetTotalEntries()
+ *     already returns (rename g_u16TotalEntries below to match)
+ *
+ * Add both prototypes to ticketing.h as well:
+ *   void TKT_PrintOpenTickets(void);
+ *   void TKT_ClearStats(void);
+ * ============================================================= */
+
+
+
+/* Manual uint32-to-decimal, no sprintf -- matches telemetry.c/billing.c's
+   existing style. buf must be >= 11 bytes (max uint32 digits + NUL). */
+static void TKT_AppendUint32(char *Copy_pcBuf, uint8 *Copy_pu8Pos, uint32 Copy_u32Value)
+{
+    char  Local_acTmp[10];
+    uint8 Local_u8Count = 0u;
+    uint8 Local_u8i;
+
+    if (Copy_u32Value == 0u)
+    {
+        Copy_pcBuf[*Copy_pu8Pos] = '0';
+        (*Copy_pu8Pos)++;
+        return;
+    }
+
+    while (Copy_u32Value > 0u)
+    {
+        Local_acTmp[Local_u8Count] = (char)('0' + (Copy_u32Value % 10u));
+        Local_u8Count++;
+        Copy_u32Value /= 10u;
+    }
+
+    for (Local_u8i = Local_u8Count; Local_u8i > 0u; Local_u8i--)
+    {
+        Copy_pcBuf[*Copy_pu8Pos] = Local_acTmp[Local_u8i - 1u];
+        (*Copy_pu8Pos)++;
+    }
+}
+
+/* §18.2: "TICKETS? -> one line per open ticket -> TKT,id,entrySec,slotHint" */
+void TKT_PrintOpenTickets(void)
+{
+    char  Local_acLine[24];
+    uint8 Local_u8Pos;
+    uint8 Local_u8i;
+
+    for (Local_u8i = 0u; Local_u8i < TICKET_MAX; Local_u8i++)
+    {
+        if (g_atTickets[Local_u8i].active == 0u)
+        {
+            continue;
+        }
+
+        Local_u8Pos = 0u;
+        Local_acLine[Local_u8Pos++] = 'T';
+        Local_acLine[Local_u8Pos++] = 'K';
+        Local_acLine[Local_u8Pos++] = 'T';
+        Local_acLine[Local_u8Pos++] = ',';
+
+        TKT_AppendUint32(Local_acLine, &Local_u8Pos, (uint32)g_atTickets[Local_u8i].id);
+        Local_acLine[Local_u8Pos++] = ',';
+
+        TKT_AppendUint32(Local_acLine, &Local_u8Pos, g_atTickets[Local_u8i].entrySec);
+        Local_acLine[Local_u8Pos++] = ',';
+
+        TKT_AppendUint32(Local_acLine, &Local_u8Pos, (uint32)g_atTickets[Local_u8i].slotHint);
+
+        Local_acLine[Local_u8Pos++] = '\r';
+        Local_acLine[Local_u8Pos++] = '\n';
+        Local_acLine[Local_u8Pos]   = '\0';
+
+        (void)USART_SendString((const uint8 *)Local_acLine);
+    }
+}
+
+/* §18.2: CLRSTATS zeroes totals but explicitly NOT nextTicketId --
+   this only resets the entries counter, never touches g_u16NextTicketId
+   or the open-ticket table itself. */
+void TKT_ClearStats(void)
+{
+    g_u16TotalEntries = 0u;
 }

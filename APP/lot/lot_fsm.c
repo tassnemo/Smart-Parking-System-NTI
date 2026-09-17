@@ -6,6 +6,7 @@ static LotState_t g_LotState = LOT_INIT;
 static uint8 g_u8SlotMap = 0u;
 static uint8 g_u8FreeSlots = SLOT_COUNT;
 static uint8 g_u8OccupiedSlots = 0u;
+ static uint8 g_u8PeakOccupancy = 0u;
 
 static uint8 LOT_Popcount6(uint8 Copy_u8Value)
 {
@@ -27,6 +28,7 @@ void LOT_Init(void)
     g_u8SlotMap = 0u;
     g_u8FreeSlots = SLOT_COUNT;
     g_u8OccupiedSlots = 0u;
+    g_u8PeakOccupancy = 0u;
 }
 
 void LOT_Run(void)
@@ -44,6 +46,10 @@ void LOT_Run(void)
     u8Occupied = LOT_Popcount6(g_u8SlotMap);
     g_u8OccupiedSlots = u8Occupied;
     g_u8FreeSlots = (uint8)(SLOT_COUNT - u8Occupied);
+     if (LOT_GetOccupied() > g_u8PeakOccupancy)
+         {
+            g_u8PeakOccupancy = LOT_GetOccupied();
+        }
 
     if (g_LotState == LOT_MAINTENANCE)
     {
@@ -63,6 +69,8 @@ void LOT_Run(void)
     {
         g_LotState = LOT_OPERATIONAL;
     }
+
+   
 }
 
 uint8 LOT_GetMap(void)
@@ -120,3 +128,10 @@ void LOT_SetFault(uint8 Copy_u8Enabled)
                    : LOT_OPERATIONAL;
     }
 }
+
+
+uint8 LOT_GetPeakOccupancy(void)
+{
+    return g_u8PeakOccupancy;
+}
+ 
