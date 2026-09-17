@@ -42,8 +42,8 @@ BAR_Close:
 /* frame size = 0 */
 /* stack size = 0 */
 .L__stack_usage = 0
-	ldi r22,lo8(-36)
-	ldi r23,lo8(5)
+	ldi r22,lo8(-24)
+	ldi r23,lo8(3)
 	jmp PWM_SetPulse
 	.size	BAR_Close, .-BAR_Close
 	.section	.text.BAR_IsMoving,"ax",@progbits

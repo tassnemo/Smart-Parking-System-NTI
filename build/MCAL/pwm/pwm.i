@@ -59,11 +59,11 @@ STD_ReturnType PWM_Init(void)
    (*(volatile uint8 *)0x47) = (uint8)(19999u >> 8u);
    (*(volatile uint8 *)0x46) = (uint8)(19999u & 0xFFu);
 
-   (*(volatile uint8 *)0x4B) = (uint8)(1500u >> 8u);
-   (*(volatile uint8 *)0x4A) = (uint8)(1500u & 0xFFu);
+   (*(volatile uint8 *)0x4B) = (uint8)(1000u >> 8u);
+   (*(volatile uint8 *)0x4A) = (uint8)(1000u & 0xFFu);
 
-   (*(volatile uint8 *)0x49) = (uint8)(1500u >> 8u);
-   (*(volatile uint8 *)0x48) = (uint8)(1500u & 0xFFu);
+   (*(volatile uint8 *)0x49) = (uint8)(1000u >> 8u);
+   (*(volatile uint8 *)0x48) = (uint8)(1000u & 0xFFu);
 
     return 0u;
 }
@@ -71,7 +71,7 @@ STD_ReturnType PWM_Init(void)
 STD_ReturnType PWM_SetPulse(uint8 Copy_u8Channel,
                             uint16 Copy_u16PulseUs)
 {
-    if (Copy_u16PulseUs < 1500u ||
+    if (Copy_u16PulseUs < 1000u ||
         Copy_u16PulseUs > 2000u)
     {
         return 1u;
