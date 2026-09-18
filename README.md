@@ -22,7 +22,7 @@
 
 ---
 
-![alt text](<■ SimulIDE_2.0.0--260501 - New Circuit 9_17_2026 5_40_42 PM.png>)
+![alt text](<▶ SimulIDE_2.0.0--260501 - T__Smart-Parking-System-NTI_Hardware Simulation_parking.sim2 9_18_2026 11_59_17 AM.png>)
 
 ## 2. Description
 
