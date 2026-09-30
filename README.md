@@ -19,8 +19,7 @@
 | **Simulator** | SimulIDE 1.x |
 
 ---
-
-![alt text](<▶ SimulIDE_2.0.0--260501 - T__Smart-Parking-System-NTI_Hardware Simulation_parking.sim2 9_18_2026 11_59_17 AM.png>)
+<video controls src="Video Project 22.mp4" title="Title"></video>
 
 ## 2. Description
 
