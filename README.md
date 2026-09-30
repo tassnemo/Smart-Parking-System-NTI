@@ -19,7 +19,7 @@
 | **Simulator** | SimulIDE 1.x |
 
 ---
-<video src="./demo.mp4" controls></video>
+<video controls src="demo.mp4"></video>
 
 ## 2. Description
 
