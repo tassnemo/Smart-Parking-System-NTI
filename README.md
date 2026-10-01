@@ -1,3 +1,5 @@
+
+
 # Project 02 — Smart Parking System
 
 > Part of the **Embedded Systems Projects Book** — see the
@@ -19,7 +21,9 @@
 | **Simulator** | SimulIDE 1.x |
 
 ---
-<video controls src="demo.mp4"></video>
+
+
+https://github.com/user-attachments/assets/e3b387e8-2475-4339-a659-87ad62944eeb
 
 ## 2. Description
 
